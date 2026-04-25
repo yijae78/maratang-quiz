@@ -1,0 +1,2074 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>드림아동부 교리퀴즈대회 — 통합 대시보드</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body class="dashboard-layout">
+
+<!-- ════════════ TOP BAR ════════════ -->
+<header class="topbar">
+  <button class="icon-btn topbar-toggle" id="tb-left"  onclick="toggleLeft()"  title="필터 사이드바 열기/닫기"><span class="ico-text">◀</span><span class="ico-label">필터</span></button>
+  <button class="icon-btn topbar-toggle topbar-results" id="tb-results" onclick="toggleResults()" title="결과 보기/닫기"><span class="ico-text">🏆</span><span class="ico-label">결과보기</span></button>
+  <button class="icon-btn topbar-toggle topbar-end" id="tb-end" onclick="endContest()" title="퀴즈대회 끝내기"><span class="ico-text">🏁</span><span class="ico-label">대회 끝</span></button>
+  <div class="topbar-title">
+    <span class="topbar-eyebrow">드림아동부</span>
+    <span class="topbar-main topbar-main-link" onclick="setView('setup')" title="메인으로">교리퀴즈대회</span>
+    <span class="topbar-date">2026.04.26</span>
+  </div>
+  <button class="icon-btn topbar-toggle" id="tb-fullscreen" onclick="toggleFullscreen()" title="전체화면 전환"><span class="ico-text">⛶</span><span class="ico-label">전체화면</span></button>
+  <button class="icon-btn topbar-toggle" id="tb-right" onclick="toggleRight()" title="점수판 열기/닫기"><span class="ico-text">▶</span><span class="ico-label">점수판</span></button>
+</header>
+
+<!-- ════════════ LEFT SIDEBAR (필터) ════════════ -->
+<aside class="sidebar-left" id="sb-left">
+  <div class="sb-header">
+    <h3>🔍 필터</h3>
+    <button class="ghost small" onclick="clearFilter()">해제</button>
+  </div>
+  <div class="sb-section sb-shuffle">
+    <button class="primary block" onclick="shuffleCards()">🔀 카드 섞기</button>
+  </div>
+  <div class="sb-section sb-section-collapsible" data-section="diff">
+    <div class="sb-label sb-label-toggle" onclick="toggleSection('diff')">
+      <span>난이도</span><span class="sb-toggle-arrow" id="sb-arrow-diff">▼</span>
+    </div>
+    <div class="sb-chip-row sb-content" id="filter-diff"></div>
+  </div>
+  <div class="sb-section sb-section-collapsible" data-section="style">
+    <div class="sb-label sb-label-toggle" onclick="toggleSection('style')">
+      <span>형식</span><span class="sb-toggle-arrow" id="sb-arrow-style">▼</span>
+    </div>
+    <div class="sb-chip-row sb-content" id="filter-style"></div>
+  </div>
+  <div class="sb-section sb-section-collapsible" data-section="topic">
+    <div class="sb-label sb-label-toggle" onclick="toggleSection('topic')">
+      <span>주제 (7과)</span><span class="sb-toggle-arrow" id="sb-arrow-topic">▼</span>
+    </div>
+    <div class="sb-chip-col sb-content" id="filter-topic"></div>
+  </div>
+</aside>
+
+<!-- 좌측 드래그 리사이저 -->
+<div class="resizer resizer-left" id="resizer-left" title="드래그로 폭 조정 (더블클릭: 기본값)"></div>
+
+<!-- ════════════ MAIN (view 전환) ════════════ -->
+<main class="dash-main">
+
+  <!-- VIEW: SETUP (시작 화면) -->
+  <div id="view-setup" class="view" style="display:none;">
+    <div class="hero-card" style="margin: 1rem auto;">
+      <div class="hero-eyebrow">드림아동부</div>
+      <h1 class="hero-title">교리퀴즈대회</h1>
+      <div class="hero-date">2026년 4월 26일 (주일)</div>
+      <div class="hero-sub">마라탕 재료 모으기 게임 🍲</div>
+
+      <div class="hero-meta">
+        <div class="meta-pill"><span>📚</span> <span id="qcount">100</span>문제</div>
+        <div class="meta-pill"><span>🎨</span> 7가지 형식</div>
+        <div class="meta-pill"><span>🌟</span> 7가지 주제</div>
+      </div>
+
+      <h3 class="hero-section-title">대회 모드 선택</h3>
+      <div class="hero-modes">
+        <button onclick="selectMode('team')" class="mode-btn">
+          <div class="mode-emoji">👥</div>
+          <div class="mode-name">팀전</div>
+          <div class="mode-desc">4팀 자유 손들기</div>
+        </button>
+        <button onclick="selectMode('individual')" class="mode-btn">
+          <div class="mode-emoji">🧒</div>
+          <div class="mode-name">개인전</div>
+          <div class="mode-desc">MVP 3명 시상</div>
+        </button>
+      </div>
+
+      <div id="setup-extra" style="display:none; margin-top:1.2rem;">
+        <h3 id="setup-title" class="hero-section-title"></h3>
+        <div id="setup-input"></div>
+        <div class="hero-action">
+          <button class="primary" onclick="startContest()">▶ 시작하기</button>
+        </div>
+      </div>
+
+      <button class="notice-btn" onclick="showNoticeModal()">⚠️ 주의사항 보기</button>
+      <button class="hero-fs-btn" onclick="toggleFullscreen()">⛶ 전체화면</button>
+
+      <div class="hero-resume">
+        <p id="resume-info"></p>
+        <button id="resume-btn" onclick="setView('cards')" class="success" style="display:none;">⏮ 이전 세션 복구</button>
+        <button class="ghost" onclick="resetAll()">🗑 처음부터</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- VIEW: CARDS (카드 격자) -->
+  <div id="view-cards" class="view">
+    <div class="card-grid-toolbar">
+      <span class="ct-label">카드 크기:</span>
+      <button class="card-zoom-btn" onclick="changeCardZoom(-1)" title="작게">🔍−</button>
+      <button class="card-zoom-btn" onclick="changeCardZoom(0)"  title="기본">기본</button>
+      <button class="card-zoom-btn" onclick="changeCardZoom(+1)" title="크게">🔍+</button>
+      <span class="legend-divider"></span>
+      <span class="ct-label">번호 색:</span>
+      <span class="legend-pill legend-easy">🟢 쉬움 ★</span>
+      <span class="legend-pill legend-mid">🟡 보통 ★★</span>
+      <span class="legend-pill legend-hard">🔴 어려움 ★★★</span>
+    </div>
+    <div id="card-grid" class="card-grid"></div>
+  </div>
+
+  <!-- VIEW: QUESTION (문제 풀이) -->
+  <div id="view-question" class="view" style="display:none;">
+    <div class="question-container">
+      <button class="back-home-btn" onclick="setView('cards')">🏠 메인으로</button>
+      <!-- 우상단 통합 컨트롤 — 정답보기는 phase-actions로 이동(#113) -->
+      <div class="q-top-controls">
+        <button class="restart-btn" onclick="resetCurrentQuiz()" title="처음부터 다시">🔄 처음부터</button>
+        <button class="card-zoom-btn" onclick="changeFontZoom(-1)">🔍−</button>
+        <button class="card-zoom-btn" onclick="changeFontZoom(0)">기본</button>
+        <button class="card-zoom-btn" onclick="changeFontZoom(+1)">🔍+</button>
+      </div>
+      <!-- 좌측 상단: 번호·주제·형식만 크게 -->
+      <div class="question-header">
+        <div class="q-header-info" id="q-meta"></div>
+      </div>
+
+      <div class="step-indicator">
+        <div class="step" id="s1"><span class="step-num">1</span><span class="step-label">문제 출제</span></div>
+        <div class="step-line" id="l12"></div>
+        <div class="step" id="s2"><span class="step-num">2</span><span class="step-label">손들기</span></div>
+        <div class="step-line" id="l23"></div>
+        <div class="step" id="s3"><span class="step-num">3</span><span class="step-label">정답 판정</span></div>
+      </div>
+
+      <div id="q-image-wrap"></div>
+      <div id="q-text" class="question-text"></div>
+      <div id="q-options"></div>
+
+      <div id="q-answer-box" class="answer-box"></div>
+      <div id="q-explain-box" class="explain-box"></div>
+
+      <div id="q-phase" class="phase-area"></div>
+    </div>
+  </div>
+
+  <!-- VIEW: MISSION (미션 화면) -->
+  <div id="view-mission" class="view" style="display:none;">
+    <div class="mission-container">
+      <button class="back-home-btn" onclick="setView('cards')">🏠 메인으로</button>
+      <div class="mission-emoji" id="m-emoji"></div>
+      <div class="mission-title" id="m-title"></div>
+      <div class="mission-text" id="m-text"></div>
+      <div class="mission-timer" id="m-timer">60</div>
+      <div class="mission-actions">
+        <button class="success" onclick="missionComplete()">✓ 미션 완료</button>
+        <button class="danger"  onclick="missionFail()">❌ 실패</button>
+        <button class="ghost"   onclick="setView('cards')">⏭ 패스</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- VIEW: RESULTS (결과) -->
+  <div id="view-results" class="view" style="display:none;">
+    <div style="text-align:center; padding-top:1rem;">
+      <button class="primary big-home-btn" onclick="setView('cards')">🏠 메인으로 돌아가기</button>
+    </div>
+    <h1 style="margin-top:1rem;">🏆 우리 마라탕 완성! 🏆</h1>
+    <h3 id="results-sub" style="text-align:center; color:var(--text-sub); margin-bottom:1rem;"></h3>
+    <div id="results-bars" class="results-bars"></div>
+    <div id="podium" class="podium" style="display:none;"></div>
+    <div style="text-align:center; margin: 1.5rem 0; display:flex; gap:0.7rem; justify-content:center; flex-wrap:wrap;">
+      <button class="success" onclick="exportTxt()">📋 결과 저장 (텍스트)</button>
+      <button class="danger" onclick="restartContest()">🔄 새 대회 시작</button>
+    </div>
+  </div>
+
+</main>
+
+<!-- 우측 드래그 리사이저 -->
+<div class="resizer resizer-right" id="resizer-right" title="드래그로 폭 조정 (더블클릭: 기본값)"></div>
+
+<!-- ════════════ RIGHT SIDEBAR (진행/점수) ════════════ -->
+<aside class="sidebar-right" id="sb-right">
+  <div class="sb-header">
+    <h3>🏆 진행 상황</h3>
+  </div>
+  <div class="sb-section">
+    <div id="progress-area"></div>
+  </div>
+  <div class="sb-section">
+    <div class="sb-label">점수판</div>
+    <div id="score-area"></div>
+  </div>
+  <div class="sb-section sb-actions">
+    <button class="ghost block" onclick="openAdminModal()">🔒 관리자 (미션 미리보기)</button>
+    <button class="ghost block" onclick="resetAll()">🏠 처음 화면으로</button>
+  </div>
+</aside>
+
+<!-- ════════════ MODAL ════════════ -->
+<div class="modal-backdrop" id="mb"><div class="modal" id="mc"></div></div>
+
+<!-- ════════════ TIMER (Step 3 진입 시) ════════════ -->
+<div id="timer-overlay" class="timer-overlay">
+  <div class="timer-num" id="timer-num">5</div>
+  <div class="timer-controls">
+    <button onclick="pauseTimer()" id="t-pause" title="일시정지">⏸</button>
+    <button onclick="resumeTimer()" id="t-resume" title="다시 시작">▶</button>
+    <button onclick="stopTimer(); document.getElementById('timer-overlay').classList.remove('show');" id="t-stop" title="멈춤">⏹</button>
+  </div>
+</div>
+
+<!-- ════════════ TOAST ════════════ -->
+<div id="toast" class="toast"></div>
+
+<!-- ════════════ SHORTCUTS HINT ════════════ -->
+<div class="shortcuts">💡 <kbd>A</kbd> 정답 잠깐 보기</div>
+
+<script>document.write('<script src="data.js?nocache=' + Date.now() + '"><\/script>');</script>
+<script src="app.js"></script>
+<script>
+// ═════════ 전역 상태 ═════════
+const filter = { difficulty: null, style: null, topic: null };
+let currentQuiz, phase = 'question', attemptedTeams = [], currentBuzzer = null;
+let actors = [];
+let mode = null;
+let giftCollect = [], stealTargetIdx = null, swapTargetIdx = null, swapMy = null, swapTheir = null;
+
+const STYLE_LABEL = { mc:'객관식', ox:'OX', fill:'빈칸', open:'주관식', apply:'적용', nonsense:'넌센스', image:'그림' };
+
+// ═════════ View Router ═════════
+function setView(name) {
+  // view 전환 시 정답 플래시·설명 박스 정리 (#65, #68)
+  if (name !== 'question') {
+    hideCorrectFlash();
+    const eb = document.getElementById('q-explain-box');
+    if (eb) eb.classList.remove('show');
+  }
+  document.querySelectorAll('.view').forEach(v => v.style.display = 'none');
+  const target = document.getElementById('view-' + name);
+  if (target) target.style.display = 'block';
+
+  // 메인 페이지(setup) = 가운데 히어로만, 사이드바·헤더 모두 숨김
+  document.body.classList.toggle('mode-hero', name === 'setup');
+
+  // 좌측 필터 사이드바: cards view에서만 의미 있음
+  if (name === 'cards') renderAll();
+  if (name === 'results') renderResults();
+  if (name === 'setup') renderSetup();
+
+  // 결과보기 토글 버튼 상태 동기화
+  const tbR = document.getElementById('tb-results');
+  if (tbR) tbR.classList.toggle('active', name === 'results');
+}
+
+// ═════════ Sidebar Section Toggle (#60) ═════════
+function toggleSection(name) {
+  const sec = document.querySelector(`.sb-section-collapsible[data-section="${name}"]`);
+  if (!sec) return;
+  const collapsed = sec.classList.toggle('section-collapsed');
+  const arrow = document.getElementById('sb-arrow-' + name);
+  if (arrow) arrow.textContent = collapsed ? '▶' : '▼';
+  localStorage.setItem('sec_collapsed_' + name, collapsed);
+}
+function restoreSectionStates() {
+  ['diff', 'style', 'topic'].forEach(name => {
+    if (localStorage.getItem('sec_collapsed_' + name) === 'true') {
+      const sec = document.querySelector(`.sb-section-collapsible[data-section="${name}"]`);
+      if (sec) {
+        sec.classList.add('section-collapsed');
+        const arrow = document.getElementById('sb-arrow-' + name);
+        if (arrow) arrow.textContent = '▶';
+      }
+    }
+  });
+}
+
+// ═════════ Sidebar toggle ═════════
+function toggleLeft() {
+  const sb = document.getElementById('sb-left');
+  sb.classList.toggle('collapsed');
+  localStorage.setItem('sb_left_collapsed', sb.classList.contains('collapsed'));
+  updateToggleArrows();
+}
+function toggleRight() {
+  const sb = document.getElementById('sb-right');
+  sb.classList.toggle('collapsed');
+  localStorage.setItem('sb_right_collapsed', sb.classList.contains('collapsed'));
+  updateToggleArrows();
+}
+// 퀴즈대회 끝 (#82)
+function endContest() {
+  if (!confirm('정말 대회를 종료할까요?\n남은 문제도 모두 끝나고 결과 화면으로 이동합니다.')) return;
+  // 큰 종료 멘트 모달 표시
+  const m = document.getElementById('mc');
+  m.innerHTML = `
+    <div class="end-screen">
+      <div class="end-emoji">🏁</div>
+      <div class="end-title">🍲 마라탕을 만들기 시작하세요!</div>
+      <div class="end-title-2">🙏 식사기도를 하겠습니다</div>
+      <div style="text-align:center; margin-top:2.5rem;">
+        <button class="primary" onclick="closeModal(); setView('results');">결과 보기</button>
+      </div>
+    </div>`;
+  document.getElementById('mb').classList.add('show');
+  // 종료 효과음
+  if (typeof timerEndChime === 'function') timerEndChime();
+}
+
+function toggleResults() {
+  // cards ↔ results 토글
+  const cur = document.getElementById('view-results').style.display !== 'none' ? 'cards' : 'results';
+  setView(cur);
+}
+function updateToggleArrows() {
+  const lCol = document.getElementById('sb-left').classList.contains('collapsed');
+  const rCol = document.getElementById('sb-right').classList.contains('collapsed');
+  document.querySelector('#tb-left .ico-text').textContent  = lCol ? '▶' : '◀';
+  document.querySelector('#tb-right .ico-text').textContent = rCol ? '◀' : '▶';
+}
+
+// ═════════ Setup view ═════════
+function renderSetup() {
+  document.getElementById('qcount').textContent = window.QUIZZES.meta.total;
+  const s = loadSession();
+  if (s) {
+    const a = actorsOf(s);
+    document.getElementById('resume-info').innerHTML =
+      `📌 진행 중: <b>${s.mode === 'team' ? '팀전' : '개인전'}</b> · ${a.length}명 · 푼 문제 ${s.solved.length}/${window.QUIZZES.meta.total}<br><span style="font-size:0.85rem; color:var(--text-mute);">💾 자동 저장 활성</span>`;
+    document.getElementById('resume-btn').style.display = 'inline-block';
+  } else {
+    document.getElementById('resume-info').innerHTML =
+      '<span style="font-size:0.85rem; color:var(--text-mute);">💾 진행 중인 세션 없음 · 자동 저장 활성</span>';
+    document.getElementById('resume-btn').style.display = 'none';
+  }
+}
+
+function selectMode(m) {
+  mode = m;
+  document.getElementById('setup-extra').style.display = 'block';
+  const title = document.getElementById('setup-title');
+  const inp = document.getElementById('setup-input');
+  if (m === 'team') {
+    title.textContent = '4팀의 이름을 입력하세요';
+    const defaults = ['빨강팀','파랑팀','노랑팀','초록팀'];
+    inp.innerHTML = '<div class="input-stack">' + defaults.map((n,i) =>
+      `<input type="text" value="${n}" id="p${i}">`).join('') + '</div>';
+  } else {
+    title.textContent = '참가자 이름 (한 줄에 한 명)';
+    inp.innerHTML = `<textarea id="players" rows="6" placeholder="김철수&#10;박영희&#10;이민준&#10;..."></textarea>`;
+  }
+}
+
+function startContest() {
+  let names;
+  if (mode === 'team') {
+    names = [0,1,2,3].map(i => document.getElementById('p'+i).value.trim()).filter(Boolean);
+    if (names.length < 2) { alert('최소 2팀이 필요해요!'); return; }
+  } else {
+    names = document.getElementById('players').value.split('\n').map(s => s.trim()).filter(Boolean);
+    if (names.length < 2) { alert('최소 2명이 필요해요!'); return; }
+  }
+  newSession(mode, names);
+  setView('cards');
+}
+
+function resetAll() {
+  if (!confirm('모든 기록을 삭제하고 처음부터 시작할까요?')) return;
+  clearSession();
+  setView('setup');
+}
+
+// ═════════ Filter (cards view) ═════════
+function setFilter(key, value) {
+  filter[key] = (filter[key] === value) ? null : value;
+  renderAll();
+}
+function clearFilter() {
+  filter.difficulty = null; filter.style = null; filter.topic = null;
+  renderAll();
+}
+
+function renderFilters() {
+  const STYLE = [
+    {id:'mc',label:'객관식',emoji:'🔢'},
+    {id:'ox',label:'OX',emoji:'⭕'},
+    {id:'fill',label:'빈칸',emoji:'📝'},
+    {id:'open',label:'주관식',emoji:'💭'},
+    {id:'apply',label:'적용',emoji:'🌱'},
+    {id:'nonsense',label:'넌센스',emoji:'🤪'},
+    {id:'image',label:'그림',emoji:'🖼'},
+  ];
+
+  // 형식별·난이도별·주제별 남은/전체 카운트
+  const s = loadSession();
+  const solved = new Set(s ? s.solved : []);
+  function countRemaining(predicate) {
+    let total = 0, rem = 0;
+    for (const q of window.QUIZZES.quizzes) {
+      if (predicate(q)) {
+        total++;
+        if (!solved.has(q.id)) rem++;
+      }
+    }
+    return { rem, total };
+  }
+
+  document.getElementById('filter-diff').innerHTML =
+    [1,2,3].map(d => {
+      const c = countRemaining(q => q.difficulty === d);
+      return `<button class="chip ${filter.difficulty===d?'active':''}" onclick="setFilter('difficulty',${d})">${'★'.repeat(d)} <span class="chip-count">${c.rem}/${c.total}</span></button>`;
+    }).join('');
+
+  document.getElementById('filter-style').innerHTML =
+    STYLE.map(stl => {
+      const c = countRemaining(q => q.style === stl.id);
+      return `<button class="chip ${filter.style===stl.id?'active':''}" onclick="setFilter('style','${stl.id}')">${stl.emoji} ${stl.label} <span class="chip-count">${c.rem}/${c.total}</span></button>`;
+    }).join('');
+
+  document.getElementById('filter-topic').innerHTML =
+    window.QUIZZES.topics.map(t => {
+      const c = countRemaining(q => q.topic_id === t.id);
+      const colorStyle = t.color
+        ? `style="border-left: 5px solid ${t.color};"`
+        : '';
+      return `<button class="chip wide topic-chip ${filter.topic===t.id?'active':''}" ${colorStyle} onclick="setFilter('topic','${t.id}')">${t.title} <span class="chip-count">${c.rem}/${c.total}</span></button>`;
+    }).join('');
+}
+
+function renderProgress(s) {
+  const total = window.QUIZZES.meta.total;
+  const solved = s.solved.length;
+  const remain = total - solved;
+  const pct = total ? Math.round(solved / total * 100) : 0;
+  document.getElementById('progress-area').innerHTML = `
+    <div class="prog-stack">
+      <div class="prog-stat"><span class="prog-num total">${total}</span> <span>전체</span></div>
+      <div class="prog-stat"><span class="prog-num solved">${solved}</span> <span>푼 문제</span></div>
+      <div class="prog-stat"><span class="prog-num remain">${remain}</span> <span>남은 문제</span></div>
+      <div class="prog-bar"><div class="prog-fill" style="width:${pct}%"></div><div class="prog-label">${pct}%</div></div>
+    </div>`;
+}
+
+function renderAll() {
+  const s = loadSession();
+  if (!s) { setView('setup'); return; }
+  try { renderFilters(); } catch(e) { console.warn('renderFilters fail', e); }
+  try { renderProgress(s); } catch(e) { console.warn('renderProgress fail', e); }
+  const sa = document.getElementById('score-area');
+  if (sa) sa.innerHTML = renderScorePanel(s);
+  const cg = document.getElementById('card-grid');
+  if (cg) cg.innerHTML = renderCardGrid(s, filter);
+  const br = document.getElementById('btn-results');
+  if (br) br.style.display = 'flex';
+}
+
+// 카드 클릭 → question view 또는 mission view
+function goToQuestion(quizId) {
+  const s = loadSession();
+  s.current_quiz_id = quizId;
+  saveSession(s);
+  const q = getQuiz(quizId);
+  if (q && q.is_mission) {
+    loadMission(q);
+    setView('mission');
+  } else {
+    loadQuestion(quizId);
+    setView('question');
+  }
+}
+
+// ═════════ 미션 화면 ═════════
+let missionTimerInterval = null;
+let missionRemaining = 0;
+let currentMission = null;
+let _missionAttempts = [];      // 시도한 팀 인덱스 목록 (#127)
+let _missionCurrentTeam = null; // 현재 도전 중인 팀 (없으면 null)
+function loadMission(m) {
+  currentMission = m;
+  _missionAttempts = [];
+  _missionCurrentTeam = null;
+  document.getElementById('m-emoji').textContent = m.mission_emoji;
+  document.getElementById('m-title').textContent = m.mission_title;
+  document.getElementById('m-text').textContent = m.mission_text;
+  missionRemaining = m.mission_seconds || 20;
+  document.getElementById('m-timer').textContent = missionRemaining + '초';
+  if (missionTimerInterval) clearInterval(missionTimerInterval);
+  // 미션 시작음 (#69)
+  if (typeof timerBeep === 'function') chord([523, 659, 784], 0.25, 0.3);  // C-E-G 시작 화음
+  missionTimerInterval = setInterval(() => {
+    missionRemaining--;
+    if (missionRemaining <= 0) {
+      clearInterval(missionTimerInterval);
+      document.getElementById('m-timer').textContent = '⏱ 종료';
+      if (typeof timerEndChime === 'function') timerEndChime();  // 종료 종소리
+      return;
+    }
+    document.getElementById('m-timer').textContent = missionRemaining + '초';
+    // 진행 따라 긴장감 고조 (#99)
+    if (missionRemaining > 10) {
+      // 잔잔한 시계 똑딱 (저주파)
+      beep(220, 0.05, 0.12, 'sine');
+    } else if (missionRemaining > 5) {
+      // 비프 점차 빨라짐 + 음 상승
+      const f = 350 + (10 - missionRemaining) * 50;
+      beep(f, 0.08, 0.2, 'triangle');
+    } else if (missionRemaining > 2) {
+      // 음계 화음 (긴장)
+      timerBeep(missionRemaining);
+    } else if (missionRemaining >= 1) {
+      // 절정 — 더 강한 비브라토
+      timerBeep(missionRemaining);
+      setTimeout(() => beep(1500, 0.1, 0.4, 'square'), 80);
+    }
+  }, 1000);
+}
+// 선택된 점수 (1~5)
+let _missionPoints = 1;
+function missionComplete() {
+  if (loadSession().solved.includes(currentMission.id)) { showToast('⚠️ 이미 처리된 미션입니다', 1500); return; }
+  if (missionTimerInterval) clearInterval(missionTimerInterval);
+  _missionPoints = 1;  // 매번 1점으로 초기화
+  renderMissionTeamModal();
+}
+function renderMissionTeamModal() {
+  const s = loadSession();
+  const a = actorsOf(s);
+  const m = document.getElementById('mc');
+  m.innerHTML = `
+    <h3 class="mtm-title">🎉 미션 완료!</h3>
+    <p class="mtm-sub">몇 점을 줄까요?</p>
+    <div class="mission-points-grid">
+      ${[1,2,3,4,5].map(p => `
+        <button class="mission-point-btn ${p === _missionPoints ? 'selected' : ''}"
+                onclick="setMissionPoints(${p})">+${p}</button>
+      `).join('')}
+    </div>
+    <p class="mtm-sub2">어느 팀에게 줄까요? <span class="mtm-hint">(선택한 +${_missionPoints}점이 부여됩니다)</span></p>
+    <div class="mission-team-grid">
+      ${a.map((t, i) => `
+        <button class="mission-team-btn ${t.color || 'individual'}" onclick="missionGiveTo(${i})">
+          <span class="mtb-name">${escapeHtml(t.name)}</span>
+          <span class="mtb-score">현재 ${t.inventory.length}점</span>
+        </button>
+      `).join('')}
+    </div>
+    <div class="mtm-bottom-row">
+      <button class="mtm-bottom-btn ghost" onclick="missionGiveAll()">🎁 전체 팀에 +${_missionPoints} (옛 방식)</button>
+      <button class="mtm-bottom-btn ghost" onclick="closeModal()">취소</button>
+    </div>
+  `;
+  document.getElementById('mb').classList.add('show');
+}
+function setMissionPoints(p) {
+  _missionPoints = p;
+  renderMissionTeamModal();
+}
+
+function missionGiveTo(idx) {
+  const s = loadSession();
+  const a = actorsOf(s);
+  for (let k = 0; k < _missionPoints; k++) a[idx].inventory.push(null);
+  s.solved.push(currentMission.id);
+  s.current_quiz_id = null;
+  saveSession(s);
+  closeModal();
+  playApplause();  // #124 — 박수
+  showToast(`🎉 ${a[idx].name} +${_missionPoints}점 — 미션 성공!`, 2500);
+  showCorrectFlash();
+  ensureScorePanelOpen();
+  forceUpdateScorePanel();
+}
+
+function missionGiveAll() {
+  const s = loadSession();
+  const a = actorsOf(s);
+  a.forEach(team => { for (let k = 0; k < _missionPoints; k++) team.inventory.push(null); });
+  s.solved.push(currentMission.id);
+  s.current_quiz_id = null;
+  saveSession(s);
+  closeModal();
+  playApplause();
+  showToast(`🎉 미션 완료! 모든 팀 +${_missionPoints}`, 2500);
+  showCorrectFlash();
+  ensureScorePanelOpen();
+  forceUpdateScorePanel();
+}
+// #127 + #129 — 실패 시 다른 팀 기회 또는 마이너스 점수 부여
+let _missionMinusPoints = 1;
+function missionFail() {
+  if (missionTimerInterval) clearInterval(missionTimerInterval);
+  if (_missionCurrentTeam !== null && !_missionAttempts.includes(_missionCurrentTeam)) {
+    _missionAttempts.push(_missionCurrentTeam);
+  }
+  _missionCurrentTeam = null;
+  _missionMinusPoints = 1;
+  renderMissionFailModal();
+}
+function renderMissionFailModal() {
+  const s = loadSession();
+  const a = actorsOf(s);
+  const remain = a.map((_, i) => i).filter(i => !_missionAttempts.includes(i));
+  const m = document.getElementById('mc');
+  m.innerHTML = `
+    <h3 class="mtm-title" style="color:#fca5a5;">😢 아쉬워요!</h3>
+
+    ${remain.length > 0 ? `
+      <p class="mtm-sub" style="margin-top:10px;">✅ 다른 팀에게 기회를 줄까요?</p>
+      <div class="mission-team-grid">
+        ${remain.map(i => `
+          <button class="mission-team-btn ${a[i].color || 'individual'}" onclick="missionRetryWith(${i})">
+            <span class="mtb-name">${escapeHtml(a[i].name)}</span>
+            <span class="mtb-score">현재 ${a[i].inventory.length}점</span>
+          </button>
+        `).join('')}
+      </div>
+    ` : '<p class="mtm-sub">모든 팀이 시도했어요.</p>'}
+
+    <div class="mtm-divider">또는</div>
+    <p class="mtm-sub" style="margin-top:6px;">❌ 점수를 차감할까요?</p>
+    <p class="mtm-sub2" style="font-size:1.2rem !important; margin:6px 0 8px;">차감 점수</p>
+    <div class="mission-points-grid">
+      ${[1,2,3,4,5].map(p => `
+        <button class="mission-point-btn minus ${p === _missionMinusPoints ? 'selected' : ''}"
+                onclick="setMissionMinusPoints(${p})">−${p}</button>
+      `).join('')}
+    </div>
+    <p class="mtm-sub2" style="font-size:1.2rem !important; margin:14px 0 8px;">차감할 팀 <span class="mtm-hint">(−${_missionMinusPoints}점 차감)</span></p>
+    <div class="mission-team-grid">
+      ${a.map((t, i) => `
+        <button class="mission-team-btn ${t.color || 'individual'}" onclick="missionDeductFrom(${i})"
+                ${t.inventory.length === 0 ? 'disabled style="opacity:0.4; cursor:not-allowed;"' : ''}>
+          <span class="mtb-name">${escapeHtml(t.name)}</span>
+          <span class="mtb-score">현재 ${t.inventory.length}점</span>
+        </button>
+      `).join('')}
+    </div>
+
+    <div class="mtm-bottom-row">
+      <button class="mtm-bottom-btn warn" onclick="missionGiveUp()">⏭ 미션 패스 (그냥 넘기기)</button>
+      <button class="mtm-bottom-btn ghost" onclick="closeModal()">취소</button>
+    </div>
+  `;
+  document.getElementById('mb').classList.add('show');
+}
+function setMissionMinusPoints(p) {
+  _missionMinusPoints = p;
+  renderMissionFailModal();
+}
+function missionDeductFrom(idx) {
+  const s = loadSession();
+  const a = actorsOf(s);
+  const cur = a[idx].inventory.length;
+  const deduct = Math.min(_missionMinusPoints, cur);
+  for (let k = 0; k < deduct; k++) a[idx].inventory.pop();
+  s.solved.push(currentMission.id);
+  s.current_quiz_id = null;
+  saveSession(s);
+  closeModal();
+  showToast(`💔 ${a[idx].name} −${deduct}점 차감 (현재 ${a[idx].inventory.length}점)`, 2500);
+  ensureScorePanelOpen();
+  forceUpdateScorePanel();
+}
+
+function missionRetryWith(idx) {
+  closeModal();
+  _missionCurrentTeam = idx;
+  const s = loadSession();
+  const a = actorsOf(s);
+  showToast(`💪 ${a[idx].name} 도전!`, 1500);
+  // 타이머 재시작
+  missionRemaining = currentMission.mission_seconds || 20;
+  document.getElementById('m-timer').textContent = missionRemaining + '초';
+  if (missionTimerInterval) clearInterval(missionTimerInterval);
+  if (typeof timerBeep === 'function') chord([523, 659, 784], 0.25, 0.3);
+  missionTimerInterval = setInterval(() => {
+    missionRemaining--;
+    if (missionRemaining <= 0) {
+      clearInterval(missionTimerInterval);
+      document.getElementById('m-timer').textContent = '⏱ 종료';
+      if (typeof timerEndChime === 'function') timerEndChime();
+      return;
+    }
+    document.getElementById('m-timer').textContent = missionRemaining + '초';
+    if (missionRemaining > 10) beep(220, 0.05, 0.12, 'sine');
+    else if (missionRemaining > 5) beep(350 + (10 - missionRemaining) * 50, 0.08, 0.2, 'triangle');
+    else if (missionRemaining > 2) timerBeep(missionRemaining);
+    else if (missionRemaining >= 1) { timerBeep(missionRemaining); setTimeout(() => beep(1500, 0.1, 0.4, 'square'), 80); }
+  }, 1000);
+}
+
+function missionGiveUp() {
+  closeModal();
+  const s = loadSession();
+  s.solved.push(currentMission.id);
+  s.current_quiz_id = null;
+  saveSession(s);
+  showToast('미션 패스 — 다음 문제로 ⏭', 1500);
+  setView('cards');
+}
+
+// ═════════ 관리자 모드 (미션 미리보기) ═════════
+function openAdminModal() {
+  const m = document.getElementById('mc');
+  m.innerHTML = `
+    <h3>🔒 관리자 인증</h3>
+    <p style="text-align:center; color:var(--text-sub); font-size:0.9rem;">비밀번호 입력 (기본: dream2026)</p>
+    <div class="pwd-input-wrap">
+      <input type="password" id="admin-pwd" class="pwd-input" placeholder="비밀번호" onkeydown="if(event.key==='Enter') adminAuth()">
+    </div>
+    <div style="text-align:center;">
+      <button class="primary" onclick="adminAuth()">확인</button>
+      <button onclick="closeModal()">취소</button>
+    </div>
+  `;
+  document.getElementById('mb').classList.add('show');
+  setTimeout(() => document.getElementById('admin-pwd').focus(), 100);
+}
+function adminAuth() {
+  const pwd = document.getElementById('admin-pwd').value;
+  if (pwd !== getAdminPass()) { alert('비밀번호가 틀렸습니다.'); return; }
+  showAdminPanel();
+}
+
+function showAdminPanel() {
+  const m = document.getElementById('mc');
+  m.innerHTML = `
+    <h3>🔒 관리자 패널</h3>
+    <div class="admin-tabs">
+      <button class="admin-tab-btn active" onclick="showAdminTab('missions',this)">🎁 미션 미리보기</button>
+      <button class="admin-tab-btn" onclick="showAdminTab('password',this)">🔑 비밀번호 변경</button>
+    </div>
+    <div id="admin-tab-content"></div>
+    <div style="text-align:center; margin-top:1.5rem;">
+      <button onclick="closeModal()">닫기</button>
+    </div>
+  `;
+  showAdminTab('missions');
+}
+function showAdminTab(tab, btn) {
+  // 탭 활성화
+  if (btn) {
+    document.querySelectorAll('.admin-tab-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  }
+  const c = document.getElementById('admin-tab-content');
+  if (tab === 'missions') {
+    c.innerHTML = `
+      <div class="admin-mission-list">
+        ${MISSION_CARDS.map(mi => `
+          <div class="admin-mission-row">
+            <div class="amr-emoji">${mi.mission_emoji}</div>
+            <div class="amr-content">
+              <div class="amr-title">${escapeHtml(mi.mission_title)} <span class="amr-time">${mi.mission_seconds}초</span></div>
+              <div class="amr-text">${escapeHtml(mi.mission_text)}</div>
+            </div>
+          </div>`).join('')}
+      </div>`;
+  } else if (tab === 'password') {
+    c.innerHTML = `
+      <p style="color:var(--text-sub); font-size:0.9rem; text-align:center; margin:0.8rem 0;">새 비밀번호 (4자 이상)</p>
+      <div class="pwd-input-wrap">
+        <input type="password" id="new-pwd" class="pwd-input" placeholder="새 비밀번호">
+      </div>
+      <div class="pwd-input-wrap">
+        <input type="password" id="new-pwd2" class="pwd-input" placeholder="확인" onkeydown="if(event.key==='Enter') changeAdminPassword()">
+      </div>
+      <div style="text-align:center; margin-top:1rem;">
+        <button class="success" onclick="changeAdminPassword()">변경</button>
+      </div>`;
+  }
+}
+// ═════════ 주의사항 모달 (#63) ═════════
+const NOTICES = [
+  '다른 친구와 싸우지 않아요.',
+  '불이 있어요. 뛰어다니지 마세요.',
+  '다치지 않도록 옆에 친구도 잘 봐 주세요.',
+  '퀴즈를 맞추지 못했을 때 화내지 않아요.',
+  '선생님 말씀을 잘 들어요.',
+];
+function showNoticeModal() {
+  const m = document.getElementById('mc');
+  m.innerHTML = `
+    <h3 class="notice-title">⚠️ 주의사항</h3>
+    <div class="notice-list notice-list-large">
+      ${NOTICES.map((n, i) => `
+        <div class="notice-item notice-item-large">
+          <div class="notice-num notice-num-large">${i+1}</div>
+          <div class="notice-text">${escapeHtml(n)}</div>
+        </div>`).join('')}
+    </div>
+    <div style="text-align:center; margin-top:1.5rem;">
+      <button class="primary notice-ok-btn" onclick="closeModal()">✓ 알겠어요!</button>
+    </div>
+  `;
+  document.getElementById('mb').classList.add('show');
+  // 모달 폭 확장
+  const mc = document.getElementById('mc');
+  if (mc) mc.classList.add('modal-large');
+  // 닫을 때 클래스 제거
+  document.getElementById('mb').addEventListener('click', function onceClose(e) {
+    if (e.target.id === 'mb') {
+      mc.classList.remove('modal-large');
+      document.getElementById('mb').removeEventListener('click', onceClose);
+    }
+  });
+}
+
+function changeAdminPassword() {
+  const p1 = document.getElementById('new-pwd').value;
+  const p2 = document.getElementById('new-pwd2').value;
+  if (p1.length < 4) { alert('비밀번호는 4자 이상이어야 합니다.'); return; }
+  if (p1 !== p2) { alert('비밀번호가 일치하지 않습니다.'); return; }
+  setAdminPass(p1);
+  showToast('🔑 비밀번호 변경 완료', 1500);
+  closeModal();
+}
+
+// 기존 app.js의 goToDashboard() 오버라이드 → view 전환만
+window.goToQuestion = goToQuestion;
+window.goToDashboard = () => setView('cards');
+window.goToHome = () => setView('setup');
+
+// ═════════ Question view ═════════
+function loadQuestion(quizId) {
+  const s = loadSession();
+  currentQuiz = getQuiz(quizId);
+  if (!currentQuiz) { setView('cards'); return; }
+  actors = actorsOf(s);
+  attemptedTeams = []; currentBuzzer = null;
+  // #122 자동 판정 잔존 타이머·인디케이터 정리
+  if (typeof _autoJudgeTimer !== 'undefined' && _autoJudgeTimer) { clearTimeout(_autoJudgeTimer); _autoJudgeTimer = null; }
+  if (typeof _autoJudgeCountdownTimer !== 'undefined' && _autoJudgeCountdownTimer) { clearInterval(_autoJudgeCountdownTimer); _autoJudgeCountdownTimer = null; }
+  const _aji = document.getElementById('auto-judge-indicator');
+  if (_aji) _aji.classList.remove('show');
+
+  // 좌측 상단: 번호 · 주제 · 형식 + Step 0 토글 (#50)
+  // 그림 문제는 객관식/주관식 구분 표시 (#144 진행자 편의)
+  let styleLabel = STYLE_LABEL[currentQuiz.style];
+  if (currentQuiz.style === 'image') {
+    const isMC = currentQuiz.options && currentQuiz.options.length > 0;
+    styleLabel = '그림 · ' + (isMC ? '객관식' : '주관식');
+  }
+  const styleColor = { mc:'#3b82f6', ox:'#22d3ee', fill:'#fb923c', open:'#a78bfa', apply:'#34d399', nonsense:'#fbbf24', image:'#f87171' }[currentQuiz.style] || '#94a3b8';
+  const topic = getTopic(currentQuiz.topic_id);
+  const qNum = window.QUIZZES.quizzes.findIndex(q => q.id === currentQuiz.id) + 1;
+  // reward 라벨 (#66)
+  const rewardLabel = { collect:'🎯 수집', steal:'🔥 빼앗기', gift:'🎁 선물' }[currentQuiz.reward_type] || '';
+  // #130 — 넌센스/그림은 주제 라벨 숨김
+  const showTopic = !['nonsense', 'image'].includes(currentQuiz.style);
+  // #134 — 난이도 + 점수 칩
+  const diff = currentQuiz.difficulty || 1;
+  const diffLabel = { 1: '하', 2: '중', 3: '상' }[diff] || '중';
+  const diffStars = '★'.repeat(diff);
+  const diffColor = { 1: '#22c55e', 2: '#eab308', 3: '#ef4444' }[diff] || '#eab308';
+  document.getElementById('q-meta').innerHTML = `
+    <span class="qh-num">No. ${qNum}</span>
+    ${showTopic ? `<span class="qh-topic">${topic ? topic.title : ''}</span>` : ''}
+    <span class="qh-style" style="background:${styleColor}; color:#0f172a;">${styleLabel}</span>
+    <span class="qh-diff" style="background:${diffColor}; color:#0f172a;">${diffStars} ${diffLabel} +${diff}점</span>
+    ${rewardLabel ? `<span class="qh-reward">${rewardLabel}</span>` : ''}
+    <button id="step0-toggle" class="step0-toggle" onclick="toggleStep0()" title="문제 보이기/숨기기">▼</button>
+  `;
+
+  // 그림 문제 여부에 따라 body class 토글 (#145 — 압축 CSS 분리)
+  document.body.classList.toggle('image-quiz', currentQuiz.style === 'image');
+  // 그림 — 매 로드마다 캐시 무력화 + 클릭 시 확대 토글 (#143)
+  if (currentQuiz.style === 'image' && currentQuiz.image_path) {
+    const cleanPath = currentQuiz.image_path.split('?')[0];
+    const imgUrl = cleanPath + '?t=' + Date.now();
+    document.getElementById('q-image-wrap').innerHTML =
+      `<img src="${imgUrl}" class="question-image" onclick="this.classList.toggle('zoomed')" title="클릭하면 크게 보기 / 다시 클릭하면 원래 크기" onerror="this.style.display='none'">`;
+  } else {
+    document.getElementById('q-image-wrap').innerHTML = '';
+  }
+  // 빈칸 문제는 ( ) 안에 공백 추가 (#31)
+  let qtext = currentQuiz.question;
+  if (currentQuiz.style === 'fill') {
+    qtext = qtext.replace(/\(\s*\)/g, '(             )');
+  }
+  document.getElementById('q-text').textContent = qtext;
+
+  // 보기 — 항상 enabled, 이벤트 위임으로 절대 안전 (#137 사용자 강조)
+  const optElem = document.getElementById('q-options');
+  if (currentQuiz.options && currentQuiz.options.length) {
+    const cls = currentQuiz.style === 'ox' ? 'ox' : '';
+    optElem.innerHTML = `
+      <div class="option-grid ${cls}">
+        ${currentQuiz.options.map((o, i) => `
+          <button type="button" class="option-item" data-idx="${i}">
+            <span class="num">${['①','②','③','④','⑤'][i]}</span>${escapeHtml(o)}
+          </button>`).join('')}
+      </div>`;
+    // 이벤트 위임 — 옵션 그리드에 한 번만 바인딩, 어떤 옵션이든 클릭 잡힘
+    if (!optElem._delegationBound) {
+      optElem.addEventListener('click', (e) => {
+        const btn = e.target.closest('.option-item');
+        if (!btn) return;
+        const idx = parseInt(btn.dataset.idx, 10);
+        if (!isNaN(idx)) pickOption(idx);
+      });
+      optElem._delegationBound = true;
+    }
+  } else {
+    optElem.innerHTML = '';
+  }
+  // 강제 hidden + inline display 완전 정리 (#74·#98·#100)
+  ['q-options','q-text','q-image-wrap','q-answer-box','q-explain-box','q-phase'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.classList.add('hide-strict');
+      el.classList.remove('show');
+      el.style.display = '';  // inline 정리 — toggleStep0 잔존 제거
+    }
+  });
+  // q-phase는 hide-strict 제외 (phase actions는 항상 보여야)
+  const qp = document.getElementById('q-phase');
+  if (qp) qp.classList.remove('hide-strict');
+  // step indicator 정리
+  const stepInd = document.querySelector('#view-question .step-indicator');
+  if (stepInd) stepInd.style.display = '';
+  // 토글 상태 초기화 (#98)
+  _problemHidden = false;
+  const tog = document.getElementById('step0-toggle');
+  if (tog) tog.textContent = '▼';
+
+  // 정답 확인란 (사회자 우상단 토글용)
+  const ans = currentQuiz.answer_text || (currentQuiz.options && currentQuiz.answer_index !== null
+    ? currentQuiz.options[currentQuiz.answer_index] : '(주관식 — 사회자 판단)');
+  document.getElementById('q-answer-box').innerHTML = `
+    <div class="ab-label">🔒 사회자 확인용</div>
+    <div class="ab-answer">정답: ${escapeHtml(ans)}</div>
+    ${currentQuiz.explanation ? `<div class="ab-explain">${escapeHtml(currentQuiz.explanation)}</div>` : ''}
+    ${currentQuiz.bible_ref   ? `<div class="ab-bible">📖 ${escapeHtml(currentQuiz.bible_ref)}</div>` : ''}
+    ${currentQuiz.scoring_hint? `<div class="ab-explain">예시 답변: ${escapeHtml(currentQuiz.scoring_hint)}</div>` : ''}
+  `;
+
+  // 정답 설명 박스 (정답 처리 후 큰 박스로 학생들에게 보임 — #54)
+  document.getElementById('q-explain-box').innerHTML = `
+    <div class="eb-label">📖 정답 해설</div>
+    <div class="eb-answer">${escapeHtml(ans)}</div>
+    ${currentQuiz.explanation ? `<div class="eb-explain">${escapeHtml(currentQuiz.explanation)}</div>` : ''}
+    ${currentQuiz.bible_ref   ? `<div class="eb-bible">📖 ${escapeHtml(currentQuiz.bible_ref)}</div>` : ''}
+  `;
+  document.getElementById('q-explain-box').classList.remove('show');  // 처음엔 숨김
+
+  setPhase('preview');  // Step 0 — 주제+형식만 표시
+  // #131 — 첫 진입 시 본문 영역 자동 숨김 (헤더 + 토글만 보임). 사회자가 ▼ 누르면 펼쳐짐
+  _problemHidden = true;
+  const _hideIds = ['q-image-wrap','q-text','q-options','q-answer-box','q-explain-box','q-phase'];
+  _hideIds.forEach(id => { const el = document.getElementById(id); if (el) el.style.display = 'none'; });
+  const _stepInd = document.querySelector('#view-question .step-indicator');
+  if (_stepInd) _stepInd.style.display = 'none';
+  const _tog = document.getElementById('step0-toggle');
+  if (_tog) _tog.textContent = '▼';
+}
+
+// #122 + #123 — 보기 클릭 자동 판정 + 1.5초 변경 가능
+let _autoJudgeTimer = null;
+let _autoJudgeCountdownTimer = null;
+function pickOption(idx) {
+  const correct = currentQuiz.answer_index;
+  const isRight = (idx === correct);
+  // 클릭한 보기만 표시
+  document.querySelectorAll('.option-item').forEach((b, i) => {
+    b.classList.remove('correct', 'wrong');
+    if (i === idx) b.classList.add(isRight ? 'correct' : 'wrong');
+  });
+  if (isRight) stopTimer();
+  // 이전 타이머 취소 (보기 변경 가능 — #123)
+  if (_autoJudgeTimer) { clearTimeout(_autoJudgeTimer); _autoJudgeTimer = null; }
+  if (_autoJudgeCountdownTimer) { clearInterval(_autoJudgeCountdownTimer); _autoJudgeCountdownTimer = null; }
+  // #135 — judging 단계가 아니면 시각 표시만 하고 자동 진행 X
+  if (phase !== 'judging' || currentBuzzer === null) {
+    const ind = document.getElementById('auto-judge-indicator');
+    if (ind) ind.classList.remove('show');
+    return;
+  }
+  // 카운트다운 표시 (#122 진행자 안내) — 0.4초로 단축
+  let remain = 0.4;
+  const indicator = document.getElementById('auto-judge-indicator') || (() => {
+    const d = document.createElement('div');
+    d.id = 'auto-judge-indicator';
+    d.className = 'auto-judge-indicator';
+    document.body.appendChild(d);
+    return d;
+  })();
+  const updateInd = () => {
+    indicator.innerHTML = isRight
+      ? `✅ <b>정답!</b> <span class="aji-sub">${remain.toFixed(1)}초 후 자동 진행 (다른 보기 누르면 변경)</span>`
+      : `❌ <b>오답</b> <span class="aji-sub">${remain.toFixed(1)}초 후 다음 팀으로 (다른 보기 누르면 변경)</span>`;
+    indicator.className = 'auto-judge-indicator show ' + (isRight ? 'correct' : 'wrong');
+  };
+  updateInd();
+  _autoJudgeCountdownTimer = setInterval(() => {
+    remain -= 0.1;
+    if (remain <= 0) { clearInterval(_autoJudgeCountdownTimer); _autoJudgeCountdownTimer = null; return; }
+    updateInd();
+  }, 100);
+  // 0.4초 후 자동 진행 (즉시 반응 — #137 사용자 요청)
+  _autoJudgeTimer = setTimeout(() => {
+    _autoJudgeTimer = null;
+    if (_autoJudgeCountdownTimer) { clearInterval(_autoJudgeCountdownTimer); _autoJudgeCountdownTimer = null; }
+    indicator.classList.remove('show');
+    if (isRight) markCorrect();
+    else markWrong();
+  }, 400);
+}
+
+// 큰 "정답!" 박스 — 클릭 시 사라짐 + [근거 보기] 버튼 (#65, #77)
+function showCorrectFlash() {
+  let f = document.getElementById('correct-flash');
+  if (!f) {
+    f = document.createElement('div');
+    f.id = 'correct-flash';
+    f.className = 'correct-flash';
+    document.body.appendChild(f);
+  }
+  // 미션은 정답 근거 없음 — 큰 텍스트만
+  const isMission = currentMission || (currentQuiz && (currentQuiz.is_mission || currentQuiz.style === 'mission'));
+  if (isMission) {
+    f.innerHTML = `
+      <div class="cf-text">🎉 미션 성공!</div>
+      <div class="cf-sub">박스를 클릭하면 사라져요</div>
+    `;
+  } else {
+    f.innerHTML = `
+      <div class="cf-text">✅ 정답!</div>
+      <div class="cf-sub">박스를 클릭하면 사라져요</div>
+      <button class="cf-evidence-btn" onclick="event.stopPropagation(); toggleCorrectEvidence()">📖 근거 보기</button>
+      <div id="cf-evidence" class="cf-evidence"></div>
+    `;
+  }
+  f.onclick = (e) => {
+    if (e.target === f || e.target.classList.contains('cf-text') || e.target.classList.contains('cf-sub')) {
+      f.classList.remove('show');
+    }
+  };
+  f.classList.remove('show');
+  void f.offsetWidth;
+  f.classList.add('show');
+  // 정답 효과음 — 메이저 코드 상행 (#115)
+  if (typeof chord === 'function') {
+    chord([523, 659, 784], 0.3, 0.35);          // C-E-G
+    setTimeout(() => chord([659, 784, 1047], 0.4, 0.35), 200);  // E-G-C' (한 옥타브 위)
+  }
+}
+function toggleCorrectEvidence() {
+  const ev = document.getElementById('cf-evidence');
+  if (!ev) return;
+  if (ev.classList.contains('show')) {
+    ev.classList.remove('show');
+    ev.innerHTML = '';
+  } else {
+    const ans = currentQuiz.answer_text || (currentQuiz.options && currentQuiz.answer_index !== null ? currentQuiz.options[currentQuiz.answer_index] : '');
+    ev.innerHTML = `
+      <div class="cf-ev-answer">정답: ${escapeHtml(ans)}</div>
+      ${currentQuiz.explanation ? `<div class="cf-ev-explain">${escapeHtml(currentQuiz.explanation)}</div>` : ''}
+      ${currentQuiz.bible_ref ? `<div class="cf-ev-bible">📖 ${escapeHtml(currentQuiz.bible_ref)}</div>` : ''}
+    `;
+    ev.classList.add('show');
+  }
+}
+function hideCorrectFlash() {
+  const f = document.getElementById('correct-flash');
+  if (f) f.classList.remove('show');
+}
+
+// 정답 영역 토글 (#106) — 첫 클릭 표시, 다시 클릭 사라짐
+function showAnswerBriefly(duration) {
+  const box = document.getElementById('q-answer-box');
+  if (!box) return;
+  if (box.classList.contains('show')) {
+    // 이미 표시 중 → 사라짐
+    box.classList.remove('show');
+    box.classList.add('hide-strict');
+  } else {
+    // 표시
+    box.classList.remove('hide-strict');
+    box.style.display = '';
+    box.classList.add('show');
+  }
+  // 자동 사라짐 setTimeout 제거 — 사회자가 명시적으로 다시 클릭해야만
+}
+
+// 정답 영역 즉시 닫기 (사회자 ⭕/❌ 액션 시)
+function closeAnswerBox() {
+  const box = document.getElementById('q-answer-box');
+  if (!box) return;
+  box.classList.remove('show');
+  clearTimeout(box._timer);
+}
+
+// 힌트 표시
+function showHint() {
+  const box = document.getElementById('hint-box');
+  if (!box) return;
+  if (box.classList.contains('show')) {
+    box.classList.remove('show');
+    return;
+  }
+  const expl = currentQuiz.explanation || '';
+  const bibleRef = currentQuiz.bible_ref || '';
+  const bibleText = currentQuiz.bible_text || '';  // 개역개정 본문
+  const firstSentence = expl.split(/[\.!?。]/)[0].trim();
+
+  // 주관식(open)은 무조건 말씀구절을 메인 힌트로 (사용자 요청 #127)
+  if (currentQuiz.style === 'open') {
+    if (bibleText) {
+      box.innerHTML = `
+        <div class="hint-label">📖 힌트 — 말씀구절</div>
+        <div class="hint-bible-text" style="font-size:1.4rem; line-height:1.65;">"${escapeHtml(bibleText)}"</div>
+        ${bibleRef ? `<div class="hint-bible">📖 ${escapeHtml(bibleRef)} (개역개정)</div>` : ''}
+      `;
+    } else if (bibleRef) {
+      box.innerHTML = `
+        <div class="hint-label">📖 힌트 — 말씀구절</div>
+        <div class="hint-bible">📖 ${escapeHtml(bibleRef)}을 펴 보세요</div>
+      `;
+    } else {
+      // 본문도 ref도 없으면 기존 explanation 폴백
+      box.innerHTML = `<div class="hint-label">💡 힌트</div><div class="hint-content">${escapeHtml(firstSentence)}</div>`;
+    }
+    box.classList.add('show');
+    return;
+  }
+
+  // 그 외(객관식/OX/빈칸/적용/넌센스 등) — 기존 로직 유지
+  const showBibleText = bibleText && (currentQuiz.style === 'apply' || !currentQuiz.options);
+  box.innerHTML = `
+    <div class="hint-label">💡 힌트</div>
+    ${showBibleText ? `<div class="hint-bible-text">"${escapeHtml(bibleText)}"</div>` : ''}
+    ${firstSentence ? `<div class="hint-content">${escapeHtml(firstSentence)}</div>` : ''}
+    ${bibleRef ? `<div class="hint-bible">📖 ${escapeHtml(bibleRef)}${currentQuiz.bible_text ? ' (개역개정)' : ''}</div>` : ''}
+  `;
+  box.classList.add('show');
+}
+
+// 정답 살짝 보기 — 누르고 있는 동안만 (#91)
+function startFlashAnswer() {
+  const ans = currentQuiz.answer_text ||
+    (currentQuiz.options && currentQuiz.answer_index !== null
+      ? currentQuiz.options[currentQuiz.answer_index] : '?');
+  let flash = document.getElementById('answer-flash');
+  if (!flash) {
+    flash = document.createElement('div');
+    flash.id = 'answer-flash';
+    flash.className = 'answer-flash';
+    document.body.appendChild(flash);
+  }
+  flash.textContent = '⚡ ' + ans;
+  flash.classList.add('show');
+}
+function endFlashAnswer() {
+  const flash = document.getElementById('answer-flash');
+  if (flash) flash.classList.remove('show');
+}
+// 호환 (구 함수명)
+function flashAnswer() { startFlashAnswer(); setTimeout(endFlashAnswer, 100); }
+
+// Toast 알림 (정답 처리 후 1.5초)
+function showToast(message, duration = 1500) {
+  const t = document.getElementById('toast');
+  if (!t) return;
+  t.textContent = message;
+  t.classList.add('show');
+  clearTimeout(t._timer);
+  t._timer = setTimeout(() => t.classList.remove('show'), duration);
+}
+
+function setPhase(p) {
+  phase = p;
+  // Step 0(preview)도 step indicator에 반영
+  const stepMap = { preview: 0, question: 1, buzzing: 2, judging: 3, 'wrong-retry': 2 };
+  const cur = stepMap[p] !== undefined ? stepMap[p] : 1;
+  for (let i = 1; i <= 3; i++) {
+    const el = document.getElementById('s' + i);
+    el.classList.toggle('active', i === cur);
+    el.classList.toggle('done', i < cur && cur > 0);
+  }
+  document.getElementById('l12').classList.toggle('active', cur >= 2);
+  document.getElementById('l23').classList.toggle('active', cur >= 3);
+
+  // q-phase는 항상 표시 (phase actions 보여야)
+  const qpa = document.getElementById('q-phase');
+  if (qpa) {
+    qpa.classList.remove('hide-strict');
+    qpa.style.display = '';
+  }
+  // 다른 영역은 hide-strict 유지 (#90·#100) — revealQuestion/revealOptions/forceUpdateScorePanel만 표시
+  // Step 0 토글 버튼 화살표 갱신
+  const tog = document.getElementById('step0-toggle');
+  if (tog) tog.textContent = (p === 'preview') ? '▼' : '▲';
+
+  // 보기 클릭 활성화 — Step 3(judging)에서만, mc/ox/fill만
+  const hasOptions = currentQuiz && currentQuiz.options && currentQuiz.options.length;
+  const hasAuto = currentQuiz && currentQuiz.answer_index !== null && currentQuiz.answer_index !== undefined;
+
+  // 보기 영역 가시성 (buzzing/judging 단계에서는 항상 보임)
+  const optWrap = document.getElementById('q-options');
+  if (optWrap && hasOptions) {
+    optWrap.style.display = (p === 'question') ? 'none' : 'block';
+  }
+
+  // #137 — 옵션은 항상 enabled (이벤트 위임이 클릭 처리). 시각 잔존만 정리
+  document.querySelectorAll('.option-item').forEach((b) => {
+    b.disabled = false;
+    b.onclick = null;  // 위임이 처리하므로 inline onclick 제거
+    if (p === 'preview' || p === 'question') {
+      b.classList.remove('correct', 'wrong');  // 새 라운드 진입 시 색 정리
+    }
+  });
+
+  // 보기 없는 문제(넌센스/주관식/적용/그림)도 일반 흐름 동일 (#84)
+  // 정답 자동 표시 제거 — 사회자가 [🔒 정답 보기] 버튼 또는 A 키로 확인
+
+  // 타이머 — judging 진입 시 5초 시작, 다른 단계 진입 시 정지
+  if (p === 'judging') {
+    startTimer(5);
+  } else {
+    stopTimer();
+  }
+
+  const area = document.getElementById('q-phase');
+  if (p === 'preview')         area.innerHTML = phaseStep0();
+  else if (p === 'question')   area.innerHTML = phaseQuestion();
+  else if (p === 'buzzing')    area.innerHTML = phaseBuzzing();
+  else if (p === 'judging')    area.innerHTML = phaseJudging();
+  else if (p === 'wrong-retry')area.innerHTML = phaseRetry();
+}
+
+// Step 0 — 진입 시 주제+형식만 (헤더만 표시) — Critical fix
+function phaseStep0() {
+  return `
+    <div class="phase-msg phase-msg-lg">📖 시작하려면 아래 버튼을 눌러 주세요</div>
+    <div class="phase-actions">
+      <button class="primary" onclick="setPhase('question')">▶ 시작 (다음으로)</button>
+      <button class="reveal-btn-inline" onclick="showAnswerBriefly()" title="정답 보기 (A 키 토글)">🔒 정답 보기</button>
+      <button onmousedown="startFlashAnswer()" onmouseup="endFlashAnswer()" onmouseleave="endFlashAnswer()" ontouchstart="startFlashAnswer()" ontouchend="endFlashAnswer()">⚡ 정답 살짝 보기</button>
+      <button class="warn" onclick="showHint()">💡 힌트</button>
+      <button class="ghost" onclick="setView('cards')">⬅ 다른 문제 선택</button>
+    </div>
+    <div id="hint-box" class="hint-box"></div>`;
+}
+
+// ▼ 토글 — 헤더 아래 전체 영역 접기/펴기 (#89)
+let _problemHidden = false;
+function toggleStep0() {
+  _problemHidden = !_problemHidden;
+  // 헤더 아래 모든 영역: step indicator, 문제, 보기, 정답박스, 해설박스, phase-actions
+  const ids = ['q-image-wrap','q-text','q-options','q-answer-box','q-explain-box','q-phase'];
+  const stepInd = document.querySelector('#view-question .step-indicator');
+  ids.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.style.display = _problemHidden ? 'none' : '';
+  });
+  if (stepInd) stepInd.style.display = _problemHidden ? 'none' : '';
+  const tog = document.getElementById('step0-toggle');
+  if (tog) tog.textContent = _problemHidden ? '▼' : '▲';
+}
+
+// 현재 문제 처음부터 다시 시작 (#38)
+function resetCurrentQuiz() {
+  if (!currentQuiz) return;
+  stopTimer();
+  closeAnswerBox();
+  attemptedTeams = [];
+  currentBuzzer = null;
+  // 보기 자동 채점 시각화 초기화
+  document.querySelectorAll('.option-item').forEach(b => b.classList.remove('correct', 'wrong'));
+  // 힌트 박스도 닫음
+  const hint = document.getElementById('hint-box');
+  if (hint) hint.classList.remove('show');
+  setPhase('preview');  // Step 0으로
+  showToast('🔄 처음부터 다시 시작', 1200);
+}
+
+// 전체화면 토글 (#42)
+function toggleFullscreen() {
+  if (!document.fullscreenElement) {
+    document.documentElement.requestFullscreen().catch(() => showToast('전체화면 진입 실패', 1500));
+  } else {
+    document.exitFullscreen();
+  }
+}
+document.addEventListener('fullscreenchange', () => {
+  const btn = document.getElementById('tb-fullscreen');
+  if (btn) {
+    const isFs = !!document.fullscreenElement;
+    btn.querySelector('.ico-text').textContent = isFs ? '🗗' : '⛶';
+  }
+  // 강제 layout 재계산 (#73)
+  document.body.classList.toggle('fs-mode', !!document.fullscreenElement);
+  // 카드 격자·점수판 등 강제 다시 그리기
+  if (typeof renderAll === 'function') {
+    setTimeout(() => renderAll(), 100);
+  }
+  // viewport 단위 강제 재계산을 위해 잠깐 reflow 트리거
+  void document.body.offsetWidth;
+});
+
+function phaseQuestion() {
+  const hasOptions = currentQuiz && currentQuiz.options && currentQuiz.options.length;
+  return `
+    <div class="phase-msg">📖 문제를 진행해 주세요.</div>
+    <div class="phase-actions">
+      <button class="primary" onclick="revealQuestion()" id="btn-show-q">📖 문제 표시</button>
+      ${hasOptions ? `<button class="primary" onclick="revealOptions()" id="btn-show-opt">📋 보기 표시</button>` : ''}
+      <button class="success" onclick="setPhase('buzzing')">🙋 손들기 받기</button>
+      <button class="reveal-btn-inline" onclick="showAnswerBriefly()" title="정답 보기 (A 키 토글)">🔒 정답 보기</button>
+      <button onmousedown="startFlashAnswer()" onmouseup="endFlashAnswer()" onmouseleave="endFlashAnswer()" ontouchstart="startFlashAnswer()" ontouchend="endFlashAnswer()">⚡ 정답 살짝 보기</button>
+      <button class="warn" onclick="showHint()">💡 힌트</button>
+      <button class="ghost" onclick="skipQ()">⏭ 패스</button>
+    </div>
+    <div id="hint-box" class="hint-box"></div>`;
+}
+
+// 문제 본문·이미지 펼치기 (#90·#100) — 강제 표시
+function revealQuestion() {
+  ['q-text','q-image-wrap'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.classList.remove('hide-strict');
+      el.style.display = '';  // inline display: none 잔존 제거 (강제 표시)
+    }
+  });
+  const btn = document.getElementById('btn-show-q');
+  if (btn) { btn.disabled = true; btn.textContent = '✓ 문제 표시됨'; }
+}
+
+// 보기 펼치기 (#74·#100)
+function revealOptions() {
+  const optWrap = document.getElementById('q-options');
+  if (optWrap) {
+    optWrap.classList.remove('hide-strict');
+    optWrap.style.display = '';
+  }
+  const btn = document.getElementById('btn-show-opt');
+  if (btn) { btn.disabled = true; btn.textContent = '✓ 보기 표시됨'; }
+}
+function phaseBuzzing() {
+  const buttons = actors.map((a, i) =>
+    `<button class="${a.color ? 'team-' + a.color : 'team-blue'}" onclick="pickBuzzer(${i})">${escapeHtml(a.name)}</button>`).join('');
+  return `
+    <div class="phase-msg">🙋 누가 손들었나요?</div>
+    <div class="team-buzz">${buttons}</div>
+    <div class="phase-actions">
+      <button class="ghost" onclick="setPhase('question')">⬅ 뒤로</button>
+      <button class="warn" onclick="skipQ()">⏭ 패스</button>
+    </div>`;
+}
+function phaseJudging() {
+  const winner = actors[currentBuzzer];
+  // #133 — 이미 처리된 문제면 ⭕/❌ 버튼 비활성화
+  const s = loadSession();
+  const alreadyDone = s && s.solved.includes(currentQuiz.id);
+  return `
+    <div class="phase-msg phase-msg-lg">🙋 <b style="color:var(--primary)">${escapeHtml(winner.name)}</b>이(가) 답합니다</div>
+    ${alreadyDone ? `<div class="phase-msg" style="color:#fca5a5; font-weight:700;">⚠️ 이미 처리된 문제입니다 — 정답/오답 버튼 사용 불가</div>` : ''}
+    <div class="phase-actions">
+      <button class="success" onclick="markCorrect()" ${alreadyDone ? 'disabled style="opacity:0.4; cursor:not-allowed;"' : ''}>⭕ 정답!</button>
+      <button class="danger" onclick="markWrong()" ${alreadyDone ? 'disabled style="opacity:0.4; cursor:not-allowed;"' : ''}>❌ 오답</button>
+      <button class="ghost" onclick="setPhase('buzzing')">⬅ 뒤로</button>
+    </div>`;
+}
+function phaseRetry() {
+  const lastWrong = actors[attemptedTeams[attemptedTeams.length - 1]];
+  const remaining = actors.map((a, i) =>
+    attemptedTeams.includes(i) ? '' :
+    `<button class="${a.color ? 'team-' + a.color : 'team-blue'}" onclick="pickBuzzer(${i})">${escapeHtml(a.name)}</button>`).join('');
+  const tried = attemptedTeams.map(i =>
+    `<span class="tried-pill">${escapeHtml(actors[i].name)}</span>`).join('');
+  return `
+    <div class="phase-msg phase-msg-lg">❌ <b style="color:var(--danger)">${escapeHtml(lastWrong.name)}</b> 오답!</div>
+    <div class="phase-msg">다음 팀이 맞히면 점수를 받아요</div>
+    <div class="team-buzz">${remaining || '<em style="color:var(--text-mute)">남은 팀 없음 — 패스해 주세요</em>'}</div>
+    <div class="phase-tried">이미 시도: ${tried}</div>
+    <div class="phase-actions">
+      <button class="warn" onclick="skipQ()">⏭ 패스 (아무도 못 맞힘)</button>
+    </div>`;
+}
+
+function pickBuzzer(i) { currentBuzzer = i; setPhase('judging'); }
+function markWrong() {
+  // #133 — 이미 처리된 문제면 동작 안 함
+  const s = loadSession();
+  if (s && s.solved.includes(currentQuiz.id)) {
+    showToast('⚠️ 이미 처리된 문제입니다', 1500);
+    return;
+  }
+  stopTimer();
+  closeAnswerBox();
+  attemptedTeams.push(currentBuzzer); currentBuzzer = null;
+  if (attemptedTeams.length >= actors.length) skipQ();
+  else setPhase('wrong-retry');
+}
+function skipQ() {
+  stopTimer();
+  closeAnswerBox();
+  markSkipped(currentQuiz.id);
+  showToast('⏭ 패스 — 다음 문제로');
+  setView('cards');
+}
+function markCorrect() {
+  // 이미 처리된 문제면 모달 띄우지 않음 (#133)
+  const s = loadSession();
+  if (s && s.solved.includes(currentQuiz.id)) {
+    showToast('⚠️ 이미 처리된 문제입니다', 1500);
+    return;
+  }
+  stopTimer(); closeAnswerBox(); playApplause(); showRewardModal();
+}
+
+// ═════════ Reward Modals ═════════
+function showRewardModal() {
+  const winner = actors[currentBuzzer];
+  const m = document.getElementById('mc');
+  // 정답 근거 (해설 + 성경구절) — 모든 reward 모달 공통
+  const ans = currentQuiz.answer_text || (currentQuiz.options && currentQuiz.answer_index !== null ? currentQuiz.options[currentQuiz.answer_index] : '');
+  const evidence = `
+    <div class="reward-evidence">
+      <div class="ev-label">📖 정답 근거</div>
+      <div class="ev-answer">정답: ${escapeHtml(ans)}</div>
+      ${currentQuiz.explanation ? `<div class="ev-expl">${escapeHtml(currentQuiz.explanation)}</div>` : ''}
+      ${currentQuiz.bible_ref ? `<div class="ev-bible">📖 ${escapeHtml(currentQuiz.bible_ref)}</div>` : ''}
+    </div>`;
+
+  // #78: 큰 두 문구만, 정답 근거 박스 제거
+  if (currentQuiz.reward_type === 'collect') {
+    m.innerHTML = `
+      <div class="reward-big">🍲</div>
+      <h3 class="reward-title-xl">🎉 ${escapeHtml(winner.name)} 정답!</h3>
+      <p class="reward-megaphone">마라탕 재료 하나 골라주세요!</p>
+      <div style="text-align:center; margin-top:2rem;">
+        <button class="primary" onclick="finishCollectSimple()">✓ 확인</button>
+      </div>`;
+  } else if (currentQuiz.reward_type === 'steal') {
+    m.innerHTML = `
+      <div class="reward-big">🔥</div>
+      <h3 class="reward-title-xl">🎉 ${escapeHtml(winner.name)} 정답!</h3>
+      <p class="reward-megaphone">어느 팀에서 빼앗을까요?</p>
+      <div class="reward-team-buttons">
+        ${actors.map((a, i) => i === currentBuzzer ? '' : `
+          <button class="${a.color ? 'team-' + a.color : 'team-blue'}" ${a.inventory.length === 0 ? 'disabled' : ''} onclick="finishStealSimple(${i})">
+            ${escapeHtml(a.name)} (${a.inventory.length})
+          </button>`).join('')}
+      </div>
+      <div style="text-align:center; margin-top:1rem;"><button onclick="closeModal()">취소</button></div>`;
+  } else if (currentQuiz.reward_type === 'gift') {
+    m.innerHTML = `
+      <div class="reward-big">🎁</div>
+      <h3 class="reward-title-xl">🎉 ${escapeHtml(winner.name)} 정답!</h3>
+      <p class="reward-megaphone">어느 팀에 선물할까요?</p>
+      <div class="reward-team-buttons">
+        ${actors.map((a, i) => i === currentBuzzer ? '' : `
+          <button class="${a.color ? 'team-' + a.color : 'team-blue'}" onclick="finishGiftSimple(${i})">
+            ${escapeHtml(a.name)}
+          </button>`).join('')}
+      </div>
+      <div style="text-align:center; margin-top:1rem;"><button onclick="closeModal()">취소</button></div>`;
+  } else if (currentQuiz.reward_type === 'swap') {
+    m.innerHTML = `
+      <div class="reward-big">♻️</div>
+      <h3 class="reward-title-xl">🎉 ${escapeHtml(winner.name)} 정답!</h3>
+      <p class="reward-megaphone">어느 팀과 협력할까요?</p>
+      <div class="reward-team-buttons">
+        ${actors.map((a, i) => i === currentBuzzer ? '' : `
+          <button class="${a.color ? 'team-' + a.color : 'team-blue'}" onclick="finishSwapSimple(${i})">
+            ${escapeHtml(a.name)}
+          </button>`).join('')}
+      </div>
+      <div style="text-align:center; margin-top:1rem;"><button onclick="closeModal()">취소</button></div>`;
+  }
+  document.getElementById('mb').classList.add('show');
+}
+
+// ═════════ 단순 reward 처리 함수 — 난이도 = 점수 (#132) ═════════
+function finishCollectSimple() {
+  if (loadSession().solved.includes(currentQuiz.id)) { showToast('⚠️ 이미 처리된 문제입니다', 1500); closeModal(); return; }
+  const pts = currentQuiz.difficulty || 1;
+  const s0 = loadSession();
+  const a0 = actorsOf(s0);
+  // 난이도만큼 추가 (#132)
+  for (let k = 0; k < pts; k++) a0[currentBuzzer].inventory.push(null);
+  s0.solved.push(currentQuiz.id);
+  s0.current_quiz_id = null;
+  saveSession(s0);
+  const s = loadSession();
+  const a = actorsOf(s);
+  const newScore = a[currentBuzzer].inventory.length;
+  closeModal();
+  showToast(`🎉 ${a[currentBuzzer].name} 정답! 🍲 +${pts}점 (점수 ${newScore})`, 2500);
+  showCorrectFlash();  // 큰 정답 표시
+  ensureScorePanelOpen();
+  forceUpdateScorePanel();  // 점수판 즉시 갱신
+  // setView 호출 X — 사회자가 [🏠 메인으로] 누를 때까지 화면 유지 (#55)
+}
+function finishStealSimple(targetIdx) {
+  if (loadSession().solved.includes(currentQuiz.id)) { showToast('⚠️ 이미 처리된 문제입니다', 1500); closeModal(); return; }
+  const s = loadSession();
+  const a = actorsOf(s);
+  // 난이도만큼 빼앗기 (#132) — 부족하면 가능한 만큼
+  const pts = currentQuiz.difficulty || 1;
+  let stolen = 0;
+  for (let k = 0; k < pts && a[targetIdx].inventory.length > 0; k++) {
+    a[currentBuzzer].inventory.push(a[targetIdx].inventory.pop());
+    stolen++;
+  }
+  // 빼앗기에 실패한 분량은 풀에서 보충
+  for (let k = stolen; k < pts; k++) a[currentBuzzer].inventory.push(null);
+  s.solved.push(currentQuiz.id);
+  s.current_quiz_id = null;
+  saveSession(s);
+  const newWin = a[currentBuzzer].inventory.length;
+  const newTgt = a[targetIdx].inventory.length;
+  closeModal();
+  showToast(`🔥 ${a[currentBuzzer].name} +${pts}점 (${newWin}) / ${a[targetIdx].name} -${stolen}점 (${newTgt})`, 2500);
+  showCorrectFlash();
+  ensureScorePanelOpen();
+  forceUpdateScorePanel();
+}
+function finishGiftSimple(targetIdx) {
+  if (loadSession().solved.includes(currentQuiz.id)) { showToast('⚠️ 이미 처리된 문제입니다', 1500); closeModal(); return; }
+  const s = loadSession();
+  const a = actorsOf(s);
+  const pts = currentQuiz.difficulty || 1;
+  // 본인 +(2 × 난이도), 상대 +난이도 (#132)
+  for (let k = 0; k < pts * 2; k++) a[currentBuzzer].inventory.push(null);
+  for (let k = 0; k < pts; k++) a[targetIdx].inventory.push(null);
+  s.solved.push(currentQuiz.id);
+  s.current_quiz_id = null;
+  saveSession(s);
+  const newWin = a[currentBuzzer].inventory.length;
+  const newTgt = a[targetIdx].inventory.length;
+  closeModal();
+  showToast(`🎁 ${a[currentBuzzer].name} +${pts*2} (${newWin}) / ${a[targetIdx].name} +${pts} (${newTgt})`, 2500);
+  showCorrectFlash();
+  ensureScorePanelOpen();
+  forceUpdateScorePanel();
+}
+function finishSwapSimple(targetIdx) {
+  if (loadSession().solved.includes(currentQuiz.id)) { showToast('⚠️ 이미 처리된 문제입니다', 1500); closeModal(); return; }
+  applyReward(currentQuiz.id, currentBuzzer, { target_idx: targetIdx });
+  const s = loadSession();
+  const a = actorsOf(s);
+  const newWin = a[currentBuzzer].inventory.length;
+  const newTgt = a[targetIdx].inventory.length;
+  closeModal();
+  showToast(`♻️ ${a[currentBuzzer].name} (${newWin}) / ${a[targetIdx].name} (${newTgt}) — 협력!`, 2500);
+  showCorrectFlash();
+  ensureScorePanelOpen();
+  forceUpdateScorePanel();
+}
+
+// 점수판 즉시 갱신 + 사회자 확인용 박스 표시 (#54, #68)
+function forceUpdateScorePanel() {
+  const s = loadSession();
+  if (!s) return;
+  const sa = document.getElementById('score-area');
+  if (sa) sa.innerHTML = renderScorePanel(s);
+  if (typeof renderProgress === 'function') renderProgress(s);
+  // 정답 박스 한 개만 표시 (#107) — q-answer-box 통합
+  const ab = document.getElementById('q-answer-box');
+  if (ab) {
+    ab.classList.remove('hide-strict');
+    ab.style.display = '';
+    ab.classList.add('show');
+  }
+  // q-explain-box는 더 이상 사용 안 함 (#107)
+  const eb = document.getElementById('q-explain-box');
+  if (eb) eb.classList.add('hide-strict');
+}
+
+// 점수 반영 확인을 위한 점수판 자동 펼침
+function ensureScorePanelOpen() {
+  const sb = document.getElementById('sb-right');
+  if (sb && sb.classList.contains('collapsed')) {
+    sb.classList.remove('collapsed');
+    localStorage.setItem('sb_right_collapsed', 'false');
+    if (typeof updateToggleArrows === 'function') updateToggleArrows();
+  }
+}
+function closeModal() { document.getElementById('mb').classList.remove('show'); }
+
+function finishCollect(ingId) {
+  applyReward(currentQuiz.id, currentBuzzer, { ingredient_id: ingId });
+  closeModal(); setView('cards');
+}
+function pickStealTarget(targetIdx) {
+  stealTargetIdx = targetIdx;
+  const target = actors[targetIdx];
+  const counts = {};
+  target.inventory.forEach(id => counts[id] = (counts[id] || 0) + 1);
+  document.getElementById('mc').innerHTML = `
+    <h3>🔥 ${escapeHtml(target.name)}에서 빼앗을 재료 1개 선택</h3>
+    <div class="ingredient-grid">
+      ${Object.entries(counts).map(([id, c]) => {
+        const ing = getIngredient(id);
+        return `<button class="ingredient-btn" onclick="finishSteal('${id}')">${ing.emoji}<span class="label">${ing.name} ×${c}</span></button>`;
+      }).join('')}
+    </div>
+    <div style="text-align:center;"><button onclick="closeModal()">취소</button></div>`;
+}
+function finishSteal(ingId) {
+  applyReward(currentQuiz.id, currentBuzzer, { ingredient_id: ingId, target_idx: stealTargetIdx });
+  closeModal(); setView('cards');
+}
+function giftPick(ingId, btn) {
+  if (giftCollect.length >= 2) return;
+  giftCollect.push(ingId);
+  btn.classList.add('picked'); btn.disabled = true;
+  document.getElementById('gift-show').textContent = giftCollect.map(emojiOf).join(' ');
+  if (giftCollect.length === 2) setTimeout(showGiftRecipient, 500);
+}
+function showGiftRecipient() {
+  document.getElementById('mc').innerHTML = `
+    <h3>🎁 다른 팀에 선물할 분 선택</h3>
+    <p style="text-align:center; color:var(--text-sub);">획득: ${giftCollect.map(emojiOf).join(' ')}</p>
+    <div style="display:flex; gap:0.7rem; flex-wrap:wrap; justify-content:center; margin:1rem 0;">
+      ${actors.map((a, i) => i === currentBuzzer ? '' : `
+        <button class="${a.color ? 'team-' + a.color : 'team-blue'}" onclick="showGiftItem(${i})">${escapeHtml(a.name)}</button>`).join('')}
+    </div>`;
+}
+function showGiftItem(targetIdx) {
+  document.getElementById('mc').innerHTML = `
+    <h3>🎁 선물할 재료 1개 선택</h3>
+    <div class="ingredient-grid">
+      ${giftCollect.map(id => {
+        const ing = getIngredient(id);
+        return `<button class="ingredient-btn" onclick="finishGift('${id}', ${targetIdx})">${ing.emoji}<span class="label">${ing.name}</span></button>`;
+      }).join('')}
+    </div>`;
+}
+function finishGift(giftId, targetIdx) {
+  applyReward(currentQuiz.id, currentBuzzer, {
+    collect_1: giftCollect[0], collect_2: giftCollect[1],
+    gift_id: giftId, target_idx: targetIdx
+  });
+  closeModal(); setView('cards');
+}
+function pickSwapTarget(targetIdx) {
+  swapTargetIdx = targetIdx; swapMy = null; swapTheir = null;
+  const winner = actors[currentBuzzer];
+  const target = actors[targetIdx];
+  const myCounts = {}, tCounts = {};
+  winner.inventory.forEach(id => myCounts[id] = (myCounts[id] || 0) + 1);
+  target.inventory.forEach(id => tCounts[id] = (tCounts[id] || 0) + 1);
+  document.getElementById('mc').innerHTML = `
+    <h3>♻️ ${escapeHtml(winner.name)} ↔ ${escapeHtml(target.name)}</h3>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
+      <div>
+        <h4 style="text-align:center; margin-bottom:0.5rem;">내 재료에서 줄 것</h4>
+        <div class="ingredient-grid">
+          ${Object.entries(myCounts).map(([id, c]) => {
+            const ing = getIngredient(id);
+            return `<button class="ingredient-btn" onclick="swapPickMy('${id}', this)">${ing.emoji}<span class="label">${ing.name}×${c}</span></button>`;
+          }).join('')}
+        </div>
+      </div>
+      <div>
+        <h4 style="text-align:center; margin-bottom:0.5rem;">받을 재료</h4>
+        <div class="ingredient-grid">
+          ${Object.entries(tCounts).map(([id, c]) => {
+            const ing = getIngredient(id);
+            return `<button class="ingredient-btn" onclick="swapPickTheir('${id}', this)">${ing.emoji}<span class="label">${ing.name}×${c}</span></button>`;
+          }).join('')}
+        </div>
+      </div>
+    </div>
+    <div style="text-align:center; margin-top:1rem;">
+      <button class="success" id="swap-ok" disabled onclick="finishSwap()">✓ 교환 확정</button>
+      <button onclick="closeModal()">취소</button>
+    </div>`;
+}
+function swapPickMy(id, btn) {
+  swapMy = id;
+  document.querySelectorAll('#mc > div > div:nth-child(1) .ingredient-btn').forEach(b => b.classList.remove('picked'));
+  btn.classList.add('picked');
+  if (swapMy && swapTheir) document.getElementById('swap-ok').disabled = false;
+}
+function swapPickTheir(id, btn) {
+  swapTheir = id;
+  document.querySelectorAll('#mc > div > div:nth-child(2) .ingredient-btn').forEach(b => b.classList.remove('picked'));
+  btn.classList.add('picked');
+  if (swapMy && swapTheir) document.getElementById('swap-ok').disabled = false;
+}
+function finishSwap() {
+  applyReward(currentQuiz.id, currentBuzzer, { target_idx: swapTargetIdx, my_id: swapMy, their_id: swapTheir });
+  closeModal(); setView('cards');
+}
+
+// ═════════ Results view ═════════
+function showResults() { setView('results'); }
+function renderResults() {
+  const s = loadSession();
+  if (!s) { setView('setup'); return; }
+  const isInd = s.mode === 'individual';
+  const ranking = computeRanking();
+  const total = window.QUIZZES.meta.total;
+  const pct = Math.round(s.solved.length / total * 100);
+  document.getElementById('results-sub').innerHTML =
+    `<b>${isInd ? '개인전' : '팀전'}</b> · 진행 <b style="color:var(--primary)">${s.solved.length}/${total}</b> (${pct}%)`;
+
+  // 막대 그래프 (#94)
+  const maxScore = Math.max(...ranking.map(r => r.total), 1);
+  document.getElementById('results-bars').innerHTML = ranking.map((a, i) => {
+    const w = Math.round(a.total / maxScore * 100);
+    const colorMap = { red:'var(--t-red)', blue:'var(--t-blue)', yellow:'var(--t-yellow)', green:'var(--t-green)' };
+    const color = colorMap[a.color] || 'var(--accent)';
+    const medal = ['🥇','🥈','🥉'][i] || `${i+1}.`;
+    return `
+      <div class="result-bar-row ${i === 0 ? 'rank-1' : ''}">
+        <div class="result-medal">${medal}</div>
+        <div class="result-name">${escapeHtml(a.name)}</div>
+        <div class="result-bar-track">
+          <div class="result-bar-fill" style="width:${w}%; background:${color};"></div>
+          <span class="result-bar-score">${a.total}</span>
+        </div>
+      </div>`;
+  }).join('');
+  const medals = ['🥇','🥈','🥉','4️⃣','5️⃣','6️⃣','7️⃣','8️⃣','9️⃣','🔟'];
+  const topN = isInd ? Math.min(3, ranking.length) : ranking.length;
+  document.getElementById('podium').innerHTML = ranking.map((a, i) => {
+    const medal = i < medals.length ? medals[i] : `${i+1}위`;
+    const mvpTag = (isInd && i < topN) ? '<span style="color:var(--accent); margin-left:0.5rem;">⭐ MVP</span>' : '';
+    return `
+      <div class="podium-item ${(isInd && i < topN) ? 'mvp' : ''}">
+        <div class="medal">${medal}</div>
+        <div class="name">${escapeHtml(a.name)}${mvpTag}</div>
+        <div class="pot">${a.inventory.map(emojiOf).join(' ') || '🍲'}</div>
+        <div class="count">${a.total}개 · ${a.diversity}종</div>
+      </div>`;
+  }).join('');
+}
+function exportTxt() {
+  const s = loadSession();
+  const ranking = computeRanking();
+  const isInd = s.mode === 'individual';
+  const lines = [
+    `🏆 ${window.QUIZZES.meta.title} 결과`,
+    `모드: ${isInd ? '개인전' : '팀전'}`,
+    `시작: ${s.started_at}`,
+    `푼 문제: ${s.solved.length}/${window.QUIZZES.meta.total}`,
+    '',
+    '── 순위 ──',
+  ];
+  ranking.forEach((a, i) => {
+    const tag = (isInd && i < 3) ? ' ⭐MVP' : '';
+    lines.push(`${i+1}위 ${a.name}${tag}: ${a.total}개 (${a.diversity}종)`);
+    lines.push(`  ${a.inventory.map(emojiOf).join(' ')}`);
+  });
+  const blob = new Blob([lines.join('\n')], { type: 'text/plain;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = `결과_${new Date().toISOString().slice(0,10)}.txt`;
+  a.click();
+}
+function restartContest() {
+  if (!confirm('새 대회를 시작할까요? (현재 기록 삭제)')) return;
+  clearSession(); setView('setup');
+}
+
+// ═════════ Font Zoom (문제 풀이 화면) ═════════
+const FONT_ZOOM_KEY = 'q_font_zoom';
+function applyFontZoom() {
+  const z = parseFloat(localStorage.getItem(FONT_ZOOM_KEY) || '1');
+  document.documentElement.style.setProperty('--q-zoom', z);
+}
+function changeFontZoom(delta) {
+  let z = parseFloat(localStorage.getItem(FONT_ZOOM_KEY) || '1');
+  if (delta === 0) z = 1;
+  else z = Math.max(0.6, Math.min(2.0, z + delta * 0.15));
+  localStorage.setItem(FONT_ZOOM_KEY, z.toFixed(2));
+  applyFontZoom();
+}
+
+// ═════════ 5초 타이머 + Web Audio 비프음 ═════════
+let timerAudioCtx = null;
+function getAudioCtx() {
+  if (!timerAudioCtx) {
+    try { timerAudioCtx = new (window.AudioContext || window.webkitAudioContext)(); }
+    catch (e) { return null; }
+  }
+  return timerAudioCtx;
+}
+function beep(freq = 800, duration = 0.12, volume = 0.3, type = 'sine') {
+  const ctx = getAudioCtx();
+  if (!ctx) return;
+  const osc = ctx.createOscillator();
+  const gain = ctx.createGain();
+  osc.type = type;
+  osc.frequency.value = freq;
+  gain.gain.setValueAtTime(volume, ctx.currentTime);
+  gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + duration);
+  osc.connect(gain).connect(ctx.destination);
+  osc.start();
+  osc.stop(ctx.currentTime + duration);
+}
+
+// 화려한 효과음 (#52) — 다중 osc 화음
+function chord(freqs, duration = 0.18, volume = 0.25) {
+  freqs.forEach((f, i) => {
+    setTimeout(() => beep(f, duration, volume, i % 2 === 0 ? 'sine' : 'triangle'), i * 30);
+  });
+}
+
+// 박수 효과음 (#124) — White noise burst
+function clapBurst(volume = 0.6) {
+  const ctx = getAudioCtx();
+  if (!ctx) return;
+  const bufferSize = Math.floor(ctx.sampleRate * 0.08);
+  const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+  const data = buffer.getChannelData(0);
+  for (let i = 0; i < bufferSize; i++) {
+    // 박수의 짧고 날카로운 어택 + 빠른 감쇠
+    const env = Math.pow(1 - i / bufferSize, 2.2);
+    data[i] = (Math.random() * 2 - 1) * env;
+  }
+  const src = ctx.createBufferSource();
+  src.buffer = buffer;
+  // 고음 강조 (박수 특유의 찰칵 느낌)
+  const hp = ctx.createBiquadFilter();
+  hp.type = 'highpass';
+  hp.frequency.value = 1500;
+  const gain = ctx.createGain();
+  gain.gain.value = volume;
+  src.connect(hp).connect(gain).connect(ctx.destination);
+  src.start();
+}
+function playApplause() {
+  // 여러 사람이 박수치는 효과 — 불규칙한 간격 + 볼륨 변화
+  const pattern = [
+    [0, 0.55], [80, 0.45], [180, 0.6], [240, 0.4], [330, 0.55],
+    [420, 0.65], [510, 0.5], [600, 0.55], [700, 0.45], [820, 0.6],
+    [920, 0.5], [1020, 0.55], [1140, 0.65], [1240, 0.5], [1360, 0.55],
+    [1480, 0.45], [1600, 0.6], [1740, 0.5], [1880, 0.55], [2020, 0.45]
+  ];
+  pattern.forEach(([t, v]) => {
+    setTimeout(() => clapBurst(v + (Math.random() - 0.5) * 0.15), t + Math.random() * 30);
+  });
+}
+
+// 5→4→3→2→1 음계 (5도씩 상승)
+const TIMER_TONES = {
+  5: { freqs: [523, 659], type: 'sine' },        // C5+E5
+  4: { freqs: [587, 740] },                       // D5+F#5
+  3: { freqs: [659, 831] },                       // E5+G#5
+  2: { freqs: [784, 988], urgent: true },         // G5+B5
+  1: { freqs: [988, 1318], urgent: true },        // B5+E6
+};
+
+function timerBeep(remaining) {
+  const tone = TIMER_TONES[remaining];
+  if (tone) {
+    chord(tone.freqs, 0.2, tone.urgent ? 0.4 : 0.3);
+    if (tone.urgent) {
+      // 마지막 1·2초는 추가 비브라토
+      setTimeout(() => beep(tone.freqs[0] * 1.05, 0.08, 0.25, 'triangle'), 100);
+    }
+  }
+}
+
+// 종료음 (종소리) — 0.6초 긴 sine + decay
+function timerEndChime() {
+  chord([440, 554, 659], 0.5, 0.35);  // A4-C#5-E5 (메이저 코드)
+  setTimeout(() => chord([587, 740, 880], 0.6, 0.35), 200);  // D5-F#5-A5
+}
+
+let timerInterval = null;
+let timerRemaining = 0;
+function startTimer(seconds = 5) {
+  stopTimer();
+  timerRemaining = seconds;
+  const overlay = document.getElementById('timer-overlay');
+  const num = document.getElementById('timer-num');
+  num.textContent = timerRemaining;
+  overlay.classList.add('show');
+  num.classList.remove('urgent');
+
+  // 시작음 — 화음
+  timerBeep(seconds);
+
+  timerInterval = setInterval(() => {
+    timerRemaining--;
+    if (timerRemaining <= 0) {
+      stopTimer();
+      timerEndChime();  // 종료 종소리
+      if (currentBuzzer !== null) markWrong();
+      return;
+    }
+    num.textContent = timerRemaining;
+    if (timerRemaining <= 2) {
+      num.classList.add('urgent');
+    }
+    timerBeep(timerRemaining);  // 음계 변화 화음
+  }, 1000);
+}
+function stopTimer() {
+  if (timerInterval) { clearInterval(timerInterval); timerInterval = null; }
+  const overlay = document.getElementById('timer-overlay');
+  if (overlay) overlay.classList.remove('show');
+}
+
+// 타이머 일시정지/재개 (#114)
+let _timerPaused = false;
+function pauseTimer() {
+  if (timerInterval) { clearInterval(timerInterval); timerInterval = null; _timerPaused = true; }
+}
+function resumeTimer() {
+  if (!_timerPaused || timerInterval) return;
+  _timerPaused = false;
+  timerInterval = setInterval(() => {
+    timerRemaining--;
+    if (timerRemaining <= 0) { stopTimer(); timerEndChime(); if (currentBuzzer !== null) markWrong(); return; }
+    document.getElementById('timer-num').textContent = timerRemaining;
+    if (timerRemaining <= 2) document.getElementById('timer-num').classList.add('urgent');
+    timerBeep(timerRemaining);
+  }, 1000);
+}
+
+// ═════════ Card Grid Zoom ═════════
+const CARD_ZOOM_KEY = 'card_zoom';
+function applyCardZoom() {
+  const z = parseFloat(localStorage.getItem(CARD_ZOOM_KEY) || '1');
+  document.documentElement.style.setProperty('--card-zoom', z);
+}
+function changeCardZoom(delta) {
+  let z = parseFloat(localStorage.getItem(CARD_ZOOM_KEY) || '1');
+  if (delta === 0) z = 1;
+  else z = Math.max(0.6, Math.min(1.8, z + delta * 0.15));
+  localStorage.setItem(CARD_ZOOM_KEY, z.toFixed(2));
+  applyCardZoom();
+}
+
+// ═════════ Card Shuffle (랜덤 섞기) ═════════
+const SHUFFLE_KEY = 'card_order';
+function shuffleCards() {
+  const ids = window.QUIZZES.quizzes.map(q => q.id);
+  // Fisher-Yates shuffle
+  for (let i = ids.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [ids[i], ids[j]] = [ids[j], ids[i]];
+  }
+  localStorage.setItem(SHUFFLE_KEY, JSON.stringify(ids));
+  applyShuffleOrder();
+  renderAll();
+  showToast('🔀 카드를 섞었어요!');
+}
+function applyShuffleOrder() {
+  const raw = localStorage.getItem(SHUFFLE_KEY);
+  if (!raw) return;
+  try {
+    const order = JSON.parse(raw);
+    const map = new Map(window.QUIZZES.quizzes.map(q => [q.id, q]));
+    const reordered = order.map(id => map.get(id)).filter(Boolean);
+    // 새로 추가된 quiz가 있으면 끝에 붙임
+    const used = new Set(order);
+    for (const q of window.QUIZZES.quizzes) if (!used.has(q.id)) reordered.push(q);
+    window.QUIZZES.quizzes = reordered;
+  } catch {}
+}
+
+// ═════════ Sidebar Resizer (드래그로 폭 조정) ═════════
+function initResizer(handleId, side) {
+  const handle = document.getElementById(handleId);
+  if (!handle) return;
+  const cssVar = side === 'left' ? '--sb-w' : '--sb-w-r';
+  const minWidth = side === 'left' ? 180 : 220;
+  const maxWidth = side === 'left' ? 500 : 600;
+  const defaultWidth = side === 'left' ? 240 : 280;
+  const storageKey = `sidebar_width_${side}`;
+
+  // 저장된 폭 복원
+  const saved = localStorage.getItem(storageKey);
+  if (saved) document.documentElement.style.setProperty(cssVar, saved + 'px');
+
+  let dragging = false, startX = 0, startWidth = 0;
+
+  handle.addEventListener('mousedown', (e) => {
+    dragging = true;
+    startX = e.clientX;
+    startWidth = parseInt(getComputedStyle(document.documentElement).getPropertyValue(cssVar)) || defaultWidth;
+    handle.classList.add('dragging');
+    document.body.classList.add('resizing');
+    e.preventDefault();
+  });
+
+  document.addEventListener('mousemove', (e) => {
+    if (!dragging) return;
+    const delta = e.clientX - startX;
+    let newWidth = side === 'left' ? startWidth + delta : startWidth - delta;
+    newWidth = Math.max(minWidth, Math.min(maxWidth, newWidth));
+    document.documentElement.style.setProperty(cssVar, newWidth + 'px');
+  });
+
+  document.addEventListener('mouseup', () => {
+    if (!dragging) return;
+    dragging = false;
+    handle.classList.remove('dragging');
+    document.body.classList.remove('resizing');
+    const finalWidth = parseInt(getComputedStyle(document.documentElement).getPropertyValue(cssVar));
+    localStorage.setItem(storageKey, finalWidth);
+  });
+
+  // 더블클릭 → 기본값 복원
+  handle.addEventListener('dblclick', () => {
+    document.documentElement.style.setProperty(cssVar, defaultWidth + 'px');
+    localStorage.removeItem(storageKey);
+  });
+}
+
+// ═════════ Keyboard shortcuts ═════════
+document.addEventListener('keydown', (e) => {
+  // input/textarea focus 중에는 무시
+  if (e.target.matches('input, textarea')) return;
+  // question view에서만 동작
+  if (document.getElementById('view-question').style.display === 'none') return;
+  if (e.key.toLowerCase() === 'a') {
+    showAnswerBriefly();
+    e.preventDefault();
+  }
+});
+
+// ═════════ Init ═════════
+window.addEventListener('load', async () => {
+  if (!window.QUIZZES) {
+    document.body.innerHTML = '<h1>❌ data.js 없음</h1><p style="text-align:center;">scripts/03_build_webapp.py를 먼저 실행하세요.</p>';
+    return;
+  }
+  // 사이드바 상태 복원
+  if (localStorage.getItem('sb_left_collapsed')  === 'true') document.getElementById('sb-left').classList.add('collapsed');
+  if (localStorage.getItem('sb_right_collapsed') === 'true') document.getElementById('sb-right').classList.add('collapsed');
+
+  // 드래그 리사이저 초기화
+  initResizer('resizer-left', 'left');
+  initResizer('resizer-right', 'right');
+
+  // 토글 버튼 화살표 초기 동기화
+  updateToggleArrows();
+  // 사이드바 섹션 접기/펴기 상태 복원
+  restoreSectionStates();
+
+  // 미션 카드 5장을 quizzes 끝에 추가 (한 번만)
+  if (window.QUIZZES && !window.QUIZZES._mission_added) {
+    window.QUIZZES.quizzes = window.QUIZZES.quizzes.concat(MISSION_CARDS);
+    window.QUIZZES.meta.total = window.QUIZZES.quizzes.length;
+    window.QUIZZES._mission_added = true;
+  }
+
+  // 폰트 줌 + 카드 줌 + 셔플 순서 복원
+  applyFontZoom();
+  applyCardZoom();
+  applyShuffleOrder();
+
+  // 항상 시작 화면(setup view)으로 진입
+  // 이전 세션이 있으면 setup 화면의 [⏮ 이전 세션 복구] 버튼으로 복구
+  await loadSessionWithServerSync();  // 백그라운드 동기화만 (자동 진입 X)
+  setView('setup');
+});
+</script>
+</body>
+</html>

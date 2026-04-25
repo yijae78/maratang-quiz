@@ -1,0 +1,1334 @@
+{
+  "meta": {
+    "source": "DOCX 자료1 (교리퀴즈대회 예상문제집)",
+    "extracted_at": "2026-04-25T10:47:04.230576",
+    "total": 70,
+    "by_style": {
+      "mc": 28,
+      "ox": 21,
+      "fill": 7,
+      "open": 7,
+      "apply": 7
+    },
+    "by_topic": {
+      "bibliology": 10,
+      "theology_proper": 10,
+      "christology": 10,
+      "pneumatology": 10,
+      "soteriology": 10,
+      "ecclesiology": 10,
+      "eschatology": 10
+    }
+  },
+  "quizzes": [
+    {
+      "id": "q-bibliology-01",
+      "topic_id": "bibliology",
+      "lesson_no": 1,
+      "style": "mc",
+      "question": "성경은 주로 누가 쓰게 하신 책일까요?",
+      "options": [
+        "아주 똑똑한 사람들",
+        "유명한 왕과 학자들",
+        "하나님께서 성령님을 통해 쓰게 하신 책",
+        "천사들"
+      ],
+      "answer_index": 2,
+      "answer_text": "③",
+      "explanation": "성경은 사람이 기록했지만, 하나님께서 성령님을 통해 쓰게 하신 책이기 때문이에요.",
+      "bible_ref": "",
+      "source_origin": "DOCX-자료1",
+      "accepted_keywords": [
+        "하나님께서 성령님을 통해 쓰게 하신 책"
+      ]
+    },
+    {
+      "id": "q-bibliology-02",
+      "topic_id": "bibliology",
+      "lesson_no": 1,
+      "style": "ox",
+      "question": "성경은 사람의 생각만 모아 놓은 책이다.",
+      "options": [
+        "⭕ 그렇다",
+        "❌ 아니다"
+      ],
+      "answer_index": 1,
+      "answer_text": "❌",
+      "explanation": "성경에는 사람의 말이 아니라, 하나님께서 주신 말씀이 담겨 있어요.",
+      "bible_ref": "",
+      "source_origin": "DOCX-자료1",
+      "accepted_keywords": [
+        "❌ 아니다"
+      ]
+    },
+    {
+      "id": "q-bibliology-03",
+      "topic_id": "bibliology",
+      "lesson_no": 1,
+      "style": "mc",
+      "question": "성경을 쓰실 때 하나님께서 사용하신 분은 누구일까요?",
+      "options": [
+        "예수님",
+        "천사",
+        "성령님",
+        "모세"
+      ],
+      "answer_index": 2,
+      "answer_text": "③",
+      "explanation": "하나님께서는 성령님을 통해 사람들에게 말씀을 기록하게 하셨어요.",
+      "bible_ref": "",
+      "source_origin": "DOCX-자료1",
+      "accepted_keywords": [
+        "성령님"
+      ]
+    },
+    {
+      "id": "q-bibliology-04",
+      "topic_id": "bibliology",
+      "lesson_no": 1,
+      "style": "ox",
+      "question": "성경은 한 사람이 한 번에 다 쓴 책이다.",
+      "options": [
+        "⭕ 그렇다",
+        "❌ 아니다"
+      ],
+      "answer_index": 1,
+      "answer_text": "❌",
+      "explanation": "성경은 많은 사람들이 오랜 시간에 걸쳐 나누어 기록했어요.",
+      "bible_ref": "",
+      "source_origin": "DOCX-자료1",
+      "accepted_keywords": [
+        "❌ 아니다"
+      ]
+    },
+    {
+      "id": "q-bibliology-05",
+      "topic_id": "bibliology",
+      "lesson_no": 1,
+      "style": "mc",
+      "question": "성경은 왜 믿을 수 있는 책일까요?",
+      "options": [
+        "아주 오래된 책이기 때문에",
+        "사람들이 많이 읽어서",
+        "하나님께서 성령님을 통해 쓰게 하셨기 때문에",
+        "교회에 있기 때문에"
+      ],
+      "answer_index": 2,
+      "answer_text": "③",
+      "explanation": "성경은 하나님께서 직접 말씀하신 내용이기 때문에 믿을 수 있어요.",
+      "bible_ref": "",
+      "source_origin": "DOCX-자료1",
+      "accepted_keywords": [
+        "하나님께서 성령님을 통해 쓰게 하셨기 때문에"
+      ]
+    },
+    {
+      "id": "q-bibliology-06",
+      "topic_id": "bibliology",
+      "lesson_no": 1,
+      "style": "fill",
+      "question": "“모든 성경은 하나님의 ( )으로 된 것입니다.”",
+      "options": null,
+      "answer_index": null,
+      "answer_text": "감동",
+      "explanation": "하나님께서 사람들의 마음을 움직여 말씀을 쓰게 하셨다는 뜻이에요.",
+      "bible_ref": "",
+      "source_origin": "DOCX-자료1",
+      "accepted_keywords": [
+        "감동"
+      ]
+    },
+    {
+      "id": "q-bibliology-07",
+      "topic_id": "bibliology",
+      "lesson_no": 1,
+      "style": "ox",
+      "question": "성경은 하나님께서 우리에게 알려 주고 싶은 이야기를 담고 있다.",
+      "options": [
+        "⭕ 그렇다",
+        "❌ 아니다"
+      ],
+      "answer_index": 0,
+      "answer_text": "⭕",
+      "explanation": "성경에는 하나님께서 우리에게 전하고 싶은 말씀이 들어 있어요.",
+      "bible_ref": "",
+      "source_origin": "DOCX-자료1",
+      "accepted_keywords": [
+        "⭕ 그렇다"
+      ]
+    },
+    {
+      "id": "q-bibliology-08",
+      "topic_id": "bibliology",
+      "lesson_no": 1,
+      "style": "mc",
+      "question": "성경은 우리에게 무엇을 알려 주는 책일까요?",
+      "options": [
+        "세상 역사 이야기",
+        "재미있는 옛날 이야기",
+        "하나님의 말씀과 뜻",
+        "공부를 잘하는 방법"
+      ],
+      "answer_index": 2,
+      "answer_text": "③",
+      "explanation": "성경은 하나님이 어떤 분이신지, 어떻게 살기 원하시는지 알려 줘요.",
+      "bible_ref": "",
+      "source_origin": "DOCX-자료1",
+      "accepted_keywords": [
+        "하나님의 말씀과 뜻"
+      ]
+    },
+    {
+      "id": "q-bibliology-09",
+      "topic_id": "bibliology",
+      "lesson_no": 1,
+      "style": "open",
+      "question": "성경은 어떤 책인지 한 문장으로 말해 보세요.",
+      "options": null,
+      "answer_index": null,
+      "answer_text": "성경은 하나님께서 성령님을 통해 쓰게 하신 하나님의 말씀입니다.",
+      "explanation": "어린이 교재의 ‘한 문장 신앙 고백’에서 배운 내용을 그대로 말하면 돼요.",
+      "bible_ref": "",
+      "source_origin": "DOCX-자료1",
+      "accepted_keywords": [],
+      "scoring_hint": "성경은 하나님께서 성령님을 통해 쓰게 하신 하나님의 말씀입니다."
+    },
+    {
+      "id": "q-bibliology-10",
+      "topic_id": "bibliology",
+      "lesson_no": 1,
+      "style": "apply",
+      "question": "성경이 하나님의 말씀이라면, 나는 성경을 어떻게 대해야 할까요?",
+      "options": null,
+      "answer_index": null,
+      "answer_text": "소중히 읽고, 하나님의 말씀으로 믿어요.",
+      "explanation": "성경이 하나님의 말씀이기 때문에 귀하게 여기고 읽어야 해요.",
+      "bible_ref": "",
+      "source_origin": "DOCX-자료1",
+      "accepted_keywords": [],
+      "scoring_hint": "소중히 읽고, 하나님의 말씀으로 믿어요."
+    },
+    {
+      "id": "q-theology_proper-01",
+      "topic_id": "theology_proper",
+      "lesson_no": 2,
+      "style": "mc",
+      "question": "하나님은 어떤 분이신가요?",
+      "options": [
+        "다른 신이 만들어 주셨다",
+        "세상이 생길 때 함께 생기셨다",
+        "원래부터 스스로 계신 분이다",
+        "천사에게서 오셨다"
+      ],
+      "answer_index": 2,
+      "answer_text": "③",
+      "explanation": "하나님은 누가 만든 분이 아니라 처음부터 계신 분이에요.",
+      "bible_ref": "",
+      "source_origin": "DOCX-자료1",
+      "accepted_keywords": [
+        "원래부터 스스로 계신 분이다"
+      ]
+    },
+    {
+      "id": "q-theology_proper-02",
+      "topic_id": "theology_proper",
+      "lesson_no": 2,
+      "style": "ox",
+      "question": "하나님은 시작과 끝이 있으신 분이다.",
+      "options": [
+        "⭕ 그렇다",
+        "❌ 아니다"
+      ],
+      "answer_index": 1,
+      "answer_text": "❌",
+      "explanation": "하나님은 시작도 끝도 없으신 영원한 분이에요.",
+      "bible_ref": "",
+      "source_origin": "DOCX-자료1",
+      "accepted_keywords": [
+        "❌ 아니다"
+      ]
+    },
+    {
+      "id": "q-theology_proper-03",
+      "topic_id": "theology_proper",
+      "lesson_no": 2,
+      "style": "mc",
+      "question": "‘영원하신 하나님’이라는 말의 뜻으로 가장 알맞은 것은?",
+      "options": [
+        "아주 오래 사신 분",
+        "시간이 많은 분",
+        "언제나 계신 분",
+        "나중에 생긴 분"
+      ],
+      "answer_index": 2,
+      "answer_text": "③",
+      "explanation": "하나님은 언제나 계시고 앞으로도 항상 계세요.",
+      "bible_ref": "",
+      "source_origin": "DOCX-자료1",
+      "accepted_keywords": [
+        "언제나 계신 분"
+      ]
+    },
+    {
+      "id": "q-theology_proper-04",
+      "topic_id": "theology_proper",
+      "lesson_no": 2,
+      "style": "ox",
+      "question": "사람은 하나님이 만드셨지만, 하나님은 누군가에게 만들어지지 않으셨다.",
+      "options": [
+        "⭕ 그렇다",
+        "❌ 아니다"
+      ],
+      "answer_index": 0,
+      "answer_text": "⭕",
+      "explanation": "하나님은 창조주이시고, 스스로 계신 분이에요. 출3:14",
+      "bible_ref": "",
+      "source_origin": "DOCX-자료1",
+      "accepted_keywords": [
+        "⭕ 그렇다"
+      ]
+    },
+    {
+      "id": "q-theology_proper-05",
+      "topic_id": "theology_proper",
+      "lesson_no": 2,
+      "style": "mc",
+      "question": "성경은 하나님이 언제부터 계셨다고 말하나요?",
+      "options": [
+        "세상이 만들어진 후부터",
+        "산이 생긴 뒤부터",
+        "영원 전부터 영원까지",
+        "사람 이후부터"
+      ],
+      "answer_index": 2,
+      "answer_text": "③",
+      "explanation": "성경은 하나님이 영원부터 영원까지 계신 분이라고 말해요, 창90:2",
+      "bible_ref": "",
+      "source_origin": "DOCX-자료1",
+      "accepted_keywords": [
+        "영원 전부터 영원까지"
+      ]
+    },
+    {
+      "id": "q-theology_proper-06",
+      "topic_id": "theology_proper",
+      "lesson_no": 2,
+      "style": "fill",
+      "question": "하나님은 누가 만든 분이 아니라, ( ) 계신 분입니다.",
+      "options": null,
+      "answer_index": null,
+      "answer_text": "스스로",
+      "explanation": "하나님은 다른 누군가에게 만들어지지 않으셨어요.",
+      "bible_ref": "",
+      "source_origin": "DOCX-자료1",
+      "accepted_keywords": [
+        "스스로"
+      ]
+    },
+    {
+      "id": "q-theology_proper-07",
+      "topic_id": "theology_proper",
+      "lesson_no": 2,
+      "style": "ox",
+      "question": "하나님은 지금도 살아 계신 하나님이시다.",
+      "options": [
+        "⭕ 그렇다",
+        "❌ 아니다"
+      ],
+      "answer_index": 0,
+      "answer_text": "⭕",
+      "explanation": "하나님은 과거에만 계셨던 분이 아니라 지금도 계세요.",
+      "bible_ref": "",
+      "source_origin": "DOCX-자료1",
+      "accepted_keywords": [
+        "⭕ 그렇다"
+      ]
+    },
+    {
+      "id": "q-theology_proper-08",
+      "topic_id": "theology_proper",
+      "lesson_no": 2,
+      "style": "mc",
+      "question": "하나님이 영원하시다는 사실은 우리에게 무엇을 알려 줄까요?",
+      "options": [
+        "하나님은 멀리 계신다",
+        "하나님은 변하신다",
+        "언제나 믿을 수 있다",
+        "하나님은 쉬신다"
+      ],
+      "answer_index": 2,
+      "answer_text": "③",
+      "explanation": "언제나 계시는 하나님은 항상 믿을 수 있어요.",
+      "bible_ref": "",
+      "source_origin": "DOCX-자료1",
+      "accepted_keywords": [
+        "언제나 믿을 수 있다"
+      ]
+    },
+    {
+      "id": "q-theology_proper-09",
+      "topic_id": "theology_proper",
+      "lesson_no": 2,
+      "style": "open",
+      "question": "하나님은 어떤 분이신지 한 문장으로 말해 보세요.",
+      "options": null,
+      "answer_index": null,
+      "answer_text": "하나님은 스스로 계신 영원하신 분이십니다.",
+      "explanation": "오늘 배운 ‘한 문장 신앙 고백’을 떠올리면 돼요.",
+      "bible_ref": "",
+      "source_origin": "DOCX-자료1",
+      "accepted_keywords": [],
+      "scoring_hint": "하나님은 스스로 계신 영원하신 분이십니다."
+    },
+    {
+      "id": "q-theology_proper-10",
+      "topic_id": "theology_proper",
+      "lesson_no": 2,
+      "style": "apply",
+      "question": "영원하신 하나님을 믿는 나는 어떻게 살아가면 좋을까요?",
+      "options": null,
+      "answer_index": null,
+      "answer_text": "언제나 하나님을 믿고 의지하며 살아요.",
+      "explanation": "하나님은 변하지 않으시기 때문에 늘 믿고 따라갈 수 있어요.",
+      "bible_ref": "",
+      "source_origin": "DOCX-자료1",
+      "accepted_keywords": [],
+      "scoring_hint": "언제나 하나님을 믿고 의지하며 살아요."
+    },
+    {
+      "id": "q-christology-01",
+      "topic_id": "christology",
+      "lesson_no": 3,
+      "style": "mc",
+      "question": "예수님은 누구신가요?",
+      "options": [
+        "착한 선생님",
+        "위대한 사람",
+        "하나님이시며 사람이신 분",
+        "천사"
+      ],
+      "answer_index": 2,
+      "answer_text": "③",
+      "explanation": "예수님은 하나님이시면서 우리를 위해 사람이 되어 오셨어요.",
+      "bible_ref": "요한복음 1장 1절",
+      "source_origin": "DOCX-자료1",
+      "accepted_keywords": [
+        "하나님이시며 사람이신 분"
+      ]
+    },
+    {
+      "id": "q-christology-02",
+      "topic_id": "christology",
+      "lesson_no": 3,
+      "style": "ox",
+      "question": "예수님은 하나님이 아니시고 사람일 뿐이다.",
+      "options": [
+        "⭕ 그렇다",
+        "❌ 아니다"
+      ],
+      "answer_index": 1,
+      "answer_text": "❌",
+      "explanation": "성경은 예수님이 하나님이시라고 분명히 말해요.",
+      "bible_ref": "요한복음 1장 1절",
+      "source_origin": "DOCX-자료1",
+      "accepted_keywords": [
+        "❌ 아니다"
+      ]
+    },
+    {
+      "id": "q-christology-03",
+      "topic_id": "christology",
+      "lesson_no": 3,
+      "style": "mc",
+      "question": "예수님을 ‘하나님의 아들’이라고 부르는 이유는 무엇일까요?",
+      "options": [
+        "하나님이 예수님을 만드셨기 때문에",
+        "예수님이 천사이기 때문에",
+        "예수님이 하나님과 똑같은 분이시기 때문에",
+        "예수님이 특별한 능력이 있어서"
+      ],
+      "answer_index": 2,
+      "answer_text": "③",
+      "explanation": "예수님은 바로 하나님이시기 때문이에요. 예수님은 하나님과 같아요.",
+      "bible_ref": "요한복음 10장 30절",
+      "source_origin": "DOCX-자료1",
+      "accepted_keywords": [
+        "예수님이 하나님과 똑같은 분이시기 때문에"
+      ]
+    },
+    {
+      "id": "q-christology-04",
+      "topic_id": "christology",
+      "lesson_no": 3,
+      "style": "ox",
+      "question": "예수님은 우리와 같은 몸을 가지고 이 땅에 오셨다.",
+      "options": [
+        "⭕ 그렇다",
+        "❌ 아니다"
+      ],
+      "answer_index": 0,
+      "answer_text": "⭕",
+      "explanation": "말씀이 육신이 되어 우리 가운데 오셨어요.",
+      "bible_ref": "요한복음 1장 14절",
+      "source_origin": "DOCX-자료1",
+      "accepted_keywords": [
+        "⭕ 그렇다"
+      ]
+    },
+    {
+      "id": "q-christology-05",
+      "topic_id": "christology",
+      "lesson_no": 3,
+      "style": "mc",
+      "question": "예수님이 사람이 되어 오신 이유로 가장 알맞은 것은?",
+      "options": [
+        "세상을 여행하려고",
+        "사람들에게 유명해지려고",
+        "우리를 사랑하시고 구원하시기 위해",
+        "기적을 보여 주려고"
+      ],
+      "answer_index": 2,
+      "answer_text": "③",
+      "explanation": "예수님은 우리를 구원하시기 위해 사람이 되셨어요.",
+      "bible_ref": "요한복음 3장 16절",
+      "source_origin": "DOCX-자료1",
+      "accepted_keywords": [
+        "우리를 사랑하시고 구원하시기 위해"
+      ]
+    },
+    {
+      "id": "q-christology-06",
+      "topic_id": "christology",
+      "lesson_no": 3,
+      "style": "fill",
+      "question": "예수님은 참 ( )이시며 참 ( )이십니다.",
+      "options": null,
+      "answer_index": null,
+      "answer_text": "하나님 / 사람",
+      "explanation": "예수님은 두 본성을 모두 가지신 분이에요.",
+      "bible_ref": "요한복음 1장 14절",
+      "source_origin": "DOCX-자료1",
+      "accepted_keywords": [
+        "하나님 / 사람"
+      ]
+    },
+    {
+      "id": "q-christology-07",
+      "topic_id": "christology",
+      "lesson_no": 3,
+      "style": "ox",
+      "question": "예수님을 보면 하나님이 어떤 분이신지 알 수 있다.",
+      "options": [
+        "⭕ 그렇다",
+        "❌ 아니다"
+      ],
+      "answer_index": 0,
+      "answer_text": "⭕",
+      "explanation": "예수님은 하나님의 모습을 우리에게 보여 주셨어요.",
+      "bible_ref": "요한복음 14장 9절",
+      "source_origin": "DOCX-자료1",
+      "accepted_keywords": [
+        "⭕ 그렇다"
+      ]
+    },
+    {
+      "id": "q-christology-08",
+      "topic_id": "christology",
+      "lesson_no": 3,
+      "style": "mc",
+      "question": "예수님은 우리에게 하나님을 어떻게 보여 주셨나요?",
+      "options": [
+        "무서운 모습으로",
+        "멀리 계신 모습으로",
+        "사랑하고 섬기는 모습으로",
+        "아무 말씀도 하지 않고"
+      ],
+      "answer_index": 2,
+      "answer_text": "③",
+      "explanation": "예수님의 삶을 통해 하나님의 사랑을 볼 수 있어요.",
+      "bible_ref": "요한복음 13장 34절",
+      "source_origin": "DOCX-자료1",
+      "accepted_keywords": [
+        "사랑하고 섬기는 모습으로"
+      ]
+    },
+    {
+      "id": "q-christology-09",
+      "topic_id": "christology",
+      "lesson_no": 3,
+      "style": "open",
+      "question": "예수님은 어떤 분이신지 한 문장으로 말해 보세요.",
+      "options": null,
+      "answer_index": null,
+      "answer_text": "예수님은 하나님이시며 우리를 사랑하시기 위해 사람이 되어 오신 분이십니다.",
+      "explanation": "오늘 배운 ‘한 문장 신앙 고백’을 떠올리면 돼요.",
+      "bible_ref": "요한복음 1장 1절",
+      "source_origin": "DOCX-자료1",
+      "accepted_keywords": [],
+      "scoring_hint": "예수님은 하나님이시며 우리를 사랑하시기 위해 사람이 되어 오신 분이십니다."
+    },
+    {
+      "id": "q-christology-10",
+      "topic_id": "christology",
+      "lesson_no": 3,
+      "style": "apply",
+      "question": "예수님이 어떤 분이신지를 알 때 나는 어떻게 살아가면 좋을까요?",
+      "options": null,
+      "answer_index": null,
+      "answer_text": "예수님을 믿고, 예수님처럼 사랑하며 살아요.",
+      "explanation": "예수님은 우리에게 사랑의 본을 보여 주셨어요.",
+      "bible_ref": "요한복음 13장 15절",
+      "source_origin": "DOCX-자료1",
+      "accepted_keywords": [],
+      "scoring_hint": "예수님을 믿고, 예수님처럼 사랑하며 살아요."
+    },
+    {
+      "id": "q-pneumatology-01",
+      "topic_id": "pneumatology",
+      "lesson_no": 4,
+      "style": "mc",
+      "question": "성령님은 어떤 분이실까요?",
+      "options": [
+        "천사이다",
+        "사람이 만든 힘이다",
+        "하나님이시다",
+        "보이지 않는 바람이다"
+      ],
+      "answer_index": 2,
+      "answer_text": "③",
+      "explanation": "성령님은 하나님이시라고 성경이 말해요.",
+      "bible_ref": "마태복음 28장 19절",
+      "source_origin": "DOCX-자료1",
+      "accepted_keywords": [
+        "하나님이시다"
+      ]
+    },
+    {
+      "id": "q-pneumatology-02",
+      "topic_id": "pneumatology",
+      "lesson_no": 4,
+      "style": "ox",
+      "question": "성령님은 예수님을 믿는 사람들과 함께 계신다.",
+      "options": [
+        "⭕ 그렇다",
+        "❌ 아니다"
+      ],
+      "answer_index": 0,
+      "answer_text": "⭕",
+      "explanation": "성령님은 우리 안에 계신다고 성경이 말해요.",
+      "bible_ref": "고린도전서 6장 19절",
+      "source_origin": "DOCX-자료1",
+      "accepted_keywords": [
+        "⭕ 그렇다"
+      ]
+    },
+    {
+      "id": "q-pneumatology-03",
+      "topic_id": "pneumatology",
+      "lesson_no": 4,
+      "style": "mc",
+      "question": "성령님은 우리에게 무엇을 알려 주실까요?",
+      "options": [
+        "세상 비밀",
+        "미래 시험 문제",
+        "하나님을 알게 하심",
+        "돈 버는 방법"
+      ],
+      "answer_index": 2,
+      "answer_text": "③",
+      "explanation": "성령님은 하나님을 알게 하세요.",
+      "bible_ref": "요한복음 14장 26절",
+      "source_origin": "DOCX-자료1",
+      "accepted_keywords": [
+        "하나님을 알게 하심"
+      ]
+    },
+    {
+      "id": "q-pneumatology-04",
+      "topic_id": "pneumatology",
+      "lesson_no": 4,
+      "style": "ox",
+      "question": "성령님은 눈에 보이지 않지만 하나님이 아니다.",
+      "options": [
+        "⭕ 그렇다",
+        "❌ 아니다"
+      ],
+      "answer_index": 1,
+      "answer_text": "❌",
+      "explanation": "눈에 보이지 않아도 성령님은 하나님이세요.",
+      "bible_ref": "고린도후서 3장 17절",
+      "source_origin": "DOCX-자료1",
+      "accepted_keywords": [
+        "❌ 아니다"
+      ]
+    },
+    {
+      "id": "q-pneumatology-05",
+      "topic_id": "pneumatology",
+      "lesson_no": 4,
+      "style": "mc",
+      "question": "성령님이 우리와 함께 계신다는 말의 뜻은 무엇일까요?",
+      "options": [
+        "멀리서 보고만 계신다",
+        "가끔만 찾아오신다",
+        "항상 우리 곁에 계신다",
+        "옛날에만 계셨다"
+      ],
+      "answer_index": 2,
+      "answer_text": "③",
+      "explanation": "성령님은 항상 우리와 함께 계세요.",
+      "bible_ref": "요한복음 14장 16절",
+      "source_origin": "DOCX-자료1",
+      "accepted_keywords": [
+        "항상 우리 곁에 계신다"
+      ]
+    },
+    {
+      "id": "q-pneumatology-06",
+      "topic_id": "pneumatology",
+      "lesson_no": 4,
+      "style": "fill",
+      "question": "성령님은 예수님을 믿는 사람들 ( )에 계십니다.",
+      "options": null,
+      "answer_index": null,
+      "answer_text": "안",
+      "explanation": "성령님은 우리 안에 거하신다고 성경이 말해요.",
+      "bible_ref": "고린도전서 6장 19절",
+      "source_origin": "DOCX-자료1",
+      "accepted_keywords": [
+        "안"
+      ]
+    },
+    {
+      "id": "q-pneumatology-07",
+      "topic_id": "pneumatology",
+      "lesson_no": 4,
+      "style": "ox",
+      "question": "성령님은 삼위일체 하나님의 한 분이시다.",
+      "options": [
+        "⭕ 그렇다",
+        "❌ 아니다"
+      ],
+      "answer_index": 0,
+      "answer_text": "⭕",
+      "explanation": "성부·성자·성령은 한 하나님이세요.",
+      "bible_ref": "마태복음 28장 19절",
+      "source_origin": "DOCX-자료1",
+      "accepted_keywords": [
+        "⭕ 그렇다"
+      ]
+    },
+    {
+      "id": "q-pneumatology-08",
+      "topic_id": "pneumatology",
+      "lesson_no": 4,
+      "style": "mc",
+      "question": "성령님은 우리에게 어떤 마음을 주실까요?",
+      "options": [
+        "두려움만",
+        "미움",
+        "하나님을 사랑하는 마음",
+        "욕심"
+      ],
+      "answer_index": 2,
+      "answer_text": "③",
+      "explanation": "성령님은 하나님을 사랑하게 하세요.",
+      "bible_ref": "로마서 5장 5절",
+      "source_origin": "DOCX-자료1",
+      "accepted_keywords": [
+        "하나님을 사랑하는 마음"
+      ]
+    },
+    {
+      "id": "q-pneumatology-09",
+      "topic_id": "pneumatology",
+      "lesson_no": 4,
+      "style": "open",
+      "question": "성령님은 어떤 분이신지 한 문장으로 말해 보세요.",
+      "options": null,
+      "answer_index": null,
+      "answer_text": "성령님은 하나님이시며 지금도 우리와 함께 계신 분이십니다.",
+      "explanation": "오늘 배운 ‘한 문장 신앙 고백’을 떠올리면 돼요.",
+      "bible_ref": "고린도전서 6장 19절",
+      "source_origin": "DOCX-자료1",
+      "accepted_keywords": [],
+      "scoring_hint": "성령님은 하나님이시며 지금도 우리와 함께 계신 분이십니다."
+    },
+    {
+      "id": "q-pneumatology-10",
+      "topic_id": "pneumatology",
+      "lesson_no": 4,
+      "style": "apply",
+      "question": "성령님이 함께 계신다는 것을 믿는 나는 어떻게 살아가면 좋을까요?",
+      "options": null,
+      "answer_index": null,
+      "answer_text": "기도하며 하나님을 의지하며 살아요.",
+      "explanation": "성령님은 우리를 떠나지 않으세요.",
+      "bible_ref": "요한복음 14장 16절",
+      "source_origin": "DOCX-자료1",
+      "accepted_keywords": [],
+      "scoring_hint": "기도하며 하나님을 의지하며 살아요."
+    },
+    {
+      "id": "q-soteriology-01",
+      "topic_id": "soteriology",
+      "lesson_no": 5,
+      "style": "mc",
+      "question": "하나님은 우리를 어떻게 구원하실까요?",
+      "options": [
+        "우리가 착해서",
+        "우리가 공부를 잘해서",
+        "하나님의 은혜로",
+        "우리가 돈을 많이 해서"
+      ],
+      "answer_index": 2,
+      "answer_text": "③",
+      "explanation": "구원은 하나님의 은혜로 주어지는 선물이에요.",
+      "bible_ref": "에베소서 2장 8절",
+      "source_origin": "DOCX-자료1",
+      "accepted_keywords": [
+        "하나님의 은혜로"
+      ]
+    },
+    {
+      "id": "q-soteriology-02",
+      "topic_id": "soteriology",
+      "lesson_no": 5,
+      "style": "ox",
+      "question": "구원은 하나님이 우리에게 주시는 선물이다.",
+      "options": [
+        "⭕ 그렇다",
+        "❌ 아니다"
+      ],
+      "answer_index": 0,
+      "answer_text": "⭕",
+      "explanation": "성경은 구원이 하나님의 선물이라고 말해요.",
+      "bible_ref": "에베소서 2장 8절",
+      "source_origin": "DOCX-자료1",
+      "accepted_keywords": [
+        "⭕ 그렇다"
+      ]
+    },
+    {
+      "id": "q-soteriology-03",
+      "topic_id": "soteriology",
+      "lesson_no": 5,
+      "style": "mc",
+      "question": "하나님이 우리를 구원하시기 위해 보내신 분은 누구일까요?",
+      "options": [
+        "천사",
+        "모세",
+        "예수님",
+        "선지자"
+      ],
+      "answer_index": 2,
+      "answer_text": "③",
+      "explanation": "하나님은 예수님을 보내셔서 우리를 구원하셨어요.",
+      "bible_ref": "요한복음 3장 16절",
+      "source_origin": "DOCX-자료1",
+      "accepted_keywords": [
+        "예수님"
+      ]
+    },
+    {
+      "id": "q-soteriology-04",
+      "topic_id": "soteriology",
+      "lesson_no": 5,
+      "style": "ox",
+      "question": "우리가 착하게 살면 구원받을 수 있다.",
+      "options": [
+        "⭕ 그렇다",
+        "❌ 아니다"
+      ],
+      "answer_index": 1,
+      "answer_text": "❌",
+      "explanation": "구원은 우리의 행동이 아니라 하나님의 은혜로 받아요.",
+      "bible_ref": "에베소서 2장 8–9절",
+      "source_origin": "DOCX-자료1",
+      "accepted_keywords": [
+        "❌ 아니다"
+      ]
+    },
+    {
+      "id": "q-soteriology-05",
+      "topic_id": "soteriology",
+      "lesson_no": 5,
+      "style": "mc",
+      "question": "예수님은 우리를 위해 무엇을 하셨나요?",
+      "options": [
+        "좋은 말씀만 하셨다",
+        "병만 고쳐 주셨다",
+        "십자가에서 죄를 대신 지셨다",
+        "친구만 만들어 주셨다"
+      ],
+      "answer_index": 2,
+      "answer_text": "③",
+      "explanation": "예수님은 십자가에서 우리의 죄를 대신 지셨어요.",
+      "bible_ref": "로마서 5장 8절",
+      "source_origin": "DOCX-자료1",
+      "accepted_keywords": [
+        "십자가에서 죄를 대신 지셨다"
+      ]
+    },
+    {
+      "id": "q-soteriology-06",
+      "topic_id": "soteriology",
+      "lesson_no": 5,
+      "style": "fill",
+      "question": "우리는 ( )으로 예수님을 믿어 구원받습니다.",
+      "options": null,
+      "answer_index": null,
+      "answer_text": "믿음",
+      "explanation": "구원은 믿음으로 받는 하나님의 선물이에요.",
+      "bible_ref": "에베소서 2장 8절",
+      "source_origin": "DOCX-자료1",
+      "accepted_keywords": [
+        "믿음"
+      ]
+    },
+    {
+      "id": "q-soteriology-07",
+      "topic_id": "soteriology",
+      "lesson_no": 5,
+      "style": "ox",
+      "question": "구원은 하나님과 다시 친구가 되는 것이다.",
+      "options": [
+        "⭕ 그렇다",
+        "❌ 아니다"
+      ],
+      "answer_index": 0,
+      "answer_text": "⭕",
+      "explanation": "구원은 하나님과의 관계가 회복되는 것이에요.",
+      "bible_ref": "로마서 5장 10절",
+      "source_origin": "DOCX-자료1",
+      "accepted_keywords": [
+        "⭕ 그렇다"
+      ]
+    },
+    {
+      "id": "q-soteriology-08",
+      "topic_id": "soteriology",
+      "lesson_no": 5,
+      "style": "mc",
+      "question": "하나님이 우리를 구원하신 가장 큰 이유는 무엇일까요?",
+      "options": [
+        "우리가 필요해서",
+        "우리가 약해서",
+        "우리를 사랑하시기 때문에",
+        "우리가 부탁해서"
+      ],
+      "answer_index": 2,
+      "answer_text": "③",
+      "explanation": "하나님은 사랑으로 우리를 구원하셨어요.",
+      "bible_ref": "요한일서 4장 10절",
+      "source_origin": "DOCX-자료1",
+      "accepted_keywords": [
+        "우리를 사랑하시기 때문에"
+      ]
+    },
+    {
+      "id": "q-soteriology-09",
+      "topic_id": "soteriology",
+      "lesson_no": 5,
+      "style": "open",
+      "question": "하나님은 우리를 어떻게 구원하시는지 한 문장으로 말해 보세요.",
+      "options": null,
+      "answer_index": null,
+      "answer_text": "하나님은 은혜로 예수님을 통해 우리를 구원하십니다.",
+      "explanation": "오늘 배운 ‘한 문장 신앙 고백’을 떠올리면 돼요.",
+      "bible_ref": "에베소서 2장 8절",
+      "source_origin": "DOCX-자료1",
+      "accepted_keywords": [],
+      "scoring_hint": "하나님은 은혜로 예수님을 통해 우리를 구원하십니다."
+    },
+    {
+      "id": "q-soteriology-10",
+      "topic_id": "soteriology",
+      "lesson_no": 5,
+      "style": "apply",
+      "question": "구원받은 나는 오늘 어떻게 살아가면 좋을까요?",
+      "options": null,
+      "answer_index": null,
+      "answer_text": "하나님께 감사하며 예수님을 믿고 따라가요.",
+      "explanation": "구원은 삶의 태도를 바꾸어요.",
+      "bible_ref": "골로새서 2장 6절",
+      "source_origin": "DOCX-자료1",
+      "accepted_keywords": [],
+      "scoring_hint": "하나님께 감사하며 예수님을 믿고 따라가요."
+    },
+    {
+      "id": "q-ecclesiology-01",
+      "topic_id": "ecclesiology",
+      "lesson_no": 6,
+      "style": "mc",
+      "question": "성경이 말하는 교회는 무엇일까요?",
+      "options": [
+        "큰 건물",
+        "사람들이 만든 모임",
+        "예수님을 믿는 사람들이 모인 공동체",
+        "학교"
+      ],
+      "answer_index": 2,
+      "answer_text": "③",
+      "explanation": "교회는 믿는 사람들이 함께 모인 공동체예요.",
+      "bible_ref": "고린도전서 12장 27절",
+      "source_origin": "DOCX-자료1",
+      "accepted_keywords": [
+        "예수님을 믿는 사람들이 모인 공동체"
+      ]
+    },
+    {
+      "id": "q-ecclesiology-02",
+      "topic_id": "ecclesiology",
+      "lesson_no": 6,
+      "style": "ox",
+      "question": "교회는 건물만 있으면 된다.",
+      "options": [
+        "⭕ 그렇다",
+        "❌ 아니다"
+      ],
+      "answer_index": 1,
+      "answer_text": "❌",
+      "explanation": "교회는 건물이 아니라 사람들의 모임이에요.",
+      "bible_ref": "사도행전 2장 46절",
+      "source_origin": "DOCX-자료1",
+      "accepted_keywords": [
+        "❌ 아니다"
+      ]
+    },
+    {
+      "id": "q-ecclesiology-03",
+      "topic_id": "ecclesiology",
+      "lesson_no": 6,
+      "style": "mc",
+      "question": "교회에서 우리가 함께하는 중요한 일은 무엇일까요?",
+      "options": [
+        "놀기만 한다",
+        "공부만 한다",
+        "예배하고 말씀을 듣는다",
+        "잠만 잔다"
+      ],
+      "answer_index": 2,
+      "answer_text": "③",
+      "explanation": "교회는 함께 예배하고 말씀을 나누는 곳이에요.",
+      "bible_ref": "사도행전 2장 42절",
+      "source_origin": "DOCX-자료1",
+      "accepted_keywords": [
+        "예배하고 말씀을 듣는다"
+      ]
+    },
+    {
+      "id": "q-ecclesiology-04",
+      "topic_id": "ecclesiology",
+      "lesson_no": 6,
+      "style": "ox",
+      "question": "교회는 서로 사랑하고 돕는 공동체이다.",
+      "options": [
+        "⭕ 그렇다",
+        "❌ 아니다"
+      ],
+      "answer_index": 0,
+      "answer_text": "⭕",
+      "explanation": "초대교회는 서로 돕고 나누었어요.",
+      "bible_ref": "사도행전 2장 44–45절",
+      "source_origin": "DOCX-자료1",
+      "accepted_keywords": [
+        "⭕ 그렇다"
+      ]
+    },
+    {
+      "id": "q-ecclesiology-05",
+      "topic_id": "ecclesiology",
+      "lesson_no": 6,
+      "style": "mc",
+      "question": "성경은 교회를 무엇이라고 부를까요?",
+      "options": [
+        "집",
+        "그리스도의 몸",
+        "나라",
+        "학교"
+      ],
+      "answer_index": 1,
+      "answer_text": "②",
+      "explanation": "교회는 그리스도의 몸이라고 성경이 말해요.",
+      "bible_ref": "고린도전서 12장 27절",
+      "source_origin": "DOCX-자료1",
+      "accepted_keywords": [
+        "그리스도의 몸"
+      ]
+    },
+    {
+      "id": "q-ecclesiology-06",
+      "topic_id": "ecclesiology",
+      "lesson_no": 6,
+      "style": "fill",
+      "question": "교회는 예수님을 ( ) 사람들이 함께 모인 곳입니다.",
+      "options": null,
+      "answer_index": null,
+      "answer_text": "믿는",
+      "explanation": "교회는 예수님을 믿는 사람들의 모임이에요.",
+      "bible_ref": "사도행전 2장 46절",
+      "source_origin": "DOCX-자료1",
+      "accepted_keywords": [
+        "믿는"
+      ]
+    },
+    {
+      "id": "q-ecclesiology-07",
+      "topic_id": "ecclesiology",
+      "lesson_no": 6,
+      "style": "ox",
+      "question": "교회에서는 서로를 위해 기도한다.",
+      "options": [
+        "⭕ 그렇다",
+        "❌ 아니다"
+      ],
+      "answer_index": 0,
+      "answer_text": "⭕",
+      "explanation": "교회는 기도와 교제를 소중히 여겨요.",
+      "bible_ref": "사도행전 2장 42절",
+      "source_origin": "DOCX-자료1",
+      "accepted_keywords": [
+        "⭕ 그렇다"
+      ]
+    },
+    {
+      "id": "q-ecclesiology-08",
+      "topic_id": "ecclesiology",
+      "lesson_no": 6,
+      "style": "mc",
+      "question": "교회에 모이는 가장 중요한 이유는 무엇일까요?",
+      "options": [
+        "친구를 만나기 위해",
+        "행사에 참여하려고",
+        "하나님을 예배하기 위해",
+        "간식을 먹으려고"
+      ],
+      "answer_index": 2,
+      "answer_text": "③",
+      "explanation": "교회는 하나님을 예배하는 공동체예요.",
+      "bible_ref": "사도행전 2장 46절",
+      "source_origin": "DOCX-자료1",
+      "accepted_keywords": [
+        "하나님을 예배하기 위해"
+      ]
+    },
+    {
+      "id": "q-ecclesiology-09",
+      "topic_id": "ecclesiology",
+      "lesson_no": 6,
+      "style": "open",
+      "question": "교회는 무엇인지 한 문장으로 말해 보세요.",
+      "options": null,
+      "answer_index": null,
+      "answer_text": "교회는 예수님을 믿는 사람들이 함께 모여 하나님을 예배하는 공동체입니다.",
+      "explanation": "오늘 배운 ‘한 문장 신앙 고백’을 떠올리면 돼요.",
+      "bible_ref": "고린도전서 12장 27절",
+      "source_origin": "DOCX-자료1",
+      "accepted_keywords": [],
+      "scoring_hint": "교회는 예수님을 믿는 사람들이 함께 모여 하나님을 예배하는 공동체입니다."
+    },
+    {
+      "id": "q-ecclesiology-10",
+      "topic_id": "ecclesiology",
+      "lesson_no": 6,
+      "style": "apply",
+      "question": "교회의 한 사람으로서 나는 무엇을 해 볼 수 있을까요?",
+      "options": null,
+      "answer_index": null,
+      "answer_text": "예배에 성실히 참여하고, 친구를 돕고, 함께 기도해요.",
+      "explanation": "교회는 함께 자라는 공동체예요.",
+      "bible_ref": "사도행전 2장 42절",
+      "source_origin": "DOCX-자료1",
+      "accepted_keywords": [],
+      "scoring_hint": "예배에 성실히 참여하고, 친구를 돕고, 함께 기도해요."
+    },
+    {
+      "id": "q-eschatology-01",
+      "topic_id": "eschatology",
+      "lesson_no": 7,
+      "style": "mc",
+      "question": "성경이 말하는 이 세상의 마지막은 무엇일까요?",
+      "options": [
+        "우연히 사라진다",
+        "다시 처음으로 돌아간다",
+        "하나님께서 새롭게 하신다",
+        "아무도 모른다"
+      ],
+      "answer_index": 2,
+      "answer_text": "③",
+      "explanation": "하나님은 만물을 새롭게 하신다고 약속하셨어요.",
+      "bible_ref": "요한계시록 21장 5절",
+      "source_origin": "DOCX-자료1",
+      "accepted_keywords": [
+        "하나님께서 새롭게 하신다"
+      ]
+    },
+    {
+      "id": "q-eschatology-02",
+      "topic_id": "eschatology",
+      "lesson_no": 7,
+      "style": "ox",
+      "question": "종말은 하나님 나라가 완성되는 날이다.",
+      "options": [
+        "⭕ 그렇다",
+        "❌ 아니다"
+      ],
+      "answer_index": 0,
+      "answer_text": "⭕",
+      "explanation": "종말은 하나님의 구원 계획이 완성되는 날이에요.",
+      "bible_ref": "요한계시록 21장 1절",
+      "source_origin": "DOCX-자료1",
+      "accepted_keywords": [
+        "⭕ 그렇다"
+      ]
+    },
+    {
+      "id": "q-eschatology-03",
+      "topic_id": "eschatology",
+      "lesson_no": 7,
+      "style": "mc",
+      "question": "예수님은 언제 다시 오실까요?",
+      "options": [
+        "이미 오셨다",
+        "우리가 정할 수 있다",
+        "하나님이 정하신 때에 오신다",
+        "오시지 않는다"
+      ],
+      "answer_index": 2,
+      "answer_text": "③",
+      "explanation": "예수님의 다시 오심은 하나님께서 정하셨어요.",
+      "bible_ref": "마태복음 24장 36절",
+      "source_origin": "DOCX-자료1",
+      "accepted_keywords": [
+        "하나님이 정하신 때에 오신다"
+      ]
+    },
+    {
+      "id": "q-eschatology-04",
+      "topic_id": "eschatology",
+      "lesson_no": 7,
+      "style": "ox",
+      "question": "종말은 믿는 사람에게도 무서운 날이다.",
+      "options": [
+        "⭕ 그렇다",
+        "❌ 아니다"
+      ],
+      "answer_index": 1,
+      "answer_text": "❌",
+      "explanation": "믿는 사람에게 종말은 소망의 날이에요.",
+      "bible_ref": "데살로니가전서 4장 16–17절",
+      "source_origin": "DOCX-자료1",
+      "accepted_keywords": [
+        "❌ 아니다"
+      ]
+    },
+    {
+      "id": "q-eschatology-05",
+      "topic_id": "eschatology",
+      "lesson_no": 7,
+      "style": "mc",
+      "question": "하나님 나라가 완성되면 어떤 일이 일어날까요?",
+      "options": [
+        "슬픔과 눈물이 계속된다",
+        "눈물과 아픔이 사라진다",
+        "다시 죄가 많아진다",
+        "아무 변화가 없다"
+      ],
+      "answer_index": 1,
+      "answer_text": "②",
+      "explanation": "하나님은 모든 눈물을 씻어 주신다고 약속하셨어요.",
+      "bible_ref": "요한계시록 21장 4절",
+      "source_origin": "DOCX-자료1",
+      "accepted_keywords": [
+        "눈물과 아픔이 사라진다"
+      ]
+    },
+    {
+      "id": "q-eschatology-06",
+      "topic_id": "eschatology",
+      "lesson_no": 7,
+      "style": "fill",
+      "question": "하나님은 이 세상을 ( ) 하십니다.",
+      "options": null,
+      "answer_index": null,
+      "answer_text": "새롭게",
+      "explanation": "하나님은 만물을 새롭게 하신다고 말씀하셨어요.",
+      "bible_ref": "요한계시록 21장 5절",
+      "source_origin": "DOCX-자료1",
+      "accepted_keywords": [
+        "새롭게"
+      ]
+    },
+    {
+      "id": "q-eschatology-07",
+      "topic_id": "eschatology",
+      "lesson_no": 7,
+      "style": "ox",
+      "question": "예수님의 다시 오심은 하나님의 약속이다.",
+      "options": [
+        "⭕ 그렇다",
+        "❌ 아니다"
+      ],
+      "answer_index": 0,
+      "answer_text": "⭕",
+      "explanation": "예수님의 재림은 성경의 약속이에요.",
+      "bible_ref": "사도행전 1장 11절",
+      "source_origin": "DOCX-자료1",
+      "accepted_keywords": [
+        "⭕ 그렇다"
+      ]
+    },
+    {
+      "id": "q-eschatology-08",
+      "topic_id": "eschatology",
+      "lesson_no": 7,
+      "style": "mc",
+      "question": "종말 신앙이 오늘 우리의 삶에 주는 모습으로 알맞은 것은?",
+      "options": [
+        "아무 생각 없이 산다",
+        "무서워서 숨어 지낸다",
+        "소망을 가지고 바르게 산다",
+        "내일은 중요하지 않다"
+      ],
+      "answer_index": 2,
+      "answer_text": "③",
+      "explanation": "소망은 오늘을 책임 있게 살게 해요.",
+      "bible_ref": "디도서 2장 13절",
+      "source_origin": "DOCX-자료1",
+      "accepted_keywords": [
+        "소망을 가지고 바르게 산다"
+      ]
+    },
+    {
+      "id": "q-eschatology-09",
+      "topic_id": "eschatology",
+      "lesson_no": 7,
+      "style": "open",
+      "question": "하나님은 이 세상을 어떻게 마무리하시는지 한 문장으로 말해 보세요.",
+      "options": null,
+      "answer_index": null,
+      "answer_text": "하나님은 이 세상을 새롭게 하시고 하나님 나라를 완성하십니다.",
+      "explanation": "오늘 배운 ‘한 문장 신앙 고백’을 떠올리면 돼요.",
+      "bible_ref": "요한계시록 21장 5절",
+      "source_origin": "DOCX-자료1",
+      "accepted_keywords": [],
+      "scoring_hint": "하나님은 이 세상을 새롭게 하시고 하나님 나라를 완성하십니다."
+    },
+    {
+      "id": "q-eschatology-10",
+      "topic_id": "eschatology",
+      "lesson_no": 7,
+      "style": "apply",
+      "question": "종말의 소망을 믿는 나는 오늘 어떻게 살아가면 좋을까요?",
+      "options": null,
+      "answer_index": null,
+      "answer_text": "하나님을 믿고 사랑하며 바르게 살아요.",
+      "explanation": "소망은 오늘의 삶을 바꿔요.",
+      "bible_ref": "베드로후서 3장 11절",
+      "source_origin": "DOCX-자료1",
+      "accepted_keywords": [],
+      "scoring_hint": "하나님을 믿고 사랑하며 바르게 살아요."
+    }
+  ]
+}

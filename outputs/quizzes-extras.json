@@ -1,0 +1,255 @@
+{
+  "meta": {
+    "source": "Claude 신규 생성 — 한국 아동부 검증 클래식 넌센스 + 그림",
+    "generated_at": "2026-04-25",
+    "total": 30,
+    "by_style": {
+      "nonsense": 15,
+      "image": 15
+    }
+  },
+  "quizzes": [
+    {
+      "id": "q-extra-nonsense-01",
+      "topic_id": "theology_proper",
+      "lesson_no": 2,
+      "style": "nonsense",
+      "question": "성경에서 가장 장사를 잘 하는 사람은 누구일까요?",
+      "options": null,
+      "answer_index": null,
+      "answer_text": "사라",
+      "explanation": "'장사라'와 발음이 비슷! 사라는 아브라함의 아내예요.",
+      "bible_ref": "창 17:15",
+      "source_origin": "Claude 신규",
+      "accepted_keywords": [
+        "사라"
+      ]
+    },
+    {
+      "id": "q-extra-nonsense-02",
+      "topic_id": "christology",
+      "lesson_no": 3,
+      "style": "nonsense",
+      "question": "예수님 잡혀가실 때 칼을 휘둘러 본 제자는 누구일까요?",
+      "options": null,
+      "answer_index": null,
+      "answer_text": "베드로",
+      "explanation": "베드로가 대제사장 종 말고의 귀를 베었어요. ('베다'와 '베드로'!)",
+      "bible_ref": "요 18:10",
+      "source_origin": "Claude 신규",
+      "accepted_keywords": [
+        "베드로"
+      ]
+    },
+    {
+      "id": "q-extra-nonsense-03",
+      "topic_id": "theology_proper",
+      "lesson_no": 2,
+      "style": "nonsense",
+      "question": "성경에서 가장 인내(참기)를 잘 한 사람은 누구일까요?",
+      "options": null,
+      "answer_index": null,
+      "answer_text": "욥",
+      "explanation": "욥은 모든 것을 잃고도 끝까지 하나님을 믿었어요.",
+      "bible_ref": "욥 1:21",
+      "source_origin": "Claude 신규",
+      "accepted_keywords": [
+        "욥"
+      ]
+    },
+    {
+      "id": "q-extra-nonsense-04",
+      "topic_id": "theology_proper",
+      "lesson_no": 2,
+      "style": "nonsense",
+      "question": "성경에서 가장 큰 집(배)을 지은 사람은 누구일까요?",
+      "options": null,
+      "answer_index": null,
+      "answer_text": "노아",
+      "explanation": "노아는 길이 135m나 되는 큰 방주를 지었어요.",
+      "bible_ref": "창 6:14",
+      "source_origin": "Claude 신규",
+      "accepted_keywords": [
+        "노아"
+      ]
+    },
+    {
+      "id": "q-extra-nonsense-05",
+      "topic_id": "christology",
+      "lesson_no": 3,
+      "style": "nonsense",
+      "question": "예수님 십자가를 가장 무겁게 진 사람은 누구일까요?",
+      "options": null,
+      "answer_index": null,
+      "answer_text": "구레네 시몬",
+      "explanation": "구레네 사람 시몬이 예수님 대신 십자가를 지고 갔어요.",
+      "bible_ref": "마 27:32",
+      "source_origin": "Claude 신규",
+      "accepted_keywords": [
+        "구레네 시몬",
+        "시몬",
+        "구레네"
+      ]
+    },
+    {
+      "id": "q-extra-nonsense-06",
+      "topic_id": "christology",
+      "lesson_no": 3,
+      "style": "nonsense",
+      "question": "성경에서 키가 가장 작은 사람은 누구일까요?",
+      "options": null,
+      "answer_index": null,
+      "answer_text": "삭개오",
+      "explanation": "삭개오는 키가 작아 뽕나무에 올라 예수님을 봤어요.",
+      "bible_ref": "눅 19:3",
+      "source_origin": "Claude 신규",
+      "accepted_keywords": [
+        "삭개오"
+      ]
+    },
+    {
+      "id": "q-extra-nonsense-07",
+      "topic_id": "theology_proper",
+      "lesson_no": 2,
+      "style": "nonsense",
+      "question": "성경에서 가장 키가 큰 사람은 누구일까요? (약 3미터!)",
+      "options": null,
+      "answer_index": null,
+      "answer_text": "골리앗",
+      "explanation": "골리앗은 거인이었지만 어린 다윗에게 졌어요.",
+      "bible_ref": "삼상 17:4",
+      "source_origin": "Claude 신규",
+      "accepted_keywords": [
+        "골리앗"
+      ]
+    },
+    {
+      "id": "q-extra-nonsense-08",
+      "topic_id": "bibliology",
+      "lesson_no": 1,
+      "style": "nonsense",
+      "question": "하나님 말씀을 듣기 싫어 가장 빨리 도망간 선지자는 누구일까요?",
+      "options": null,
+      "answer_index": null,
+      "answer_text": "요나",
+      "explanation": "요나는 니느웨로 가라는 말씀을 피해 다시스로 도망갔어요.",
+      "bible_ref": "욘 1:3",
+      "source_origin": "Claude 신규",
+      "accepted_keywords": [
+        "요나"
+      ]
+    },
+    {
+      "id": "q-extra-nonsense-09",
+      "topic_id": "theology_proper",
+      "lesson_no": 2,
+      "style": "nonsense",
+      "question": "성경에서 가장 한이 많은 여인은 누구일까요?",
+      "options": null,
+      "answer_index": null,
+      "answer_text": "한나",
+      "explanation": "'한나'! 아이가 없어 한이 많았지만 기도로 사무엘을 얻었어요.",
+      "bible_ref": "삼상 1:10",
+      "source_origin": "Claude 신규",
+      "accepted_keywords": [
+        "한나"
+      ]
+    },
+    {
+      "id": "q-extra-nonsense-10",
+      "topic_id": "theology_proper",
+      "lesson_no": 2,
+      "style": "nonsense",
+      "question": "성경에서 가장 지혜로운 왕은 누구일까요?",
+      "options": null,
+      "answer_index": null,
+      "answer_text": "솔로몬",
+      "explanation": "솔로몬은 하나님께 지혜를 구해 받았어요.",
+      "bible_ref": "왕상 3:9",
+      "source_origin": "Claude 신규",
+      "accepted_keywords": [
+        "솔로몬"
+      ]
+    },
+    {
+      "id": "q-extra-nonsense-11",
+      "topic_id": "theology_proper",
+      "lesson_no": 2,
+      "style": "nonsense",
+      "question": "성경에서 가장 오래 산 사람은 누구일까요? (969살!)",
+      "options": null,
+      "answer_index": null,
+      "answer_text": "므두셀라",
+      "explanation": "므두셀라는 969년을 살아 성경 최장수 인물이에요.",
+      "bible_ref": "창 5:27",
+      "source_origin": "Claude 신규",
+      "accepted_keywords": [
+        "므두셀라"
+      ]
+    },
+    {
+      "id": "q-extra-nonsense-12",
+      "topic_id": "theology_proper",
+      "lesson_no": 2,
+      "style": "nonsense",
+      "question": "성경에서 사자굴에서도 살아남은 사람은 누구일까요?",
+      "options": null,
+      "answer_index": null,
+      "answer_text": "다니엘",
+      "explanation": "다니엘은 사자굴에 던져졌지만 하나님이 사자 입을 막아주셨어요.",
+      "bible_ref": "단 6:22",
+      "source_origin": "Claude 신규",
+      "accepted_keywords": [
+        "다니엘"
+      ]
+    },
+    {
+      "id": "q-extra-nonsense-13",
+      "topic_id": "theology_proper",
+      "lesson_no": 2,
+      "style": "nonsense",
+      "question": "불수레 타고 하늘로 올라간 선지자는 누구일까요?",
+      "options": null,
+      "answer_index": null,
+      "answer_text": "엘리야",
+      "explanation": "엘리야는 죽음을 보지 않고 회리바람으로 하늘에 올라갔어요.",
+      "bible_ref": "왕하 2:11",
+      "source_origin": "Claude 신규",
+      "accepted_keywords": [
+        "엘리야"
+      ]
+    },
+    {
+      "id": "q-extra-nonsense-14",
+      "topic_id": "theology_proper",
+      "lesson_no": 2,
+      "style": "nonsense",
+      "question": "지팡이로 홍해를 가른 사람은 누구일까요?",
+      "options": null,
+      "answer_index": null,
+      "answer_text": "모세",
+      "explanation": "모세가 지팡이를 들자 하나님이 홍해를 가르셨어요.",
+      "bible_ref": "출 14:21",
+      "source_origin": "Claude 신규",
+      "accepted_keywords": [
+        "모세"
+      ]
+    },
+    {
+      "id": "q-extra-nonsense-15",
+      "topic_id": "christology",
+      "lesson_no": 3,
+      "style": "nonsense",
+      "question": "성경에서 시(찬송)를 가장 많이 쓴 사람은 누구일까요?",
+      "options": null,
+      "answer_index": null,
+      "answer_text": "다윗",
+      "explanation": "다윗은 시편의 많은 시를 지은 시인 왕이에요.",
+      "bible_ref": "시편",
+      "source_origin": "Claude 신규",
+      "accepted_keywords": [
+        "다윗"
+      ]
+    }
+  ]
+}

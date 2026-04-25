@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>문제 — 드림아동부 교리퀴즈</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="question-container">
+  <div class="question-header">
+    <span id="meta"></span>
+    <button class="ghost small" onclick="goToDashboard()">⬅ 대시보드</button>
+  </div>
+
+  <!-- Step indicator -->
+  <div class="step-indicator">
+    <div class="step" id="s1"><span class="step-num">1</span><span class="step-label">문제 출제</span></div>
+    <div class="step-line" id="l12"></div>
+    <div class="step" id="s2"><span class="step-num">2</span><span class="step-label">손들기</span></div>
+    <div class="step-line" id="l23"></div>
+    <div class="step" id="s3"><span class="step-num">3</span><span class="step-label">정답 판정</span></div>
+  </div>
+
+  <!-- 문제 영역 (모든 단계에서 항상 표시) -->
+  <div id="image-wrap"></div>
+  <div id="qtext" class="question-text"></div>
+  <div id="options"></div>
+
+  <!-- 정답 확인란 (사회자 확인용 — 항상 표시) -->
+  <div id="answer-box" class="answer-box"></div>
+
+  <!-- 단계별 액션 영역 -->
+  <div id="phase-area" class="phase-area"></div>
+</div>
+
+<!-- Reward Modal -->
+<div class="modal-backdrop" id="mb"><div class="modal" id="mc"></div></div>
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+<script>
+let currentQuiz;
+let phase = 'question';            // 'question' | 'buzzing' | 'judging' | 'wrong-retry'
+let attemptedTeams = [];           // 시도한 팀 인덱스
+let currentBuzzer = null;          // 현재 답변 중인 팀 인덱스
+let actors = [];
+
+// ─── reward modal 변수 (응답 후 사용) ─────────────────
+let giftCollect = [];
+let stealTargetIdx = null;
+let swapTargetIdx = null, swapMy = null, swapTheir = null;
+
+// ─── 초기 진입 ────────────────────────────────────────
+function init() {
+  const s = loadSession();
+  if (!s || !s.current_quiz_id) { goToDashboard(); return; }
+  currentQuiz = getQuiz(s.current_quiz_id);
+  if (!currentQuiz) { goToDashboard(); return; }
+  actors = actorsOf(s);
+
+  renderHeader();
+  renderQuestionBody();
+  setPhase('question');
+}
+
+function renderHeader() {
+  const stars = '★'.repeat(currentQuiz.difficulty);
+  const styleLabel = { mc:'객관식', ox:'OX', fill:'빈칸', open:'주관식', apply:'적용', nonsense:'넌센스', image:'그림' }[currentQuiz.style];
+  const rewardLabel = { collect:'🎯 수집', steal:'🔥 빼앗기', gift:'🎁 선물', swap:'♻️ 교환' }[currentQuiz.reward_type];
+  const topic = getTopic(currentQuiz.topic_id);
+  document.getElementById('meta').innerHTML =
+    `<b>${currentQuiz.id}</b> · ${stars} · ${styleLabel} · ${rewardLabel}` +
+    (topic ? ` · ${topic.emoji} ${topic.title}` : '');
+}
+
+function renderQuestionBody() {
+  // 그림
+  if (currentQuiz.style === 'image' && currentQuiz.image_path) {
+    document.getElementById('image-wrap').innerHTML =
+      `<img src="${currentQuiz.image_path}" class="question-image" onerror="this.style.display='none'">`;
+  }
+  document.getElementById('qtext').textContent = currentQuiz.question;
+
+  // 보기 — 클릭 시 자동 채점 시각화 (mc/ox/fill만 answer_index 있음)
+  if (currentQuiz.options && currentQuiz.options.length) {
+    const cls = currentQuiz.style === 'ox' ? 'ox' : '';
+    const hasAutoCheck = currentQuiz.answer_index !== null && currentQuiz.answer_index !== undefined;
+    document.getElementById('options').innerHTML = `
+      <div class="option-grid ${cls}">
+        ${currentQuiz.options.map((o, i) => `
+          <button class="option-item" onclick="${hasAutoCheck ? `pickOption(${i})` : ''}">
+            <span class="num">${['①','②','③','④','⑤'][i]}</span>${escapeHtml(o)}
+          </button>
+        `).join('')}
+      </div>
+    `;
+  }
+
+  // 정답 확인란 (사회자 확인용 — 항상 표시)
+  const ans = currentQuiz.answer_text || (currentQuiz.options && currentQuiz.answer_index !== null
+    ? currentQuiz.options[currentQuiz.answer_index] : '(주관식 — 사회자 판단)');
+  document.getElementById('answer-box').innerHTML = `
+    <div class="ab-label">🔒 사회자 확인용</div>
+    <div class="ab-answer">정답: ${escapeHtml(ans)}</div>
+    ${currentQuiz.explanation ? `<div class="ab-explain">${escapeHtml(currentQuiz.explanation)}</div>` : ''}
+    ${currentQuiz.bible_ref   ? `<div class="ab-bible">📖 ${escapeHtml(currentQuiz.bible_ref)}</div>` : ''}
+    ${currentQuiz.scoring_hint? `<div class="ab-explain">예시 답변: ${escapeHtml(currentQuiz.scoring_hint)}</div>` : ''}
+  `;
+}
+
+// 보기 클릭 시 자동 채점 시각화 (mc/ox/fill만)
+function pickOption(idx) {
+  const correct = currentQuiz.answer_index;
+  document.querySelectorAll('.option-item').forEach((b, i) => {
+    b.classList.remove('correct', 'wrong');
+    if (i === idx) {
+      b.classList.add(i === correct ? 'correct' : 'wrong');
+    }
+    // 클릭한 게 오답이면 정답도 함께 표시 (사회자 시각 확인용)
+    if (idx !== correct && i === correct) {
+      b.classList.add('correct');
+    }
+  });
+}
+
+// ─── 단계 전환 ────────────────────────────────────────
+function setPhase(p) {
+  phase = p;
+  // step indicator 갱신
+  const stepMap = { question: 1, buzzing: 2, judging: 3, 'wrong-retry': 2 };
+  const cur = stepMap[p] || 1;
+  for (let i = 1; i <= 3; i++) {
+    const el = document.getElementById('s' + i);
+    el.classList.toggle('active', i === cur);
+    el.classList.toggle('done', i < cur);
+  }
+  document.getElementById('l12').classList.toggle('active', cur >= 2);
+  document.getElementById('l23').classList.toggle('active', cur >= 3);
+
+  // phase-area 렌더
+  const area = document.getElementById('phase-area');
+  if (p === 'question')        area.innerHTML = renderQuestionPhase();
+  else if (p === 'buzzing')    area.innerHTML = renderBuzzingPhase();
+  else if (p === 'judging')    area.innerHTML = renderJudgingPhase();
+  else if (p === 'wrong-retry')area.innerHTML = renderRetryPhase();
+}
+
+function renderQuestionPhase() {
+  return `
+    <div class="phase-msg">📖 문제를 읽어 주세요.</div>
+    <div class="phase-actions">
+      <button class="primary" onclick="setPhase('buzzing')">🙋 손들기 받기</button>
+      <button class="warn" onclick="skipQ()">⏭ 패스 (아무도 못 맞힘)</button>
+    </div>
+  `;
+}
+
+function renderBuzzingPhase() {
+  const buttons = actors.map((a, i) => `
+    <button class="${a.color ? 'team-' + a.color : 'team-blue'}" onclick="pickBuzzer(${i})">
+      ${escapeHtml(a.name)}
+    </button>
+  `).join('');
+  return `
+    <div class="phase-msg">🙋 누가 손들었나요?</div>
+    <div class="team-buzz">${buttons}</div>
+    <div class="phase-actions">
+      <button class="ghost" onclick="setPhase('question')">⬅ 뒤로</button>
+      <button class="warn" onclick="skipQ()">⏭ 패스</button>
+    </div>
+  `;
+}
+
+function renderJudgingPhase() {
+  const winner = actors[currentBuzzer];
+  return `
+    <div class="phase-msg phase-msg-lg">🙋 <b style="color:var(--primary)">${escapeHtml(winner.name)}</b>이(가) 답합니다</div>
+    <div class="phase-actions">
+      <button class="success" onclick="markCorrect()">⭕ 정답!</button>
+      <button class="danger" onclick="markWrong()">❌ 오답</button>
+      <button class="ghost" onclick="setPhase('buzzing')">⬅ 뒤로</button>
+    </div>
+  `;
+}
+
+function renderRetryPhase() {
+  const lastWrong = actors[attemptedTeams[attemptedTeams.length - 1]];
+  const remaining = actors.map((a, i) =>
+    attemptedTeams.includes(i) ? '' : `
+      <button class="${a.color ? 'team-' + a.color : 'team-blue'}" onclick="pickBuzzer(${i})">
+        ${escapeHtml(a.name)}
+      </button>`
+  ).join('');
+  const tried = attemptedTeams.map(i =>
+    `<span class="tried-pill">${escapeHtml(actors[i].name)}</span>`
+  ).join('');
+
+  return `
+    <div class="phase-msg phase-msg-lg">❌ <b style="color:var(--danger)">${escapeHtml(lastWrong.name)}</b> 오답!</div>
+    <div class="phase-msg">다음 팀이 맞히면 점수를 받아요</div>
+    <div class="team-buzz">${remaining || '<em style="color:var(--text-mute)">남은 팀 없음 — 패스해 주세요</em>'}</div>
+    <div class="phase-tried">이미 시도: ${tried}</div>
+    <div class="phase-actions">
+      <button class="warn" onclick="skipQ()">⏭ 패스 (아무도 못 맞힘)</button>
+    </div>
+  `;
+}
+
+// ─── 액션 ─────────────────────────────────────────────
+function pickBuzzer(i) {
+  currentBuzzer = i;
+  setPhase('judging');
+}
+
+function markWrong() {
+  attemptedTeams.push(currentBuzzer);
+  currentBuzzer = null;
+  // 모두 시도했으면 자동 패스
+  if (attemptedTeams.length >= actors.length) {
+    skipQ();
+  } else {
+    setPhase('wrong-retry');
+  }
+}
+
+function skipQ() {
+  markSkipped(currentQuiz.id);
+  goToDashboard();
+}
+
+function markCorrect() { showRewardModal(); }
+
+// ─── Reward modal (이전과 동일) ───────────────────────
+function showRewardModal() {
+  const winner = actors[currentBuzzer];
+  const m = document.getElementById('mc');
+
+  if (currentQuiz.reward_type === 'collect') {
+    m.innerHTML = `
+      <h3>🎯 ${escapeHtml(winner.name)}, 마라탕 재료 1개 골라요!</h3>
+      <div class="ingredient-grid">
+        ${window.QUIZZES.ingredients.map(ing => `
+          <button class="ingredient-btn" onclick="finishCollect('${ing.id}')">
+            ${ing.emoji}<span class="label">${ing.name}</span>
+          </button>`).join('')}
+      </div>
+      <div style="text-align:center; margin-top:1rem;"><button onclick="closeModal()">취소</button></div>
+    `;
+  } else if (currentQuiz.reward_type === 'steal') {
+    m.innerHTML = `
+      <h3>🔥 ${escapeHtml(winner.name)}, 어느 팀에서 빼앗을까요?</h3>
+      <div style="display:flex; gap:0.7rem; flex-wrap:wrap; justify-content:center; margin:1rem 0;">
+        ${actors.map((a, i) => i === currentBuzzer ? '' : `
+          <button class="${a.color ? 'team-' + a.color : 'team-blue'}"
+                  ${a.inventory.length === 0 ? 'disabled' : ''}
+                  onclick="pickStealTarget(${i})">
+            ${escapeHtml(a.name)} (${a.inventory.length}개)
+          </button>`).join('')}
+      </div>
+      <div style="text-align:center;"><button onclick="closeModal()">취소</button></div>
+    `;
+  } else if (currentQuiz.reward_type === 'gift') {
+    giftCollect = [];
+    m.innerHTML = `
+      <h3>🎁 ${escapeHtml(winner.name)}, 본인이 가질 재료 2개를 고르세요!</h3>
+      <p style="text-align:center; color:var(--text-sub);">2개 선택 → 다른 팀에 1개 선물</p>
+      <div class="ingredient-grid">
+        ${window.QUIZZES.ingredients.map(ing => `
+          <button class="ingredient-btn" data-id="${ing.id}" onclick="giftPick('${ing.id}', this)">
+            ${ing.emoji}<span class="label">${ing.name}</span>
+          </button>`).join('')}
+      </div>
+      <div id="gift-show" style="text-align:center; font-size:2rem; margin-top:0.6rem; min-height:2.4rem;"></div>
+      <div style="text-align:center;"><button onclick="closeModal()">취소</button></div>
+    `;
+  } else if (currentQuiz.reward_type === 'swap') {
+    m.innerHTML = `
+      <h3>♻️ ${escapeHtml(winner.name)}, 어느 팀과 교환할까요?</h3>
+      <div style="display:flex; gap:0.7rem; flex-wrap:wrap; justify-content:center; margin:1rem 0;">
+        ${actors.map((a, i) => i === currentBuzzer ? '' : `
+          <button class="${a.color ? 'team-' + a.color : 'team-blue'}"
+                  ${a.inventory.length === 0 ? 'disabled' : ''}
+                  onclick="pickSwapTarget(${i})">
+            ${escapeHtml(a.name)} (${a.inventory.length}개)
+          </button>`).join('')}
+      </div>
+      ${winner.inventory.length === 0 ? '<p style="text-align:center; color:var(--danger);">⚠️ 본인 재료가 없어 교환 불가</p>' : ''}
+      <div style="text-align:center;"><button onclick="closeModal()">취소</button></div>
+    `;
+  }
+  document.getElementById('mb').classList.add('show');
+}
+
+function closeModal() { document.getElementById('mb').classList.remove('show'); }
+
+function finishCollect(ingId) {
+  applyReward(currentQuiz.id, currentBuzzer, { ingredient_id: ingId });
+  goToDashboard();
+}
+function pickStealTarget(targetIdx) {
+  stealTargetIdx = targetIdx;
+  const target = actors[targetIdx];
+  const counts = {};
+  target.inventory.forEach(id => counts[id] = (counts[id] || 0) + 1);
+  document.getElementById('mc').innerHTML = `
+    <h3>🔥 ${escapeHtml(target.name)}에서 빼앗을 재료 1개 선택</h3>
+    <div class="ingredient-grid">
+      ${Object.entries(counts).map(([id, c]) => {
+        const ing = getIngredient(id);
+        return `<button class="ingredient-btn" onclick="finishSteal('${id}')">
+          ${ing.emoji}<span class="label">${ing.name} ×${c}</span>
+        </button>`;
+      }).join('')}
+    </div>
+    <div style="text-align:center;"><button onclick="closeModal()">취소</button></div>
+  `;
+}
+function finishSteal(ingId) {
+  applyReward(currentQuiz.id, currentBuzzer, { ingredient_id: ingId, target_idx: stealTargetIdx });
+  goToDashboard();
+}
+function giftPick(ingId, btn) {
+  if (giftCollect.length >= 2) return;
+  giftCollect.push(ingId);
+  btn.classList.add('picked'); btn.disabled = true;
+  document.getElementById('gift-show').textContent = giftCollect.map(emojiOf).join(' ');
+  if (giftCollect.length === 2) setTimeout(showGiftRecipient, 500);
+}
+function showGiftRecipient() {
+  document.getElementById('mc').innerHTML = `
+    <h3>🎁 다른 팀에 선물할 분 선택</h3>
+    <p style="text-align:center; color:var(--text-sub);">획득: ${giftCollect.map(emojiOf).join(' ')}</p>
+    <div style="display:flex; gap:0.7rem; flex-wrap:wrap; justify-content:center; margin:1rem 0;">
+      ${actors.map((a, i) => i === currentBuzzer ? '' : `
+        <button class="${a.color ? 'team-' + a.color : 'team-blue'}" onclick="showGiftItem(${i})">${escapeHtml(a.name)}</button>
+      `).join('')}
+    </div>
+  `;
+}
+function showGiftItem(targetIdx) {
+  document.getElementById('mc').innerHTML = `
+    <h3>🎁 선물할 재료 1개 선택</h3>
+    <div class="ingredient-grid">
+      ${giftCollect.map(id => {
+        const ing = getIngredient(id);
+        return `<button class="ingredient-btn" onclick="finishGift('${id}', ${targetIdx})">
+          ${ing.emoji}<span class="label">${ing.name}</span>
+        </button>`;
+      }).join('')}
+    </div>
+  `;
+}
+function finishGift(giftId, targetIdx) {
+  applyReward(currentQuiz.id, currentBuzzer, {
+    collect_1: giftCollect[0], collect_2: giftCollect[1],
+    gift_id: giftId, target_idx: targetIdx
+  });
+  goToDashboard();
+}
+function pickSwapTarget(targetIdx) {
+  swapTargetIdx = targetIdx; swapMy = null; swapTheir = null;
+  const winner = actors[currentBuzzer];
+  const target = actors[targetIdx];
+  const myCounts = {}, tCounts = {};
+  winner.inventory.forEach(id => myCounts[id] = (myCounts[id] || 0) + 1);
+  target.inventory.forEach(id => tCounts[id] = (tCounts[id] || 0) + 1);
+  document.getElementById('mc').innerHTML = `
+    <h3>♻️ ${escapeHtml(winner.name)} ↔ ${escapeHtml(target.name)}</h3>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
+      <div>
+        <h4 style="text-align:center; margin-bottom:0.5rem;">내 재료에서 줄 것</h4>
+        <div class="ingredient-grid">
+          ${Object.entries(myCounts).map(([id, c]) => {
+            const ing = getIngredient(id);
+            return `<button class="ingredient-btn" onclick="swapPickMy('${id}', this)">
+              ${ing.emoji}<span class="label">${ing.name}×${c}</span></button>`;
+          }).join('')}
+        </div>
+      </div>
+      <div>
+        <h4 style="text-align:center; margin-bottom:0.5rem;">받을 재료</h4>
+        <div class="ingredient-grid">
+          ${Object.entries(tCounts).map(([id, c]) => {
+            const ing = getIngredient(id);
+            return `<button class="ingredient-btn" onclick="swapPickTheir('${id}', this)">
+              ${ing.emoji}<span class="label">${ing.name}×${c}</span></button>`;
+          }).join('')}
+        </div>
+      </div>
+    </div>
+    <div style="text-align:center; margin-top:1rem;">
+      <button class="success" id="swap-ok" disabled onclick="finishSwap()">✓ 교환 확정</button>
+      <button onclick="closeModal()">취소</button>
+    </div>
+  `;
+}
+function swapPickMy(id, btn) {
+  swapMy = id;
+  document.querySelectorAll('#mc > div > div:nth-child(1) .ingredient-btn').forEach(b => b.classList.remove('picked'));
+  btn.classList.add('picked');
+  if (swapMy && swapTheir) document.getElementById('swap-ok').disabled = false;
+}
+function swapPickTheir(id, btn) {
+  swapTheir = id;
+  document.querySelectorAll('#mc > div > div:nth-child(2) .ingredient-btn').forEach(b => b.classList.remove('picked'));
+  btn.classList.add('picked');
+  if (swapMy && swapTheir) document.getElementById('swap-ok').disabled = false;
+}
+function finishSwap() {
+  applyReward(currentQuiz.id, currentBuzzer, { target_idx: swapTargetIdx, my_id: swapMy, their_id: swapTheir });
+  goToDashboard();
+}
+
+window.addEventListener('load', () => {
+  if (!window.QUIZZES) { goToHome(); return; }
+  init();
+});
+</script>
+</body>
+</html>

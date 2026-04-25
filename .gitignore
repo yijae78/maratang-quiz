@@ -1,0 +1,31 @@
+# 실행 세션 로그 (매번 변경)
+outputs/sessions/
+
+# 자동 검증 캡처 이미지
+outputs/_shots/
+
+# 임시 테스트 스크립트
+scripts/_*.py
+
+# 테스트용 그림
+picture/test_*.png
+picture/gen_test/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# 시스템
+.DS_Store
+Thumbs.db
+
+# 에디터
+.vscode/
+.idea/
+*.swp
+
+# 백업
+*.bak
+*~

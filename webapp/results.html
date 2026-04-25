@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>결과 — 교리퀴즈</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<h1 id="title">🏆 우리 마라탕 완성! 🏆</h1>
+<h3 id="subtitle" style="color:#7f8c8d;"></h3>
+
+<div id="podium" class="podium"></div>
+
+<div style="text-align:center; margin-top:2rem; display:flex; gap:0.7rem; justify-content:center; flex-wrap:wrap;">
+  <button class="success" onclick="exportTxt()">📋 결과 저장 (텍스트)</button>
+  <button onclick="goToDashboard()">⬅ 대시보드로 돌아가기</button>
+  <button class="danger" onclick="restart()">🔄 새 대회 시작</button>
+</div>
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+<script>
+function render() {
+  const s = loadSession();
+  if (!s) { goToHome(); return; }
+  const isInd = s.mode === 'individual';
+  const ranking = computeRanking();
+  const total = window.QUIZZES.meta.total;
+
+  document.getElementById('subtitle').textContent =
+    `${isInd ? '개인전' : '팀전'} · 푼 문제 ${s.solved.length}/${total}`;
+
+  const medals = ['🥇','🥈','🥉','4️⃣','5️⃣','6️⃣','7️⃣','8️⃣','9️⃣','🔟'];
+  const topN = isInd ? Math.min(3, ranking.length) : ranking.length;
+
+  document.getElementById('podium').innerHTML = ranking.map((a, i) => {
+    const medal = i < medals.length ? medals[i] : `${i+1}위`;
+    const mvpTag = (isInd && i < topN) ? '<span style="color:#e67e22; margin-left:0.5rem;">⭐ MVP</span>' : '';
+    return `
+      <div class="podium-item ${(isInd && i < topN) ? 'mvp' : ''}">
+        <div class="medal">${medal}</div>
+        <div class="name">${escapeHtml(a.name)}${mvpTag}</div>
+        <div class="pot">${a.inventory.map(emojiOf).join(' ') || '🍲'}</div>
+        <div class="count">${a.total}개 · ${a.diversity}종</div>
+      </div>
+    `;
+  }).join('');
+}
+
+function exportTxt() {
+  const s = loadSession();
+  const ranking = computeRanking();
+  const isInd = s.mode === 'individual';
+  const lines = [
+    `🏆 ${window.QUIZZES.meta.title} 결과`,
+    `모드: ${isInd ? '개인전' : '팀전'}`,
+    `시작: ${s.started_at}`,
+    `푼 문제: ${s.solved.length}/${window.QUIZZES.meta.total}`,
+    '',
+    '── 순위 ──',
+  ];
+  ranking.forEach((a, i) => {
+    const tag = (isInd && i < 3) ? ' ⭐MVP' : '';
+    lines.push(`${i+1}위 ${a.name}${tag}: ${a.total}개 (${a.diversity}종)`);
+    lines.push(`  ${a.inventory.map(emojiOf).join(' ')}`);
+  });
+  const blob = new Blob([lines.join('\n')], { type: 'text/plain;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `결과_${new Date().toISOString().slice(0,10)}.txt`;
+  a.click();
+}
+
+function restart() {
+  if (confirm('새 대회를 시작할까요? (현재 기록은 삭제됩니다)')) {
+    clearSession();
+    goToHome();
+  }
+}
+
+window.addEventListener('load', () => {
+  if (!window.QUIZZES) { goToHome(); return; }
+  render();
+});
+</script>
+</body>
+</html>

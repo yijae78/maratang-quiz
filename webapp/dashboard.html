@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>대시보드 — 드림아동부 교리퀴즈대회</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body class="dashboard-layout">
+
+<!-- Top bar -->
+<header class="topbar">
+  <button class="icon-btn" onclick="toggleLeft()" title="필터 사이드바">☰</button>
+  <div class="topbar-title">
+    <span class="topbar-eyebrow">드림교회 · 아동부</span>
+    <span class="topbar-main">교리퀴즈대회</span>
+    <span class="topbar-date">2026.04.26</span>
+  </div>
+  <button class="icon-btn" onclick="toggleRight()" title="점수판/진행">📊</button>
+</header>
+
+<!-- Left sidebar (filter) -->
+<aside class="sidebar-left" id="sb-left">
+  <div class="sb-header">
+    <h3>🔍 필터</h3>
+    <button class="ghost small" onclick="clearFilter()">필터 해제</button>
+  </div>
+
+  <div class="sb-section">
+    <div class="sb-label">난이도</div>
+    <div class="sb-chip-row" id="filter-diff"></div>
+  </div>
+
+  <div class="sb-section">
+    <div class="sb-label">형식</div>
+    <div class="sb-chip-row" id="filter-style"></div>
+  </div>
+
+  <div class="sb-section">
+    <div class="sb-label">주제 (7과)</div>
+    <div class="sb-chip-col" id="filter-topic"></div>
+  </div>
+</aside>
+
+<!-- Main: card grid only -->
+<main class="dash-main">
+  <div id="card-grid" class="card-grid"></div>
+</main>
+
+<!-- Right sidebar (score + progress) -->
+<aside class="sidebar-right" id="sb-right">
+  <div class="sb-header">
+    <h3>🏆 진행 상황</h3>
+  </div>
+
+  <div class="sb-section">
+    <div id="progress-area"></div>
+  </div>
+
+  <div class="sb-section">
+    <div class="sb-label">점수판</div>
+    <div id="score-area"></div>
+  </div>
+
+  <div class="sb-section sb-actions">
+    <button class="success block" onclick="goToResults()">🏆 결과 보기</button>
+    <button class="ghost block" onclick="goToHome()">🏠 처음으로</button>
+  </div>
+</aside>
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+<script>
+const filter = { difficulty: null, style: null, topic: null };
+
+// 사이드바 토글 (localStorage 기억)
+function toggleLeft() {
+  document.getElementById('sb-left').classList.toggle('collapsed');
+  localStorage.setItem('sb_left_collapsed', document.getElementById('sb-left').classList.contains('collapsed'));
+}
+function toggleRight() {
+  document.getElementById('sb-right').classList.toggle('collapsed');
+  localStorage.setItem('sb_right_collapsed', document.getElementById('sb-right').classList.contains('collapsed'));
+}
+
+// 필터 (toggle: 같은 항목 다시 클릭 시 해제)
+function setFilter(key, value) {
+  filter[key] = (filter[key] === value) ? null : value;
+  renderAll();
+}
+function clearFilter() {
+  filter.difficulty = null; filter.style = null; filter.topic = null;
+  renderAll();
+}
+
+function renderFilters() {
+  const STYLE = [
+    {id:'mc',label:'객관식',emoji:'🔢'},
+    {id:'ox',label:'OX',emoji:'⭕'},
+    {id:'fill',label:'빈칸',emoji:'📝'},
+    {id:'open',label:'주관식',emoji:'💭'},
+    {id:'apply',label:'적용',emoji:'🌱'},
+    {id:'nonsense',label:'넌센스',emoji:'🤪'},
+    {id:'image',label:'그림',emoji:'🖼'},
+  ];
+  document.getElementById('filter-diff').innerHTML =
+    [1,2,3].map(d =>
+      `<button class="chip ${filter.difficulty===d?'active':''}" onclick="setFilter('difficulty',${d})">${'★'.repeat(d)}</button>`
+    ).join('');
+  document.getElementById('filter-style').innerHTML =
+    STYLE.map(s =>
+      `<button class="chip ${filter.style===s.id?'active':''}" onclick="setFilter('style','${s.id}')">${s.emoji} ${s.label}</button>`
+    ).join('');
+  document.getElementById('filter-topic').innerHTML =
+    window.QUIZZES.topics.map(t =>
+      `<button class="chip wide ${filter.topic===t.id?'active':''}" onclick="setFilter('topic','${t.id}')">${t.emoji} ${t.title}</button>`
+    ).join('');
+}
+
+function renderProgress(s) {
+  const total = window.QUIZZES.meta.total;
+  const solved = s.solved.length;
+  const remain = total - solved;
+  const pct = total ? Math.round(solved / total * 100) : 0;
+  document.getElementById('progress-area').innerHTML = `
+    <div class="prog-stack">
+      <div class="prog-stat"><span class="prog-num total">${total}</span> <span>전체</span></div>
+      <div class="prog-stat"><span class="prog-num solved">${solved}</span> <span>푼 문제</span></div>
+      <div class="prog-stat"><span class="prog-num remain">${remain}</span> <span>남은 문제</span></div>
+      <div class="prog-bar"><div class="prog-fill" style="width:${pct}%"></div><div class="prog-label">${pct}%</div></div>
+    </div>
+  `;
+}
+
+function renderAll() {
+  const s = loadSession();
+  if (!s) { goToHome(); return; }
+  renderFilters();
+  renderProgress(s);
+  document.getElementById('score-area').innerHTML = renderScorePanel(s);
+  document.getElementById('card-grid').innerHTML = renderCardGrid(s, filter);
+}
+
+window.addEventListener('load', () => {
+  if (!window.QUIZZES) { goToHome(); return; }
+  // 사이드바 상태 복원
+  if (localStorage.getItem('sb_left_collapsed') === 'true')  document.getElementById('sb-left').classList.add('collapsed');
+  if (localStorage.getItem('sb_right_collapsed') === 'true') document.getElementById('sb-right').classList.add('collapsed');
+  renderAll();
+});
+</script>
+</body>
+</html>

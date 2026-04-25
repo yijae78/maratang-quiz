@@ -1,0 +1,3131 @@
+/* ─────────────────────────────────────────────────────────────
+   드림아동부 교리퀴즈 — Dark Premium (Summer-Revival-LMS DNA)
+   - Deep Navy 배경 + Sky/Cyan/Violet 액센트
+   - Pretendard Variable
+   - 좌측 필터 + 메인 카드 + 우측 점수 (모두 토글)
+   - subtle glow on hover, glassmorphism, no busy animation
+   ─────────────────────────────────────────────────────────────*/
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css');
+
+:root {
+  /* ── Backgrounds ── */
+  --bg:           #0f172a;        /* Deep navy (slate-900) */
+  --surface:      #151823;        /* Card */
+  --surface-2:    #1c2030;        /* Raised */
+  --surface-3:    #232838;        /* Hover */
+  --bg-overlay:   rgba(15,23,42,0.7);
+
+  /* ── Text ── */
+  --text:         #e2e8f0;        /* Primary text */
+  --text-sub:     #94a3b8;        /* Secondary */
+  --text-mute:    #64748b;        /* Muted */
+
+  /* ── Accent ── */
+  --primary:      #38bdf8;        /* Sky 400 */
+  --primary-dark: #0ea5e9;        /* Sky 500 */
+  --primary-soft: rgba(56,189,248,0.12);
+  --secondary:    #22d3ee;        /* Cyan 400 */
+  --accent:       #a78bfa;        /* Violet 400 */
+  --success:      #34d399;        /* Emerald 400 */
+  --warn:         #fbbf24;        /* Amber 400 */
+  --danger:       #f87171;        /* Red 400 */
+
+  /* ── Borders ── */
+  --border:       #1e2235;
+  --border-soft:  rgba(255,255,255,0.06);
+
+  /* ── Shadows ── */
+  --shadow-xs:    0 1px 2px rgba(0,0,0,0.3);
+  --shadow:       0 4px 16px rgba(0,0,0,0.4);
+  --shadow-lg:    0 12px 40px rgba(0,0,0,0.5);
+  --glow-sky:     0 0 0 1px rgba(56,189,248,0.3), 0 0 20px rgba(56,189,248,0.15);
+  --glow-violet:  0 0 0 1px rgba(167,139,250,0.3), 0 0 20px rgba(167,139,250,0.15);
+
+  /* ── Style accents (subtle) ── */
+  --c-mc:         #38bdf8;        /* sky */
+  --c-ox:         #22d3ee;        /* cyan */
+  --c-fill:       #fb923c;        /* orange */
+  --c-open:       #a78bfa;        /* violet */
+  --c-apply:      #34d399;        /* emerald */
+  --c-nonsense:   #fbbf24;        /* amber */
+  --c-image:      #f87171;        /* red */
+
+  /* ── Team colors ── */
+  --t-red:    #f87171;
+  --t-blue:   #60a5fa;
+  --t-yellow: #fbbf24;
+  --t-green:  #34d399;
+
+  --topbar-h: 64px;
+  --sb-w: 240px;
+  --sb-w-r: 280px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  font-family: 'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont,
+               system-ui, 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-weight: 450;
+  letter-spacing: -0.012em;
+  line-height: 1.6;
+  font-size: 15px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  word-break: keep-all;
+}
+
+/* Subtle ambient gradient — 단 한 번만, 정적 */
+body::before {
+  content: ''; position: fixed; inset: 0; z-index: -1; pointer-events: none;
+  background:
+    radial-gradient(circle 800px at 80% -10%, rgba(56,189,248,0.08), transparent 60%),
+    radial-gradient(circle 700px at -10% 80%, rgba(167,139,250,0.06), transparent 60%);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   Index page (centered hero)
+   ═══════════════════════════════════════════════════════════ */
+body.page-center {
+  display: flex; align-items: center; justify-content: center;
+  padding: 24px;
+}
+.hero-card {
+  background: linear-gradient(180deg, var(--surface-2) 0%, var(--surface) 100%);
+  border: 1px solid var(--border);
+  border-radius: 1.5rem;
+  padding: 2.5rem 2.5rem 2rem;
+  max-width: 560px; width: 100%;
+  box-shadow: var(--shadow-lg);
+  text-align: center;
+  position: relative; overflow: hidden;
+}
+.hero-card::before {
+  content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+  width: 60%; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--primary), transparent);
+  opacity: 0.6;
+}
+.hero-eyebrow {
+  font-size: 0.85rem; color: var(--primary);
+  font-weight: 700; letter-spacing: 0.1em;
+  margin-bottom: 0.6rem; text-transform: uppercase;
+}
+.hero-title {
+  font-size: 2.6rem; font-weight: 900;
+  color: var(--text); letter-spacing: -0.03em;
+  margin: 0;
+  background: linear-gradient(135deg, #fff 0%, #cbd5e1 100%);
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.hero-date {
+  font-size: 1.25rem; color: var(--secondary);
+  font-weight: 700; margin: 0.6rem 0 0.3rem;
+}
+.hero-sub {
+  font-size: 0.95rem; color: var(--text-sub);
+  font-weight: 500; margin-bottom: 1.5rem;
+}
+.hero-meta {
+  display: flex; gap: 0.5rem; justify-content: center; flex-wrap: wrap;
+  margin-bottom: 2rem;
+}
+.meta-pill {
+  background: var(--surface-2); border: 1px solid var(--border);
+  border-radius: 99px; padding: 0.4rem 0.9rem;
+  font-size: 0.85rem; font-weight: 600;
+  color: var(--text-sub);
+  display: flex; align-items: center; gap: 0.35rem;
+}
+.hero-section-title {
+  font-size: 0.78rem; color: var(--text-mute);
+  font-weight: 700; margin: 1.5rem 0 0.7rem;
+  text-align: left; letter-spacing: 0.1em; text-transform: uppercase;
+}
+.hero-modes {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 0.7rem;
+}
+.mode-btn {
+  background: var(--surface-2); border: 1px solid var(--border);
+  border-radius: 1rem; padding: 1.5rem 1rem;
+  cursor: pointer; transition: all 0.18s ease;
+  font-family: inherit; color: var(--text);
+  display: flex; flex-direction: column; align-items: center; gap: 0.3rem;
+}
+.mode-btn:hover {
+  border-color: var(--primary); background: var(--surface-3);
+  transform: translateY(-2px); box-shadow: var(--glow-sky);
+}
+.mode-btn .mode-emoji { font-size: 2rem; }
+.mode-btn .mode-name { font-size: 1.2rem; font-weight: 800; color: var(--text); }
+.mode-btn .mode-desc { font-size: 0.8rem; color: var(--text-sub); font-weight: 500; }
+.hero-setup { margin-top: 1rem; text-align: left; }
+.input-stack { display: flex; flex-direction: column; gap: 0.5rem; }
+.hero-action { text-align: center; margin-top: 1.2rem; }
+.hero-resume {
+  margin-top: 2rem; padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
+  text-align: center; display: flex; flex-direction: column; gap: 0.6rem; align-items: center;
+}
+.hero-resume p { color: var(--text-sub); font-size: 0.88rem; min-height: 1rem; }
+
+/* ═══════════════════════════════════════════════════════════
+   Buttons & Inputs
+   ═══════════════════════════════════════════════════════════ */
+button {
+  font-family: inherit; font-size: 0.95rem; font-weight: 700;
+  padding: 0.6rem 1.1rem;
+  border: 1px solid var(--border); border-radius: 0.6rem;
+  cursor: pointer;
+  background: var(--surface-2); color: var(--text);
+  transition: all 0.15s ease;
+  letter-spacing: -0.01em;
+}
+button:hover:not(:disabled) {
+  background: var(--surface-3); border-color: var(--text-mute);
+}
+button:disabled { opacity: 0.35; cursor: not-allowed; }
+
+button.primary {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+  color: #082f49; border-color: var(--primary); font-size: 1.1rem;
+  padding: 0.85rem 1.8rem; box-shadow: var(--glow-sky);
+}
+button.primary:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 0 0 1px rgba(56,189,248,0.5), 0 0 30px rgba(56,189,248,0.3);
+}
+button.success { background: var(--success); color: #064e3b; border-color: var(--success); font-weight: 800; }
+button.success:hover:not(:disabled) { background: #10b981; box-shadow: 0 0 20px rgba(52,211,153,0.3); }
+button.danger  { background: var(--danger); color: #fff; border-color: var(--danger); }
+button.danger:hover:not(:disabled) { background: #ef4444; }
+button.warn    { background: var(--warn); color: #422006; border-color: var(--warn); font-weight: 800; }
+button.ghost   { background: transparent; color: var(--text-sub); border-color: var(--border); }
+button.ghost:hover:not(:disabled) { background: var(--surface-2); color: var(--text); }
+button.small { font-size: 0.8rem; padding: 0.32rem 0.7rem; }
+button.block { display: block; width: 100%; }
+
+button.team-red    { background: var(--t-red);    color: #fff; border-color: var(--t-red); font-weight: 800; }
+button.team-blue   { background: var(--t-blue);   color: #fff; border-color: var(--t-blue); font-weight: 800; }
+button.team-yellow { background: var(--t-yellow); color: #422006; border-color: var(--t-yellow); font-weight: 800; }
+button.team-green  { background: var(--t-green);  color: #064e3b; border-color: var(--t-green); font-weight: 800; }
+
+input[type="text"], textarea {
+  font-family: inherit; font-size: 1rem; font-weight: 500;
+  padding: 0.7rem 0.95rem;
+  border: 1px solid var(--border); border-radius: 0.6rem;
+  background: var(--surface); color: var(--text);
+  transition: border-color 0.15s, box-shadow 0.15s; width: 100%;
+}
+input[type="text"]:focus, textarea:focus {
+  outline: none; border-color: var(--primary);
+  box-shadow: 0 0 0 3px var(--primary-soft);
+}
+textarea { resize: vertical; }
+
+/* ═══════════════════════════════════════════════════════════
+   Dashboard layout
+   ═══════════════════════════════════════════════════════════ */
+body.dashboard-layout {
+  display: grid;
+  grid-template-columns: var(--sb-w) 1fr var(--sb-w-r);
+  grid-template-rows: var(--topbar-h) 1fr;
+  grid-template-areas:
+    "header header header"
+    "left   main   right";
+  height: 100vh; overflow: hidden;
+  transition: grid-template-columns 0.3s ease;
+}
+body.dashboard-layout:has(#sb-left.collapsed) {
+  grid-template-columns: 0 1fr var(--sb-w-r);
+}
+body.dashboard-layout:has(#sb-right.collapsed) {
+  grid-template-columns: var(--sb-w) 1fr 0;
+}
+body.dashboard-layout:has(#sb-left.collapsed):has(#sb-right.collapsed) {
+  grid-template-columns: 0 1fr 0;
+}
+
+/* Top bar */
+.topbar {
+  grid-area: header;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 0 1rem;
+  display: flex; align-items: center; gap: 0.8rem;
+  z-index: 10;
+  position: relative;
+}
+.topbar::after {
+  content: ''; position: absolute; bottom: -1px; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(56,189,248,0.4), transparent);
+}
+.icon-btn {
+  background: var(--surface-2); color: var(--text);
+  width: 38px; height: 38px; padding: 0;
+  border: 1px solid var(--border);
+  border-radius: 0.55rem;
+  font-size: 1.1rem;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.icon-btn:hover { background: var(--surface-3); border-color: var(--primary); color: var(--primary); }
+.topbar-title { flex: 1; display: flex; align-items: baseline; gap: 0.7rem; flex-wrap: wrap; }
+.topbar-eyebrow { font-size: 0.75rem; color: var(--text-mute); font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; }
+.topbar-main { font-size: 1.25rem; font-weight: 800; color: var(--text); letter-spacing: -0.02em; }
+.topbar-date { font-size: 0.85rem; color: var(--secondary); font-weight: 700; padding: 0.15rem 0.6rem; background: rgba(34,211,238,0.12); border-radius: 0.5rem; }
+
+/* Sidebars */
+.sidebar-left, .sidebar-right {
+  background: var(--surface);
+  overflow-y: auto; overflow-x: hidden;
+  transition: width 0.3s ease;
+  scrollbar-width: thin; scrollbar-color: var(--border) transparent;
+}
+.sidebar-left::-webkit-scrollbar, .sidebar-right::-webkit-scrollbar { width: 6px; }
+.sidebar-left::-webkit-scrollbar-thumb, .sidebar-right::-webkit-scrollbar-thumb { background: var(--border); border-radius: 99px; }
+.sidebar-left  { grid-area: left;  border-right: 1px solid var(--border); }
+.sidebar-right { grid-area: right; border-left: 1px solid var(--border); }
+.sidebar-left.collapsed, .sidebar-right.collapsed {
+  width: 0 !important; padding: 0 !important; border: none;
+}
+
+.sb-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 1rem 1.1rem 0.6rem;
+  position: sticky; top: 0; background: var(--surface); z-index: 2;
+  border-bottom: 1px solid var(--border-soft);
+}
+.sb-header h3 { font-size: 0.95rem; font-weight: 800; color: var(--text); letter-spacing: -0.01em; }
+
+.sb-section { padding: 0.7rem 1.1rem 1rem; }
+.sb-section + .sb-section { border-top: 1px solid var(--border-soft); padding-top: 0.9rem; }
+.sb-label {
+  font-size: 0.7rem; color: var(--text-mute);
+  font-weight: 700; letter-spacing: 0.12em;
+  text-transform: uppercase; margin-bottom: 0.5rem;
+}
+.sb-chip-row { display: flex; flex-wrap: wrap; gap: 0.3rem; }
+.sb-chip-col { display: flex; flex-direction: column; gap: 0.3rem; }
+.chip {
+  background: var(--surface-2); color: var(--text-sub);
+  border: 1px solid var(--border); border-radius: 0.5rem;
+  padding: 0.4rem 0.7rem;
+  font-size: 0.83rem; font-weight: 600;
+  cursor: pointer; transition: all 0.12s;
+  text-align: left; font-family: inherit;
+}
+.chip:hover { background: var(--surface-3); color: var(--text); border-color: var(--text-mute); }
+.chip.active {
+  background: var(--primary-soft); color: var(--primary);
+  border-color: var(--primary); font-weight: 800;
+  box-shadow: 0 0 0 1px var(--primary), 0 0 12px rgba(56,189,248,0.2);
+}
+.chip.wide { width: 100%; }
+.sb-actions { display: flex; flex-direction: column; gap: 0.5rem; }
+
+/* Progress (right sidebar) */
+.prog-stack { display: flex; flex-direction: column; gap: 0.55rem; }
+.prog-stat {
+  display: flex; align-items: center; gap: 0.6rem;
+  font-size: 0.88rem; font-weight: 600; color: var(--text-sub);
+}
+.prog-num {
+  display: inline-block; min-width: 46px; padding: 0.15rem 0.55rem;
+  border-radius: 0.4rem; color: #fff; font-weight: 800;
+  font-size: 1.05rem; text-align: center;
+}
+.prog-num.total  { background: var(--primary); color: #082f49; }
+.prog-num.solved { background: var(--success); color: #064e3b; }
+.prog-num.remain { background: var(--warn); color: #422006; }
+.prog-bar {
+  background: var(--surface-2); border: 1px solid var(--border);
+  border-radius: 99px; height: 0.95rem;
+  position: relative; overflow: hidden; margin-top: 0.3rem;
+}
+.prog-fill {
+  background: linear-gradient(90deg, var(--success), var(--primary));
+  height: 100%; transition: width 0.5s ease;
+  box-shadow: 0 0 12px rgba(52,211,153,0.4);
+}
+.prog-label {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.72rem; font-weight: 800; color: var(--text);
+}
+
+/* Score panel (right sidebar — vertical) */
+.score-panel { display: flex; flex-direction: column; gap: 0.5rem; }
+.team-card {
+  background: var(--surface-2);
+  border: 1px solid var(--border); border-left: 3px solid var(--primary);
+  border-radius: 0.6rem; padding: 0.65rem 0.85rem;
+  display: flex; flex-direction: column; gap: 0.3rem;
+  transition: border-color 0.15s;
+}
+.team-card.red    { border-left-color: var(--t-red); }
+.team-card.blue   { border-left-color: var(--t-blue); }
+.team-card.yellow { border-left-color: var(--t-yellow); }
+.team-card.green  { border-left-color: var(--t-green); }
+.team-card.individual { border-left-color: var(--accent); }
+.team-card .name {
+  font-weight: 700; font-size: 0.9rem; color: var(--text);
+  display: flex; align-items: center; justify-content: space-between;
+}
+.team-card .count {
+  background: var(--bg); color: var(--primary);
+  border: 1px solid var(--border);
+  border-radius: 0.4rem; padding: 0.05rem 0.5rem;
+  font-size: 0.78rem; font-weight: 800;
+}
+.team-card .inventory {
+  font-size: 1.05rem; letter-spacing: 0.08rem;
+  word-break: break-all; min-height: 1.4rem;
+}
+
+/* New: 점수판 큰 숫자만 (이모지 제거) */
+.team-card { flex-direction: row !important; justify-content: space-between; align-items: center; gap: 0.6rem; padding: 0.85rem 1rem; }
+.team-card .team-name {
+  font-weight: 800; font-size: 1.05rem; color: var(--text);
+  flex: 1; min-width: 0;
+}
+.team-card .team-score {
+  font-size: 2.4rem; font-weight: 900; color: var(--primary);
+  line-height: 1; min-width: 50px; text-align: right;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   Main: card grid
+   ═══════════════════════════════════════════════════════════ */
+.dash-main {
+  grid-area: main; overflow-y: auto;
+  padding: 1.2rem 1.5rem;
+  scrollbar-width: thin; scrollbar-color: var(--border) transparent;
+}
+.dash-main::-webkit-scrollbar { width: 8px; }
+.dash-main::-webkit-scrollbar-thumb { background: var(--border); border-radius: 99px; }
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+  gap: 0.7rem;
+}
+
+.quiz-card {
+  aspect-ratio: 1;
+  background: var(--surface);
+  border-radius: 0.75rem;
+  padding: 0.5rem;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  cursor: pointer;
+  border: 1px solid var(--border);
+  border-bottom: 3px solid var(--primary);
+  position: relative; transition: all 0.15s ease;
+  user-select: none;
+}
+.quiz-card:hover:not(.solved) {
+  transform: translateY(-3px);
+  background: var(--surface-2);
+  border-color: var(--text-mute);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.4), 0 0 0 1px var(--primary), 0 0 20px rgba(56,189,248,0.15);
+}
+.quiz-card.style-mc       { border-bottom-color: var(--c-mc); }
+.quiz-card.style-ox       { border-bottom-color: var(--c-ox); }
+.quiz-card.style-fill     { border-bottom-color: var(--c-fill); }
+.quiz-card.style-open     { border-bottom-color: var(--c-open); }
+.quiz-card.style-apply    { border-bottom-color: var(--c-apply); }
+.quiz-card.style-nonsense { border-bottom-color: var(--c-nonsense); }
+.quiz-card.style-image    { border-bottom-color: var(--c-image); }
+
+.quiz-card.solved {
+  background: rgba(52,211,153,0.18) !important;  /* 옅은 emerald 단색 */
+  border-color: var(--success) !important;
+  border-bottom-color: var(--success) !important;
+  border-bottom-width: 5px !important;
+  cursor: not-allowed;
+  opacity: 0.85;  /* 더 진하게 */
+  box-shadow: 0 0 0 1px rgba(52,211,153,0.3), 0 4px 16px rgba(52,211,153,0.15);
+}
+.quiz-card.solved:hover { transform: none !important; }  /* 호버 비활성 */
+.quiz-card.solved::after {
+  content: "✓ 완료";
+  font-size: 1.3rem; font-weight: 900;
+  color: #064e3b;
+  position: absolute;
+  background: var(--success);
+  padding: 0.3rem 0.7rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  letter-spacing: 0.02em;
+}
+.quiz-card.solved .card-no, .quiz-card.solved .card-cat { opacity: 0.4; }
+
+.quiz-card .card-no  { font-size: 1.85rem; line-height: 1; font-weight: 900; color: var(--text); }
+.quiz-card .card-cat { font-size: 0.74rem; color: var(--text-sub); margin-top: 0.4rem; font-weight: 600; letter-spacing: 0.02em; }
+
+/* ═══════════════════════════════════════════════════════════
+   Question page
+   ═══════════════════════════════════════════════════════════ */
+.question-container {
+  max-width: 1200px; margin: 1.5rem auto;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 1.2rem;
+  padding: 1.8rem 2.2rem;
+  box-shadow: var(--shadow-lg);
+}
+.question-header {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 1.2rem; font-size: 0.85rem; color: var(--text-sub);
+  flex-wrap: wrap; gap: 0.5rem;
+  padding-bottom: 1rem; border-bottom: 1px solid var(--border-soft);
+}
+.question-header b { color: var(--primary); font-weight: 800; }
+.question-text {
+  font-size: 2rem; line-height: 1.5; text-align: center;
+  margin: 1.5rem 0; color: var(--text); font-weight: 700; letter-spacing: -0.02em;
+}
+.question-image {
+  display: block; max-width: 55%; max-height: 360px;
+  margin: 1rem auto; border-radius: 0.8rem; box-shadow: var(--shadow-lg);
+  border: 1px solid var(--border);
+}
+.option-grid {
+  display: grid; grid-template-columns: repeat(2, 1fr);
+  gap: 0.6rem; max-width: 900px; margin: 1rem auto;
+}
+.option-grid.ox { grid-template-columns: repeat(2, 1fr); max-width: 600px; }
+.option-grid button {
+  font-size: 1.1rem; padding: 0.95rem 1.2rem;
+  text-align: left; background: var(--surface-2);
+  border: 1px solid var(--border); font-weight: 600;
+}
+.option-grid button:hover { background: var(--surface-3); border-color: var(--primary); }
+.option-grid button .num { display: inline-block; width: 1.7rem; color: var(--primary); font-weight: 900; }
+
+/* Option auto-check states */
+.option-item.correct {
+  background: rgba(52,211,153,0.15) !important;
+  border-color: var(--success) !important;
+  color: var(--success) !important;
+  box-shadow: 0 0 0 1px var(--success), 0 0 16px rgba(52,211,153,0.25);
+}
+.option-item.correct::after { content: "  ✓"; font-weight: 900; }
+.option-item.correct .num { color: var(--success) !important; }
+.option-item.wrong {
+  background: rgba(248,113,113,0.15) !important;
+  border-color: var(--danger) !important;
+  color: var(--danger) !important;
+}
+.option-item.wrong::after { content: "  ✗"; font-weight: 900; }
+.option-item.wrong .num { color: var(--danger) !important; }
+
+/* Step indicator */
+.step-indicator {
+  display: flex; align-items: center; justify-content: center;
+  gap: 0.5rem; padding: 0.8rem 0 1.2rem;
+}
+.step { display: flex; flex-direction: column; align-items: center; gap: 0.3rem; }
+.step .step-num {
+  width: 38px; height: 38px; border-radius: 50%;
+  background: var(--surface-2); color: var(--text-mute);
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 900; font-size: 1rem;
+  border: 2px solid var(--border);
+  transition: all 0.25s ease;
+}
+.step .step-label {
+  font-size: 0.72rem; color: var(--text-mute);
+  font-weight: 700; letter-spacing: 0.02em;
+}
+.step.active .step-num {
+  background: var(--primary); color: #082f49;
+  border-color: var(--primary);
+  box-shadow: var(--glow-sky);
+}
+.step.active .step-label { color: var(--primary); }
+.step.done .step-num {
+  background: var(--success); color: #064e3b;
+  border-color: var(--success);
+}
+.step.done .step-label { color: var(--success); }
+.step-line {
+  width: 60px; height: 2px;
+  background: var(--border);
+  transition: background 0.25s ease;
+  margin-top: -16px;
+}
+.step-line.active { background: var(--success); }
+
+/* Phase area */
+.phase-area {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 0.8rem;
+  padding: 1.2rem 1.4rem;
+  margin-top: 1rem;
+}
+.phase-msg {
+  text-align: center; font-size: 1.15rem;
+  margin: 0.4rem 0 0.8rem; color: var(--text); font-weight: 600;
+}
+.phase-msg-lg { font-size: 1.4rem; font-weight: 700; margin-bottom: 1rem; }
+.phase-actions {
+  display: flex; gap: 0.7rem; justify-content: center; flex-wrap: wrap;
+  margin-top: 0.8rem;
+}
+.phase-tried {
+  text-align: center; color: var(--text-sub);
+  font-size: 0.85rem; margin-top: 0.7rem;
+  display: flex; gap: 0.4rem; justify-content: center; align-items: center; flex-wrap: wrap;
+}
+.tried-pill {
+  display: inline-block;
+  background: var(--surface);
+  color: var(--text-mute);
+  padding: 0.2rem 0.6rem;
+  border-radius: 99px;
+  font-size: 0.78rem;
+  border: 1px solid var(--border);
+  text-decoration: line-through;
+  text-decoration-color: var(--danger);
+}
+
+/* Answer confirm box — v3: 평소 숨김, A 키 또는 🔒 클릭 시 우상단 1.5초 표시 */
+.answer-box {
+  display: none;
+  position: absolute; top: 60px; right: 20px;
+  background: rgba(251,191,36,0.95); color: #1f2937;
+  border: 2px solid var(--warn);
+  border-radius: 0.7rem;
+  padding: 0.8rem 1rem;
+  max-width: 360px; min-width: 260px;
+  font-size: 0.95rem;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.5), 0 0 24px rgba(251,191,36,0.3);
+  z-index: 50;
+  opacity: 0; transform: translateY(-12px);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+.answer-box.show { display: block; opacity: 1; transform: translateY(0); }
+.answer-box .ab-label { color: #92400e; }
+.answer-box .ab-answer { color: #1f2937; }
+.answer-box .ab-explain { color: #44403c; }
+.answer-box .ab-bible { color: #7c2d12; }
+.ab-label {
+  font-size: 0.68rem; color: var(--warn);
+  font-weight: 800; letter-spacing: 0.12em;
+  margin-bottom: 0.35rem;
+}
+.ab-answer { font-weight: 700; color: var(--text); font-size: 1rem; }
+.ab-explain { color: var(--text-sub); margin-top: 0.3rem; line-height: 1.4; }
+.ab-bible { color: var(--secondary); margin-top: 0.3rem; font-weight: 700; font-size: 0.85rem; }
+
+.answer-section {
+  background: rgba(251,191,36,0.08);
+  border-left: 3px solid var(--warn);
+  border-radius: 0.6rem; padding: 1rem 1.4rem; margin: 1rem 0;
+}
+.answer-section .label { font-size: 0.85rem; color: var(--text-sub); font-weight: 700; }
+.answer-section .text  { font-size: 1.35rem; color: var(--success); font-weight: 800; }
+
+.team-buzz { display: flex; gap: 0.6rem; flex-wrap: wrap; justify-content: center; margin: 1rem 0; }
+.team-buzz button { font-size: 1.1rem; padding: 0.8rem 1.3rem; }
+.team-buzz button.selected {
+  outline: 3px solid var(--success); outline-offset: -2px; transform: scale(1.05);
+  box-shadow: 0 0 24px rgba(52,211,153,0.4);
+}
+.action-buttons {
+  display: flex; gap: 0.7rem; justify-content: center;
+  margin-top: 1.2rem; flex-wrap: wrap;
+}
+.action-buttons button { font-size: 1.05rem; padding: 0.8rem 1.4rem; }
+
+/* ═══════════════════════════════════════════════════════════
+   Modal
+   ═══════════════════════════════════════════════════════════ */
+.modal-backdrop {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.7);
+  display: none; align-items: center; justify-content: center;
+  z-index: 100; padding: 1rem; backdrop-filter: blur(8px);
+}
+.modal-backdrop.show { display: flex; }
+.modal {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 1rem; padding: 1.5rem 2rem;
+  max-width: 900px; width: 100%; max-height: 92vh; overflow-y: auto;
+  box-shadow: var(--shadow-lg);
+}
+.modal h3 { font-size: 1.4rem; text-align: center; margin-bottom: 1rem; font-weight: 800; }
+
+.ingredient-grid {
+  display: grid; grid-template-columns: repeat(6, 1fr);
+  gap: 0.5rem; margin: 0.8rem 0;
+}
+@media (max-width: 700px) { .ingredient-grid { grid-template-columns: repeat(4, 1fr); } }
+.ingredient-btn {
+  aspect-ratio: 1; font-size: 1.85rem;
+  background: var(--surface-2); border: 1px solid var(--border);
+  border-radius: 0.6rem; cursor: pointer;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  font-family: inherit; padding: 0.3rem; transition: all 0.12s;
+  color: var(--text);
+}
+.ingredient-btn:hover { background: var(--surface-3); border-color: var(--primary); transform: translateY(-2px); }
+.ingredient-btn.picked { background: var(--primary-soft); border-color: var(--primary); border-width: 2px; box-shadow: var(--glow-sky); }
+.ingredient-btn .label { font-size: 0.74rem; color: var(--text-sub); font-weight: 600; margin-top: 0.2rem; }
+
+/* ═══════════════════════════════════════════════════════════
+   Results page
+   ═══════════════════════════════════════════════════════════ */
+.podium {
+  display: flex; flex-direction: column; gap: 0.7rem;
+  max-width: 1000px; margin: 1.5rem auto;
+}
+.podium-item {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 0.9rem; padding: 1rem 1.5rem;
+  display: flex; align-items: center; gap: 1.2rem;
+  font-size: 1.2rem;
+  border-left: 4px solid var(--primary);
+}
+.podium-item.mvp {
+  background: linear-gradient(90deg, rgba(167,139,250,0.12) 0%, var(--surface) 70%);
+  border-left-color: var(--accent);
+  box-shadow: 0 0 24px rgba(167,139,250,0.15);
+}
+.podium-item .medal { font-size: 2.2rem; min-width: 56px; }
+.podium-item .name { font-weight: 800; flex: 1; font-size: 1.3rem; color: var(--text); }
+.podium-item .pot { font-size: 1.5rem; word-break: break-all; max-width: 400px; }
+.podium-item .count { color: var(--text-sub); font-size: 0.85rem; font-weight: 700; background: var(--surface-2); padding: 0.3rem 0.8rem; border-radius: 0.4rem; border: 1px solid var(--border); }
+
+/* ═══════════════════════════════════════════════════════════
+   Headings (general)
+   ═══════════════════════════════════════════════════════════ */
+h1 { font-size: 2.2rem; font-weight: 900; color: var(--text); text-align: center; margin: 0.4rem 0; letter-spacing: -0.02em; }
+h2 { font-size: 1.5rem; font-weight: 800; color: var(--text); text-align: center; margin: 0.3rem 0; }
+h3 { font-size: 1.1rem; font-weight: 700; color: var(--text); }
+h4 { font-size: 0.95rem; font-weight: 700; color: var(--text); }
+
+/* ═══════════════════════════════════════════════════════════
+   v3 추가 컴포넌트 (정답 단축키, 토스트, 마라탕 모달, 단축키 안내, 카드 폰트)
+   ═══════════════════════════════════════════════════════════ */
+
+/* question container를 position:relative로 (answer-box absolute 기준점) */
+.question-container { position: relative !important; }
+
+/* Reveal button (우상단 floating 🔒) */
+.reveal-btn {
+  position: absolute; top: 16px; right: 16px;
+  width: 42px; height: 42px;
+  background: var(--surface-2);
+  color: var(--text-sub);
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  font-size: 1.15rem;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  z-index: 40;
+  padding: 0;
+  transition: all 0.15s ease;
+}
+.reveal-btn:hover {
+  background: var(--surface-3);
+  border-color: var(--warn);
+  color: var(--warn);
+  box-shadow: 0 0 16px rgba(251,191,36,0.3);
+}
+
+/* Toast (정답 처리 후 큰 알림) */
+.toast {
+  position: fixed; top: 80px; left: 50%;
+  transform: translateX(-50%) translateY(-20px);
+  background: linear-gradient(135deg, var(--success), var(--primary));
+  color: #052e16;
+  font-size: 1.6rem; font-weight: 900;
+  padding: 1rem 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.5), 0 0 50px rgba(56,189,248,0.4);
+  opacity: 0; pointer-events: none;
+  z-index: 1000;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  white-space: nowrap;
+}
+.toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* Reward modal (마라탕 단순화) */
+.reward-big {
+  font-size: 5rem; text-align: center;
+  line-height: 1; margin-bottom: 0.5rem;
+}
+.reward-title {
+  font-size: 1.8rem; text-align: center;
+  font-weight: 800; color: var(--text);
+  margin: 0.5rem 0;
+}
+.reward-sub {
+  text-align: center; color: var(--text-sub);
+  font-size: 0.95rem; margin-bottom: 0.8rem;
+}
+.reward-team-buttons {
+  display: flex; gap: 0.7rem; flex-wrap: wrap;
+  justify-content: center; margin: 1rem 0;
+}
+.reward-team-buttons button { font-size: 1.2rem; padding: 0.85rem 1.4rem; }
+
+/* Shortcuts hint (우하단) */
+.shortcuts {
+  position: fixed; bottom: 12px; right: 16px;
+  font-size: 0.78rem; color: var(--text-mute);
+  background: rgba(15,23,42,0.85);
+  padding: 0.45rem 0.75rem;
+  border-radius: 0.5rem;
+  border: 1px solid var(--border);
+  z-index: 30;
+  display: flex; gap: 0.6rem; align-items: center;
+}
+.shortcuts kbd {
+  background: var(--surface-2); color: var(--text);
+  padding: 0.1rem 0.4rem;
+  border-radius: 0.3rem;
+  border: 1px solid var(--border);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+}
+
+/* 카드 폰트 키움 (TV 가독성) */
+.quiz-card .card-no  { font-size: 2.2rem !important; }
+.quiz-card .card-cat { font-size: 0.88rem !important; }
+
+/* ═══════════════════════════════════════════════════════════
+   v4 추가: 사이드바 드래그 리사이저 + 점수판 큰 폰트
+   ═══════════════════════════════════════════════════════════ */
+
+/* dashboard-layout grid 재정의 — 리사이저 칸 포함 (6px씩) */
+body.dashboard-layout {
+  grid-template-columns:
+    var(--sb-w, 240px)
+    6px
+    1fr
+    6px
+    var(--sb-w-r, 280px) !important;
+  grid-template-areas:
+    "header  header   header   header   header"
+    "left    rzleft   main     rzright  right" !important;
+}
+body.dashboard-layout:has(#sb-left.collapsed) {
+  grid-template-columns: 0 0 1fr 6px var(--sb-w-r, 280px) !important;
+}
+body.dashboard-layout:has(#sb-right.collapsed) {
+  grid-template-columns: var(--sb-w, 240px) 6px 1fr 0 0 !important;
+}
+body.dashboard-layout:has(#sb-left.collapsed):has(#sb-right.collapsed) {
+  grid-template-columns: 0 0 1fr 0 0 !important;
+}
+
+/* 리사이저 핸들 */
+.resizer {
+  background: var(--border);
+  cursor: ew-resize;
+  transition: background 0.15s ease;
+  position: relative;
+  z-index: 5;
+  user-select: none;
+}
+.resizer-left  { grid-area: rzleft; }
+.resizer-right { grid-area: rzright; }
+.resizer:hover, .resizer.dragging {
+  background: var(--primary);
+  box-shadow: 0 0 12px rgba(56,189,248,0.5);
+}
+/* 드래그 영역 확대 (실제는 6px이지만 잡기 쉽게 가상으로 18px) */
+.resizer::before {
+  content: ''; position: absolute;
+  top: 0; bottom: 0; left: -6px; right: -6px;
+}
+/* 사이드바 collapsed 시 리사이저 숨김 */
+body.dashboard-layout:has(#sb-left.collapsed) .resizer-left { display: none; }
+body.dashboard-layout:has(#sb-right.collapsed) .resizer-right { display: none; }
+
+/* 드래그 중 텍스트 선택 방지 */
+body.resizing { cursor: ew-resize !important; user-select: none !important; }
+body.resizing * { cursor: ew-resize !important; user-select: none !important; }
+
+/* ─── 점수판 큰 폰트 (TV 가독성 ↑↑) ─── */
+.team-card { padding: 1.2rem 1.4rem !important; }
+.team-card .team-name { font-size: 1.4rem !important; font-weight: 800; }
+.team-card .team-score {
+  font-size: 3.5rem !important;  /* 2.4 → 3.5 */
+  font-weight: 900;
+  color: var(--primary);
+  min-width: 70px !important;
+  line-height: 0.95 !important;
+}
+.team-card.red    .team-score { color: var(--t-red); }
+.team-card.blue   .team-score { color: var(--t-blue); }
+.team-card.yellow .team-score { color: var(--t-yellow); }
+.team-card.green  .team-score { color: var(--t-green); }
+
+/* ═══════════════════════════════════════════════════════════
+   STEP 1: 메인 페이지 hero-only 모드 + 통합 토글 버튼
+   ═══════════════════════════════════════════════════════════ */
+
+/* mode-hero: 메인 시작 화면일 때 사이드바·헤더·리사이저 모두 숨김 */
+body.dashboard-layout.mode-hero {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  grid-template-areas: none !important;
+  grid-template-columns: 1fr !important;
+  height: 100vh !important;
+  padding: 24px !important;
+  overflow: auto !important;
+}
+body.mode-hero .topbar,
+body.mode-hero .sidebar-left,
+body.mode-hero .sidebar-right,
+body.mode-hero .resizer,
+body.mode-hero .shortcuts {
+  display: none !important;
+}
+body.mode-hero .dash-main {
+  grid-area: unset !important;
+  width: 100%; max-width: 600px; padding: 0 !important;
+  display: flex; align-items: center; justify-content: center;
+  overflow: visible !important;
+}
+body.mode-hero #view-setup .hero-card {
+  margin: 0 auto;
+}
+
+/* 통합 토글 버튼 (좌측 상단) — 아이콘 + 라벨 */
+.topbar-toggle {
+  width: auto !important;
+  padding: 0 0.85rem !important;
+  display: flex !important;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.92rem !important;
+  font-weight: 700;
+  height: 40px;
+}
+.topbar-toggle .ico-text {
+  font-size: 1rem;
+  line-height: 1;
+}
+.topbar-toggle .ico-label {
+  font-size: 0.88rem;
+  letter-spacing: -0.01em;
+}
+.topbar-toggle.topbar-results.active {
+  background: var(--accent);
+  color: #1e1b4b;
+  border-color: var(--accent);
+  box-shadow: var(--glow-violet);
+}
+.topbar-toggle:hover {
+  background: var(--surface-3);
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   STEP 2: 정답 깜빡 + 정답 자동 표시 + 마라탕 멘트 + 힌트 + 정답 플래시
+   ═══════════════════════════════════════════════════════════ */
+
+/* 정답 보기 초록 깜빡 (pulse) — 가독성 강화 */
+@keyframes correctPulse {
+  0%, 100% { transform: scale(1);   box-shadow: 0 0 0 1px var(--success), 0 0 16px rgba(52,211,153,0.4); }
+  50%      { transform: scale(1.04); box-shadow: 0 0 0 2px var(--success), 0 0 36px rgba(52,211,153,0.7); }
+}
+.option-item.correct {
+  animation: correctPulse 0.6s ease-in-out 3 !important;
+}
+
+/* answer-box: 보기 없는 문제 자동 표시 시 위치 변경 (우상단 → 보기 영역 자리) */
+.answer-box.show {
+  /* mc/ox/fill: 기본 우상단 (작은 영역, 잠깐만 노출) — 기존 그대로 */
+}
+/* 보기 없는 문제일 때는 화면 가운데 큰 영역으로 표시 */
+body:has(.option-grid:empty) .answer-box.show,
+body:has(#q-options:empty) .answer-box.show {
+  position: static !important;
+  max-width: 100%;
+  width: 100%;
+  font-size: 1.2rem;
+  background: rgba(251,191,36,0.15);
+  border: 2px solid var(--warn);
+  margin: 1.5rem 0;
+  padding: 1.5rem 2rem;
+}
+body:has(#q-options:empty) .answer-box.show .ab-answer { font-size: 2rem; }
+body:has(#q-options:empty) .answer-box.show .ab-explain { font-size: 1.2rem; margin-top: 0.7rem; }
+body:has(#q-options:empty) .answer-box.show .ab-bible { font-size: 1.1rem; }
+
+/* reward 모달 — 큰 멘트 강화 */
+.reward-title-xl {
+  font-size: 2.4rem !important; text-align: center;
+  font-weight: 900; color: var(--success);
+  margin: 0.5rem 0;
+  text-shadow: 0 0 20px rgba(52,211,153,0.4);
+}
+.reward-megaphone {
+  font-size: 1.8rem !important; text-align: center;
+  font-weight: 800; color: var(--text);
+  margin: 0.5rem 0 0.3rem;
+  letter-spacing: -0.02em;
+}
+
+/* 힌트 박스 */
+.hint-box {
+  display: none;
+  background: rgba(251,191,36,0.1);
+  border: 2px dashed var(--warn);
+  border-radius: 0.8rem;
+  padding: 1rem 1.4rem;
+  margin: 1rem 0;
+  text-align: center;
+  animation: hintFadeIn 0.3s ease-out;
+}
+.hint-box.show { display: block; }
+.hint-label { font-size: 0.85rem; font-weight: 800; color: var(--warn); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.5rem; }
+.hint-content { font-size: 1.3rem; font-weight: 600; color: var(--text); line-height: 1.5; }
+.hint-bible { font-size: 1rem; color: var(--secondary); font-weight: 700; margin-top: 0.5rem; }
+@keyframes hintFadeIn {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* 정답 플래시 (학생들에게 1초 노출) */
+.answer-flash {
+  position: fixed;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%) scale(0.8);
+  background: linear-gradient(135deg, var(--accent), var(--primary));
+  color: #fff;
+  font-size: 5rem;
+  font-weight: 900;
+  padding: 2rem 4rem;
+  border-radius: 1.5rem;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.6), 0 0 80px rgba(167,139,250,0.5);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 2000;
+  letter-spacing: -0.03em;
+  text-align: center;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  white-space: nowrap;
+}
+.answer-flash.show {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   STEP 3: 폰트 줌 컨트롤 + 카드 섞기 버튼
+   ═══════════════════════════════════════════════════════════ */
+
+:root { --q-zoom: 1; }
+
+/* 폰트 줌 컨트롤 — 우상단 (reveal-btn 옆) */
+.font-zoom-controls {
+  position: absolute;
+  top: 16px; right: 70px;
+  display: flex; gap: 0.3rem;
+  z-index: 41;
+}
+.font-zoom-controls button {
+  background: var(--surface-2); color: var(--text);
+  border: 1px solid var(--border);
+  padding: 0 0.7rem; height: 42px;
+  border-radius: 0.5rem;
+  font-size: 0.95rem; font-weight: 700;
+  cursor: pointer;
+}
+.font-zoom-controls button:hover {
+  background: var(--surface-3);
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+/* 줌 적용 — 문제·보기 영역만 */
+.question-text { font-size: calc(2rem * var(--q-zoom)) !important; }
+.option-grid button { font-size: calc(1.2rem * var(--q-zoom)) !important; padding: calc(0.95rem * var(--q-zoom)) calc(1.2rem * var(--q-zoom)) !important; }
+.question-image { max-height: calc(360px * var(--q-zoom)) !important; }
+
+/* 카드 섞기 버튼 영역 */
+.sb-shuffle button {
+  font-size: 1rem !important;
+  padding: 0.7rem !important;
+}
+
+/* 셔플 시 잠깐 카드 펄스 */
+@keyframes cardShuffleIn {
+  from { opacity: 0; transform: scale(0.9); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   STEP 4: 카드 난이도 + 필터 가독성 + 반응형 폰트
+   ═══════════════════════════════════════════════════════════ */
+
+/* 카드에 난이도 별 표시 (좌상단) */
+.quiz-card .card-diff {
+  position: absolute;
+  top: 4px; left: 6px;
+  font-size: 0.85rem;
+  color: var(--warn);
+  font-weight: 700;
+  letter-spacing: -0.05em;
+  line-height: 1;
+}
+.quiz-card.diff-3 .card-diff { color: #fb923c; text-shadow: 0 0 8px rgba(251,146,60,0.4); }
+.quiz-card.diff-2 .card-diff { color: var(--warn); }
+.quiz-card.diff-1 .card-diff { color: var(--text-mute); }
+
+/* 필터 chip 폰트 키움 + 카운트 배지 */
+.chip {
+  font-size: 1rem !important;
+  padding: 0.55rem 0.85rem !important;
+  display: inline-flex !important;
+  align-items: center;
+  gap: 0.4rem;
+}
+.chip-count {
+  display: inline-block;
+  background: var(--bg);
+  color: var(--text-sub);
+  border: 1px solid var(--border);
+  border-radius: 99px;
+  padding: 0.05rem 0.5rem;
+  font-size: 0.78rem;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+.chip.active .chip-count {
+  background: var(--bg);
+  color: var(--primary);
+  border-color: var(--primary);
+}
+
+/* 사이드바 라벨·헤더 폰트 키움 */
+.sb-label { font-size: 0.85rem !important; }
+.sb-header h3 { font-size: 1.15rem !important; }
+
+/* 문제·보기 영역 반응형 (clamp로 viewport 기반) */
+.question-text {
+  font-size: clamp(1.6rem, 3.2vw, 3rem) !important;
+  line-height: 1.4 !important;
+}
+.option-grid button {
+  font-size: clamp(1rem, 1.8vw, 1.6rem) !important;
+}
+.question-image {
+  max-width: 65% !important;
+  max-height: 50vh !important;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   STEP 1 (v5): 위치/구조 변경 - 점수판 우측 + 메인버튼 좌측 + 헤더 단순
+   ═══════════════════════════════════════════════════════════ */
+
+/* 좌측 상단 큰 [🏠 메인으로] 버튼 */
+.back-home-btn {
+  position: absolute;
+  top: 16px; left: 16px;
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  color: #082f49;
+  border: 1px solid var(--primary);
+  padding: 0.7rem 1.2rem;
+  border-radius: 0.7rem;
+  font-size: 1.05rem;
+  font-weight: 800;
+  cursor: pointer;
+  z-index: 45;
+  box-shadow: var(--glow-sky);
+}
+.back-home-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 0 0 1px rgba(56,189,248,0.5), 0 0 30px rgba(56,189,248,0.4);
+}
+
+/* 좌측 상단 헤더: 번호 · 주제 · 형식만 큰 글씨 */
+.q-header-info {
+  display: flex; align-items: center;
+  gap: 1.2rem;
+  padding-left: 12rem; /* back-home-btn 자리 확보 */
+  flex-wrap: wrap;
+}
+.qh-num {
+  font-size: 1.6rem;
+  font-weight: 900;
+  color: var(--primary);
+  letter-spacing: -0.02em;
+}
+.qh-topic {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--text);
+}
+.qh-style {
+  font-size: 1.1rem;
+  font-weight: 800;
+  padding: 0.35rem 0.85rem;
+  border-radius: 0.5rem;
+  letter-spacing: -0.01em;
+}
+.question-header { padding-bottom: 1.5rem; padding-top: 0.5rem; min-height: 60px; }
+
+/* ═══════════════════════════════════════════════════════════
+   STEP 2 (v5): 카드 격자 가독성 - 컬러 점, 줌, 큰 X, 반응형 필터
+   ═══════════════════════════════════════════════════════════ */
+
+:root { --card-zoom: 1; }
+
+/* 기존 .card-diff (별 표시) 숨김 */
+.quiz-card .card-diff { display: none !important; }
+
+/* 난이도 컬러 점 (좌상단 작게) */
+.quiz-card .card-dot {
+  position: absolute;
+  top: 6px; left: 6px;
+  width: 9px; height: 9px;
+  border-radius: 50%;
+  background: var(--text-mute);
+  box-shadow: 0 0 0 2px rgba(255,255,255,0.05);
+}
+.quiz-card.diff-1 .card-dot { background: #22c55e; box-shadow: 0 0 8px rgba(34,197,94,0.6); }   /* 🟢 쉬움 */
+.quiz-card.diff-2 .card-dot { background: #eab308; box-shadow: 0 0 8px rgba(234,179,8,0.6); }   /* 🟡 보통 */
+.quiz-card.diff-3 .card-dot { background: #ef4444; box-shadow: 0 0 10px rgba(239,68,68,0.7); }  /* 🔴 어려움 */
+
+/* 카드 격자 반응형 + 줌 */
+.card-grid {
+  grid-template-columns: repeat(auto-fill, minmax(calc(96px * var(--card-zoom)), 1fr)) !important;
+  gap: calc(0.6rem * var(--card-zoom)) !important;
+}
+.quiz-card .card-no  { font-size: calc(2.2rem * var(--card-zoom)) !important; }
+.quiz-card .card-cat { font-size: calc(0.85rem * var(--card-zoom)) !important; }
+
+/* 카드 크기 조정 툴바 */
+.card-grid-toolbar {
+  display: flex; align-items: center; gap: 0.5rem;
+  margin-bottom: 0.7rem; padding: 0.4rem 0;
+  font-size: 0.9rem; color: var(--text-sub);
+}
+.ct-label { font-weight: 700; color: var(--text-mute); }
+.card-zoom-btn {
+  background: var(--surface-2); color: var(--text);
+  border: 1px solid var(--border);
+  padding: 0.35rem 0.7rem;
+  border-radius: 0.45rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+.card-zoom-btn:hover {
+  background: var(--surface-3);
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+/* 푼 문제 — 카드 전체에 큰 ❌ + "완료" */
+.quiz-card.solved {
+  background: rgba(52,211,153,0.18) !important;
+  border-color: var(--success) !important;
+  border-bottom-color: var(--success) !important;
+  cursor: not-allowed;
+  opacity: 0.85;
+  position: relative;
+  overflow: hidden;
+}
+.quiz-card.solved::before {
+  /* 큰 대각선 X (svg와 비슷) */
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(45deg, transparent calc(50% - 3px), var(--success) calc(50% - 1px), var(--success) calc(50% + 1px), transparent calc(50% + 3px)),
+    linear-gradient(-45deg, transparent calc(50% - 3px), var(--success) calc(50% - 1px), var(--success) calc(50% + 1px), transparent calc(50% + 3px));
+  opacity: 0.5;
+  pointer-events: none;
+}
+.quiz-card.solved::after {
+  content: "✓ 완료";
+  font-size: calc(1rem * var(--card-zoom));
+  font-weight: 900;
+  color: #064e3b;
+  position: absolute;
+  background: var(--success);
+  padding: 0.2rem 0.6rem;
+  border-radius: 0.4rem;
+  z-index: 2;
+  bottom: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+}
+.quiz-card.solved .card-no, .quiz-card.solved .card-cat { opacity: 0.25; z-index: 1; position: relative; }
+
+/* 좌측 필터 반응형 — 사이드바 높이에 맞춰 자동 조정 */
+.sidebar-left {
+  display: flex;
+  flex-direction: column;
+}
+.sb-section {
+  flex-shrink: 0;
+}
+@media (max-height: 800px) {
+  .sb-header { padding: 0.6rem 1rem 0.4rem !important; }
+  .sb-header h3 { font-size: 0.95rem !important; }
+  .sb-section { padding: 0.4rem 1rem 0.6rem !important; }
+  .sb-label { font-size: 0.72rem !important; margin-bottom: 0.3rem !important; }
+  .chip { font-size: 0.85rem !important; padding: 0.35rem 0.6rem !important; }
+  .chip-count { font-size: 0.7rem !important; }
+}
+@media (max-height: 650px) {
+  .sb-header h3 { font-size: 0.88rem !important; }
+  .chip { font-size: 0.78rem !important; padding: 0.28rem 0.55rem !important; }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   STEP 3 (v5): 문제 풀이 강화
+   - 폰트 줌 전체 적용 (clamp + zoom 동시)
+   - 정답 효과 무한 반복
+   - 보기 뚜렷 (disabled 흐림 제거)
+   - 정답 후 근거 표시
+   ═══════════════════════════════════════════════════════════ */
+
+/* 폰트 줌 — 모든 문제 풀이 영역에 적용 (clamp 충돌 해결) */
+.question-text {
+  font-size: calc(clamp(1.6rem, 3.2vw, 3rem) * var(--q-zoom)) !important;
+}
+.option-grid button {
+  font-size: calc(clamp(1rem, 1.8vw, 1.6rem) * var(--q-zoom)) !important;
+  padding: calc(0.95rem * var(--q-zoom)) calc(1.2rem * var(--q-zoom)) !important;
+}
+.q-header-info { font-size: calc(1rem * var(--q-zoom)); }
+.qh-num   { font-size: calc(1.6rem * var(--q-zoom)) !important; }
+.qh-topic { font-size: calc(1.5rem * var(--q-zoom)) !important; }
+.qh-style { font-size: calc(1.1rem * var(--q-zoom)) !important; }
+.phase-msg { font-size: calc(1.15rem * var(--q-zoom)) !important; }
+.phase-msg-lg { font-size: calc(1.4rem * var(--q-zoom)) !important; }
+.phase-actions button { font-size: calc(1.05rem * var(--q-zoom)) !important; }
+.team-buzz button { font-size: calc(1.1rem * var(--q-zoom)) !important; }
+
+/* 정답 효과 무한 반복 (다음 클릭까지) */
+.option-item.correct {
+  animation: correctPulse 0.6s ease-in-out infinite !important;
+}
+.option-item.wrong {
+  animation: wrongShake 0.5s ease-in-out 2 !important;
+}
+@keyframes wrongShake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-6px); }
+  75% { transform: translateX(6px); }
+}
+
+/* 보기 뚜렷하게 (disabled 흐림 제거) */
+.option-item:disabled {
+  opacity: 1 !important;
+  cursor: default !important;
+  background: var(--surface-2) !important;
+  color: var(--text) !important;
+  border-color: var(--border) !important;
+}
+.option-item:disabled .num {
+  color: var(--primary) !important;
+}
+
+/* 정답 근거 박스 (reward 모달 안) */
+.reward-evidence {
+  background: rgba(56,189,248,0.08);
+  border-left: 4px solid var(--primary);
+  border-radius: 0.5rem;
+  padding: 0.85rem 1.1rem;
+  margin: 1.2rem 0;
+  text-align: left;
+}
+.reward-evidence .ev-label {
+  font-size: 0.78rem; color: var(--primary);
+  font-weight: 800; letter-spacing: 0.1em;
+  margin-bottom: 0.4rem;
+}
+.reward-evidence .ev-answer {
+  font-size: 1.15rem; font-weight: 800; color: var(--text);
+  margin-bottom: 0.3rem;
+}
+.reward-evidence .ev-expl {
+  font-size: 0.95rem; color: var(--text-sub); line-height: 1.5;
+  margin-bottom: 0.3rem;
+}
+.reward-evidence .ev-bible {
+  font-size: 0.88rem; color: var(--secondary); font-weight: 700;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   STEP 4 (v5): 5초 타이머 오버레이
+   ═══════════════════════════════════════════════════════════ */
+
+.timer-overlay {
+  position: fixed;
+  top: 90px;
+  left: 50%;
+  transform: translateX(-50%) scale(0.85);
+  width: 280px; height: 280px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--surface-2), var(--surface));
+  border: 8px solid var(--primary);
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 0 80px rgba(56,189,248,0.7), 0 16px 50px rgba(0,0,0,0.6);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 95;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+.timer-overlay.show {
+  opacity: 1;
+  transform: translateX(-50%) scale(1);
+}
+.timer-num {
+  font-size: 11rem;
+  font-weight: 900;
+  color: var(--primary);
+  line-height: 1;
+  text-shadow: 0 0 40px rgba(56,189,248,0.85);
+  font-variant-numeric: tabular-nums;
+  transition: color 0.2s ease;
+}
+.timer-num.urgent {
+  color: var(--danger);
+  text-shadow: 0 0 25px rgba(248,113,113,0.7);
+  animation: timerUrgent 0.5s ease-in-out infinite;
+}
+@keyframes timerUrgent {
+  0%, 100% { transform: scale(1); }
+  50%      { transform: scale(1.15); }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   STEP 5 (v5): 미션 시스템 + 관리자 미리보기
+   ═══════════════════════════════════════════════════════════ */
+
+/* 미션 카드 - 보라색 강조 */
+.quiz-card.mission-card {
+  background: linear-gradient(135deg, rgba(167,139,250,0.15), rgba(167,139,250,0.05)) !important;
+  border-color: var(--accent) !important;
+  border-bottom-color: var(--accent) !important;
+  border-bottom-width: 5px !important;
+  box-shadow: 0 0 16px rgba(167,139,250,0.3);
+}
+.quiz-card.mission-card .card-no {
+  font-size: calc(2.5rem * var(--card-zoom)) !important;
+  color: var(--accent) !important;
+}
+.quiz-card.mission-card .card-cat { color: var(--accent) !important; font-weight: 800; }
+.quiz-card.mission-card.solved {
+  opacity: 0.55;
+}
+
+/* 미션 화면 (view-mission) */
+.mission-container {
+  max-width: 900px; margin: 2rem auto;
+  background: linear-gradient(135deg, var(--surface-2), var(--surface));
+  border: 2px solid var(--accent);
+  border-radius: 1.5rem;
+  padding: 3rem 2.5rem;
+  box-shadow: var(--shadow-lg), 0 0 60px rgba(167,139,250,0.3);
+  position: relative;
+  text-align: center;
+}
+.mission-emoji {
+  font-size: 8rem; line-height: 1; margin: 1rem 0;
+}
+.mission-title {
+  font-size: 2.5rem; font-weight: 900; color: var(--accent);
+  margin-bottom: 1rem;
+}
+.mission-text {
+  font-size: 2rem; color: var(--text); font-weight: 700;
+  line-height: 1.5; margin: 1.5rem 0;
+}
+.mission-timer {
+  font-size: 3rem; font-weight: 900; color: var(--warn);
+  margin: 1.5rem 0; font-variant-numeric: tabular-nums;
+}
+.mission-actions {
+  display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;
+  margin-top: 2rem;
+}
+.mission-actions button { font-size: 1.3rem; padding: 1rem 1.8rem; }
+
+/* 관리자 미션 미리보기 리스트 */
+.admin-mission-list {
+  display: flex; flex-direction: column;
+  gap: 0.8rem; max-height: 60vh; overflow-y: auto;
+}
+.admin-mission-row {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 0.7rem;
+  padding: 0.9rem 1.2rem;
+  display: flex; align-items: center; gap: 1rem;
+}
+.amr-emoji { font-size: 2.2rem; }
+.amr-content { flex: 1; }
+.amr-title { font-size: 1.1rem; font-weight: 800; color: var(--text); }
+.amr-time { background: var(--warn); color: #422006; padding: 0.1rem 0.5rem; border-radius: 0.3rem; font-size: 0.78rem; margin-left: 0.5rem; }
+.amr-text { font-size: 0.95rem; color: var(--text-sub); margin-top: 0.3rem; }
+
+/* ═══════════════════════════════════════════════════════════
+   STEP 1 (v6): 정답 효과 무한 반복 강제 + 타이머 .urgent 강조
+   ═══════════════════════════════════════════════════════════ */
+
+/* specificity 높여서 다른 어떤 규칙에도 우선 */
+.option-grid button.option-item.correct {
+  animation: correctPulse 0.6s ease-in-out infinite !important;
+  background: rgba(52,211,153,0.25) !important;
+  border-color: var(--success) !important;
+  color: var(--success) !important;
+  box-shadow: 0 0 0 2px var(--success), 0 0 24px rgba(52,211,153,0.6) !important;
+}
+.option-grid button.option-item.wrong {
+  animation: wrongShake 0.5s ease-in-out 2 !important;  /* 2번만 흔들고 정지 — 재클릭 가능 */
+  background: rgba(248,113,113,0.2) !important;
+  border-color: var(--danger) !important;
+  color: var(--danger) !important;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   STEP 2 (v6): 카드 번호 색 = 난이도 + 주제별 색 (좌측 보더)
+   ═══════════════════════════════════════════════════════════ */
+
+/* 컬러 점 ● 완전 제거 (#45) */
+.quiz-card .card-dot { display: none !important; }
+
+/* 카드 번호 색 = 난이도 (점 대신 번호 자체로 표현) */
+.quiz-card.diff-1 .card-no { color: #22c55e !important; text-shadow: 0 0 12px rgba(34,197,94,0.3); }
+.quiz-card.diff-2 .card-no { color: #eab308 !important; text-shadow: 0 0 12px rgba(234,179,8,0.3); }
+.quiz-card.diff-3 .card-no { color: #ef4444 !important; text-shadow: 0 0 14px rgba(239,68,68,0.4); font-weight: 900; }
+
+/* solved 카드는 회색 */
+.quiz-card.solved .card-no { color: var(--text-mute) !important; text-shadow: none !important; }
+
+/* 주제 칩 — 좌측 5px 보더 (색상은 inline style로 설정됨) */
+.topic-chip {
+  padding-left: 0.85rem !important;
+  border-radius: 0.4rem 0.55rem 0.55rem 0.4rem !important;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   STEP 3 (v6): Step 0 + 다시 시작 + 전체화면
+   ═══════════════════════════════════════════════════════════ */
+
+/* 다시 시작 버튼 (우상단 — 폰트줌 옆) */
+.restart-btn {
+  position: absolute;
+  top: 16px; right: 270px;
+  background: var(--surface-2); color: var(--warn);
+  border: 1px solid var(--warn);
+  padding: 0 0.85rem; height: 42px;
+  border-radius: 0.5rem;
+  font-size: 0.9rem; font-weight: 800;
+  cursor: pointer;
+  z-index: 41;
+  display: flex; align-items: center; gap: 0.3rem;
+}
+.restart-btn:hover {
+  background: var(--warn); color: #422006;
+  box-shadow: 0 0 16px rgba(251,191,36,0.4);
+}
+
+/* Step indicator — preview(0) 상태에서는 모든 step 비활성 */
+.step.active .step-num { background: var(--primary); color: #082f49; border-color: var(--primary); }
+.step.done   .step-num { background: var(--success); color: #064e3b; border-color: var(--success); }
+
+/* 전체화면 진입 시 ⛶ → 🗗 토글 (JS에서 처리) */
+
+/* ═══════════════════════════════════════════════════════════
+   STEP 4 (v6): 관리자 패널 + 비밀번호 입력 축소 + 100vh 반응형
+   ═══════════════════════════════════════════════════════════ */
+
+/* 비밀번호 입력란 축소 */
+.pwd-input-wrap {
+  display: flex; justify-content: center;
+  margin: 0.5rem 0;
+}
+.pwd-input {
+  width: 220px !important;
+  font-size: 1.1rem !important;
+  padding: 0.55rem 0.85rem !important;
+  text-align: center;
+  letter-spacing: 0.15em;
+}
+
+/* 관리자 탭 */
+.admin-tabs {
+  display: flex; gap: 0.4rem;
+  margin: 1rem 0 1rem;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 0.5rem;
+  justify-content: center;
+}
+.admin-tab-btn {
+  background: transparent !important;
+  color: var(--text-sub) !important;
+  border: 1px solid var(--border) !important;
+  padding: 0.45rem 0.95rem !important;
+  font-size: 0.92rem !important;
+}
+.admin-tab-btn.active {
+  background: var(--primary) !important;
+  color: #082f49 !important;
+  border-color: var(--primary) !important;
+  font-weight: 800;
+}
+
+/* ─── 모든 화면 한 페이지 (100vh, 스크롤 없이) ─── */
+
+/* 문제 풀이 — 100vh */
+#view-question { height: 100vh; overflow: hidden; padding: 0; }
+#view-question .question-container {
+  height: calc(100vh - 64px - 1.5rem);  /* topbar + margin */
+  margin: 0.75rem auto !important;
+  max-width: 95vw !important;
+  display: flex; flex-direction: column;
+  overflow: hidden;
+}
+#view-question .question-text { flex-shrink: 0; }
+#view-question #q-options { flex-shrink: 0; }
+#view-question #q-answer-box { flex-shrink: 0; }
+#view-question #q-phase { flex: 1; display: flex; flex-direction: column; justify-content: center; min-height: 100px; }
+#view-question .phase-actions { flex-shrink: 0; }
+
+/* 결과 화면 — 100vh */
+#view-results { height: calc(100vh - 64px); overflow-y: auto; padding: 1rem 1.5rem; }
+#view-results h1 { margin-top: 0.5rem !important; }
+
+/* 미션 화면 — 100vh */
+#view-mission { height: calc(100vh - 64px); display: flex; align-items: center; justify-content: center; padding: 1rem; }
+#view-mission .mission-container {
+  margin: 0 !important;
+  max-width: min(900px, 90vw) !important;
+  max-height: 90vh; overflow-y: auto;
+}
+
+/* 메인 대시보드 — 100vh, 카드 격자 자동 배치 */
+.dash-main { height: calc(100vh - 64px); overflow-y: auto; }
+
+/* 폰트는 viewport 비례 (clamp) — 이미 STEP 4에 있음 */
+
+/* ═══════════════════════════════════════════════════════════
+   STEP 1 (v7): 정답 플래시 + 점수 즉시 반영 + 자동이동 제거
+   ═══════════════════════════════════════════════════════════ */
+
+/* 큰 "정답!" 화면 중앙 플래시 */
+.correct-flash {
+  position: fixed;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%) scale(0.5);
+  background: linear-gradient(135deg, var(--success), #059669);
+  color: #fff;
+  font-size: 8rem;
+  font-weight: 900;
+  padding: 2rem 5rem;
+  border-radius: 2rem;
+  box-shadow: 0 30px 80px rgba(0,0,0,0.7), 0 0 100px rgba(52,211,153,0.7);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 1500;
+  letter-spacing: -0.04em;
+  text-shadow: 0 4px 20px rgba(0,0,0,0.4);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+  white-space: nowrap;
+  text-align: center;
+}
+.correct-flash.show {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+  animation: correctFlashBounce 1.5s ease-in-out;
+}
+@keyframes correctFlashBounce {
+  0%   { transform: translate(-50%, -50%) scale(0.5); }
+  20%  { transform: translate(-50%, -50%) scale(1.15); }
+  40%  { transform: translate(-50%, -50%) scale(0.95); }
+  60%  { transform: translate(-50%, -50%) scale(1.05); }
+  80%  { transform: translate(-50%, -50%) scale(1); }
+  100% { transform: translate(-50%, -50%) scale(1); }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   STEP 2 (v7): 카드 디자인 정리 - 좌측선 제거 + 배경 난이도 + 번호 흰색
+   ═══════════════════════════════════════════════════════════ */
+
+/* 카드: 좌측 보더 제거 (inline style border-left 무력화) */
+.quiz-card {
+  border-left: 1.5px solid var(--border) !important;  /* 인라인 border-left 차단 */
+  border-bottom-width: 5px !important;
+}
+
+/* 카드 배경 = 난이도 색 옅게 (#49) */
+.quiz-card.diff-1 { background: rgba(34,197,94,0.10) !important; }
+.quiz-card.diff-2 { background: rgba(234,179,8,0.10) !important; }
+.quiz-card.diff-3 { background: rgba(239,68,68,0.12) !important; }
+
+/* 카드 번호 = 흰색 (난이도 색 X — 배경으로 식별) */
+.quiz-card .card-no {
+  color: #ffffff !important;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.5) !important;
+  font-weight: 900 !important;
+}
+
+/* 카테고리 = 회색 작게 */
+.quiz-card .card-cat {
+  color: rgba(255,255,255,0.7) !important;
+  font-weight: 700;
+}
+
+/* solved 카드 — 번호도 흰색 유지 (희미하게) */
+.quiz-card.solved .card-no { color: rgba(255,255,255,0.4) !important; }
+
+/* 미션 카드 — 보라 배경 (특별 강조) */
+.quiz-card.mission-card {
+  background: linear-gradient(135deg, rgba(167,139,250,0.25), rgba(167,139,250,0.10)) !important;
+}
+.quiz-card.mission-card .card-no { color: #fff !important; }
+
+/* 카드 상단 범례 */
+.legend-divider { width: 1px; height: 20px; background: var(--border); margin: 0 0.4rem; display: inline-block; }
+.legend-pill {
+  display: inline-flex; align-items: center;
+  font-size: 0.85rem; font-weight: 700;
+  padding: 0.25rem 0.65rem;
+  border-radius: 99px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+}
+.legend-easy { color: #22c55e; border-color: rgba(34,197,94,0.4); }
+.legend-mid  { color: #eab308; border-color: rgba(234,179,8,0.4); }
+.legend-hard { color: #ef4444; border-color: rgba(239,68,68,0.4); }
+
+/* ═══════════════════════════════════════════════════════════
+   STEP 3 (v7): Step 0 토글 헤더옆 + 정답 설명 박스 (큰 박스)
+   ═══════════════════════════════════════════════════════════ */
+
+/* Step 0 토글 버튼 (헤더 옆 ▼) */
+.step0-toggle {
+  background: var(--primary);
+  color: #082f49;
+  border: 2px solid var(--primary);
+  width: 48px; height: 48px;
+  padding: 0;
+  border-radius: 0.6rem;
+  font-size: 1.4rem;
+  font-weight: 900;
+  cursor: pointer;
+  display: inline-flex; align-items: center; justify-content: center;
+  margin-left: 0.5rem;
+  box-shadow: var(--glow-sky);
+  transition: all 0.15s ease;
+}
+.step0-toggle:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 0 1px var(--primary), 0 0 20px rgba(56,189,248,0.5);
+}
+
+/* 정답 설명 박스 (정답 처리 후 큰 박스로 학생들에게 — #54) */
+.explain-box {
+  display: none;
+  background: linear-gradient(135deg, rgba(251,191,36,0.15), rgba(251,191,36,0.06));
+  border: 3px solid var(--warn);
+  border-radius: 1rem;
+  padding: 1.2rem 1.6rem;
+  margin: 1.2rem auto;
+  max-width: 90%;
+  text-align: center;
+  box-shadow: 0 0 32px rgba(251,191,36,0.2);
+  animation: explainSlideIn 0.4s ease-out;
+}
+.explain-box.show { display: block; }
+.eb-label {
+  font-size: 0.85rem; color: var(--warn);
+  font-weight: 800; letter-spacing: 0.15em;
+  text-transform: uppercase; margin-bottom: 0.6rem;
+}
+.eb-answer {
+  font-size: 2rem; font-weight: 900; color: var(--text);
+  margin-bottom: 0.7rem;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.4);
+}
+.eb-explain {
+  font-size: 1.3rem; color: var(--text); line-height: 1.6;
+  margin-bottom: 0.4rem;
+}
+.eb-bible {
+  font-size: 1.1rem; color: var(--secondary); font-weight: 700;
+  margin-top: 0.6rem;
+}
+@keyframes explainSlideIn {
+  from { opacity: 0; transform: translateY(20px) scale(0.95); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   STEP 5 (v7): 사이드바 섹션 접기/펴기 + 비번 1004 + 100vh 강화 + 주의사항
+   ═══════════════════════════════════════════════════════════ */
+
+.sb-label-toggle {
+  cursor: pointer;
+  display: flex !important;
+  justify-content: space-between;
+  align-items: center;
+  padding-right: 0.3rem;
+  user-select: none;
+  transition: color 0.15s;
+}
+.sb-label-toggle:hover { color: var(--primary) !important; }
+.sb-toggle-arrow {
+  font-size: 0.75rem;
+  color: var(--text-mute);
+  transition: transform 0.15s;
+}
+.sb-section-collapsible.section-collapsed .sb-content {
+  display: none !important;
+}
+
+/* 모든 섹션 펼친 상태에서 한 화면에 다 보이게 (#61) — 더 압축 */
+@media (max-height: 900px) {
+  .sb-section { padding: 0.45rem 1rem !important; }
+  .sb-label { font-size: 0.78rem !important; margin-bottom: 0.25rem !important; }
+  .chip { font-size: 0.82rem !important; padding: 0.3rem 0.6rem !important; }
+  .sb-shuffle button { padding: 0.5rem !important; font-size: 0.9rem !important; }
+}
+@media (max-height: 750px) {
+  .sb-header { padding: 0.55rem 1rem 0.35rem !important; }
+  .sb-header h3 { font-size: 0.9rem !important; }
+  .sb-section { padding: 0.35rem 1rem !important; }
+  .chip { font-size: 0.78rem !important; padding: 0.25rem 0.55rem !important; }
+  .chip-count { font-size: 0.65rem !important; padding: 0.02rem 0.4rem !important; }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   #63: 주의사항 버튼 + 모달
+   ═══════════════════════════════════════════════════════════ */
+.notice-btn {
+  background: rgba(248,113,113,0.15) !important;
+  border: 2px dashed var(--danger) !important;
+  color: var(--danger) !important;
+  font-size: 1rem !important;
+  font-weight: 800 !important;
+  padding: 0.7rem 1.2rem !important;
+  margin-top: 0.7rem;
+}
+.notice-btn:hover {
+  background: var(--danger) !important;
+  color: #fff !important;
+}
+
+.notice-list {
+  text-align: left;
+  display: flex; flex-direction: column;
+  gap: 0.7rem;
+  margin: 1.2rem 0;
+}
+.notice-item {
+  display: flex; align-items: flex-start; gap: 0.8rem;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--danger);
+  border-radius: 0.6rem;
+  padding: 0.8rem 1rem;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text);
+}
+.notice-num {
+  background: var(--danger); color: #fff;
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 900; font-size: 0.9rem;
+  flex-shrink: 0;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   STEP 1 (v8): 사회자 확인용 박스 보기 아래 + 정답 박스 클릭 사라짐
+   ═══════════════════════════════════════════════════════════ */
+
+/* 사회자 확인용 박스 — 우상단 floating → 보기 아래 인라인 (#68)
+   정답 처리 후 .show 클래스 부여 시 보기 아래에 큰 박스로 표시 */
+.answer-box {
+  display: none;
+  position: relative !important;  /* fixed 해제 */
+  top: auto !important; right: auto !important;
+  background: rgba(56,189,248,0.12);
+  border: 2px solid var(--primary);
+  border-radius: 0.8rem;
+  padding: 1rem 1.4rem;
+  margin: 1rem auto;
+  max-width: 90%;
+  font-size: 1.05rem;
+  color: var(--text);
+  box-shadow: 0 0 24px rgba(56,189,248,0.2);
+  opacity: 1 !important;
+  transform: none !important;
+}
+.answer-box.show { display: block; }
+.answer-box .ab-label { color: var(--primary); font-size: 0.78rem; font-weight: 800; letter-spacing: 0.12em; }
+.answer-box .ab-answer { color: var(--text); font-size: 1.4rem; font-weight: 800; margin-top: 0.4rem; }
+.answer-box .ab-explain { color: var(--text-sub); margin-top: 0.4rem; font-size: 1.02rem; line-height: 1.5; }
+.answer-box .ab-bible { color: var(--secondary); margin-top: 0.4rem; font-weight: 700; }
+
+/* 정답 플래시 — 클릭 시 사라짐 + 클릭 가능 표시 */
+.correct-flash { cursor: pointer !important; pointer-events: auto !important; }
+.correct-flash .cf-sub {
+  font-size: 1.2rem; font-weight: 600;
+  margin-top: 1rem;
+  opacity: 0.85;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   STEP 2 (v8): reward 표시 + 주의사항 크게
+   ═══════════════════════════════════════════════════════════ */
+
+/* 카드 우상단 reward 아이콘 (#66) */
+.quiz-card .card-reward {
+  position: absolute;
+  top: 4px; right: 6px;
+  font-size: 1rem;
+  filter: drop-shadow(0 1px 3px rgba(0,0,0,0.5));
+  z-index: 2;
+}
+
+/* 문제 풀이 헤더 reward 라벨 (#66) */
+.qh-reward {
+  display: inline-block;
+  background: rgba(167,139,250,0.2);
+  color: var(--accent);
+  border: 1px solid var(--accent);
+  padding: 0.3rem 0.7rem;
+  border-radius: 0.5rem;
+  font-size: 1.05rem;
+  font-weight: 800;
+}
+
+/* 주의사항 모달 크게 (#64) */
+.modal.modal-large { max-width: 800px !important; padding: 2rem 2.5rem !important; }
+.notice-title {
+  font-size: 2.4rem !important;
+  color: var(--danger) !important;
+  text-shadow: 0 0 20px rgba(248,113,113,0.4);
+  margin-bottom: 1.5rem !important;
+}
+.notice-list-large { gap: 1rem !important; }
+.notice-item-large {
+  padding: 1.2rem 1.5rem !important;
+  font-size: 1.5rem !important;
+  font-weight: 800 !important;
+  border-left-width: 6px !important;
+}
+.notice-num-large {
+  width: 44px !important; height: 44px !important;
+  font-size: 1.4rem !important;
+}
+.notice-text { font-size: 1.45rem; line-height: 1.4; }
+.notice-ok-btn {
+  font-size: 1.4rem !important;
+  padding: 1rem 2.5rem !important;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   STEP 1 (v9): #74 보기/정답/해설 숨김 = 클래스 강제 단일화
+   ═══════════════════════════════════════════════════════════ */
+
+/* 진입 시 모든 부가 영역 강제 숨김 — !important로 inline style override */
+#q-options.hide-strict { display: none !important; }
+#q-text.hide-strict { display: none !important; }
+#q-image-wrap.hide-strict { display: none !important; }
+#q-answer-box.hide-strict { display: none !important; }
+#q-explain-box.hide-strict { display: none !important; }
+
+/* ═══════════════════════════════════════════════════════════
+   STEP 2 (v9): reward 모달 단순화 + 근거 보기 + 대회 끝
+   ═══════════════════════════════════════════════════════════ */
+
+/* #78: reward 모달 — 두 큰 문구만 강조 */
+.reward-title-xl { font-size: 3.5rem !important; margin: 0.8rem 0 !important; }
+.reward-megaphone { font-size: 2.5rem !important; margin: 0.5rem 0 1.2rem !important; }
+.reward-big { font-size: 6rem !important; }
+
+/* #76: cf-sub 자간 수정 */
+.correct-flash { letter-spacing: -0.02em; }
+.cf-text { font-size: 8rem; font-weight: 900; letter-spacing: -0.04em; }
+.cf-sub {
+  font-size: 1.2rem !important;
+  font-weight: 600 !important;
+  letter-spacing: normal !important;  /* #76 자간 정상화 */
+  line-height: 1.5 !important;
+  margin-top: 1rem !important;
+  opacity: 0.85;
+}
+
+/* #77: 근거 보기 버튼 + 펼침 */
+.cf-evidence-btn {
+  background: rgba(255,255,255,0.2) !important;
+  color: #fff !important;
+  border: 2px solid rgba(255,255,255,0.4) !important;
+  font-size: 1.2rem !important;
+  padding: 0.6rem 1.4rem !important;
+  margin-top: 1.2rem !important;
+  border-radius: 0.6rem !important;
+  cursor: pointer !important;
+  font-weight: 800 !important;
+  letter-spacing: normal !important;
+}
+.cf-evidence-btn:hover { background: rgba(255,255,255,0.3) !important; }
+.cf-evidence {
+  display: none;
+  background: rgba(0,0,0,0.3);
+  border-radius: 0.7rem;
+  padding: 1rem 1.4rem;
+  margin-top: 1rem;
+  text-align: left;
+  letter-spacing: normal;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.cf-evidence.show { display: block; }
+.cf-ev-answer { font-size: 1.6rem; font-weight: 800; color: #fff; margin-bottom: 0.4rem; }
+.cf-ev-explain { font-size: 1.1rem; color: rgba(255,255,255,0.9); line-height: 1.5; }
+.cf-ev-bible { font-size: 1rem; color: var(--secondary); margin-top: 0.5rem; font-weight: 700; }
+
+/* #82: 대회 끝 버튼 + 종료 화면 */
+.topbar-end {
+  background: rgba(248,113,113,0.15) !important;
+  color: var(--danger) !important;
+  border-color: var(--danger) !important;
+}
+.topbar-end:hover { background: var(--danger) !important; color: #fff !important; }
+
+.end-screen { text-align: center; padding: 1rem; }
+.end-emoji { font-size: 7rem; line-height: 1; margin-bottom: 1rem; }
+.end-title {
+  font-size: 3rem; font-weight: 900;
+  color: var(--success);
+  text-shadow: 0 0 20px rgba(52,211,153,0.4);
+  margin: 1.2rem 0;
+  letter-spacing: -0.02em;
+}
+.end-title-2 {
+  font-size: 2.6rem; font-weight: 900;
+  color: var(--accent);
+  text-shadow: 0 0 20px rgba(167,139,250,0.4);
+  margin: 1rem 0;
+  letter-spacing: -0.02em;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   STEP 3 (v9): 디자인 (#71, #75, #80) — 패스 색·완료 검정·주의사항 hover
+   ═══════════════════════════════════════════════════════════ */
+
+/* #75: 패스 버튼 색 — 노랑팀 충돌 → ghost (투명+회색) */
+.phase-actions button.warn,
+.action-buttons button.warn {
+  background: transparent !important;
+  color: var(--text-sub) !important;
+  border: 2px solid var(--text-mute) !important;
+  box-shadow: none !important;
+}
+.phase-actions button.warn:hover,
+.action-buttons button.warn:hover {
+  background: var(--surface-2) !important;
+  color: var(--text) !important;
+  border-color: var(--text-sub) !important;
+}
+
+/* #80: 완료 카드 = 완전 검은색 + 입체적 들어간 효과 */
+.quiz-card.solved {
+  background: #050810 !important;  /* 완전 검은색에 가까움 */
+  border: 1.5px solid #050810 !important;
+  border-bottom: 5px solid #1f2937 !important;
+  box-shadow:
+    inset 0 4px 12px rgba(0,0,0,0.8),
+    inset 0 -2px 6px rgba(0,0,0,0.6),
+    inset 2px 0 6px rgba(0,0,0,0.5),
+    inset -2px 0 6px rgba(0,0,0,0.5) !important;  /* 들어간 입체감 */
+  cursor: not-allowed;
+  opacity: 0.95;
+}
+.quiz-card.solved::before {
+  background:
+    linear-gradient(45deg, transparent calc(50% - 3px), #475569 calc(50% - 1px), #475569 calc(50% + 1px), transparent calc(50% + 3px)),
+    linear-gradient(-45deg, transparent calc(50% - 3px), #475569 calc(50% - 1px), #475569 calc(50% + 1px), transparent calc(50% + 3px)) !important;
+  opacity: 0.6 !important;
+}
+.quiz-card.solved::after {
+  content: "✓ 완료" !important;
+  background: #34d399 !important;
+  color: #052e16 !important;
+  font-weight: 900 !important;
+  border: none !important;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.6), 0 0 20px rgba(52,211,153,0.4) !important;
+}
+.quiz-card.solved .card-no { color: rgba(255,255,255,0.15) !important; }
+.quiz-card.solved .card-cat { color: rgba(255,255,255,0.15) !important; }
+.quiz-card.solved .card-reward { opacity: 0.2 !important; }
+
+/* #71: 주의사항 항목 hover — 확대 + 깜빡 + 색 변화 */
+.notice-item-large {
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.notice-item-large:hover {
+  transform: scale(1.15);
+  background: var(--danger) !important;
+  color: #fff !important;
+  border-left-color: #fff !important;
+  box-shadow: 0 0 50px rgba(248,113,113,0.7), 0 12px 30px rgba(0,0,0,0.6);
+  z-index: 10;
+  position: relative;
+  animation: noticePulse 0.6s ease-in-out infinite;
+}
+.notice-item-large:hover .notice-num,
+.notice-item-large:hover .notice-text {
+  color: #fff !important;
+  transform: scale(1.05);
+}
+.notice-item-large:hover .notice-num-large {
+  background: #fff !important;
+  color: var(--danger) !important;
+}
+@keyframes noticePulse {
+  0%, 100% { box-shadow: 0 0 50px rgba(248,113,113,0.7), 0 12px 30px rgba(0,0,0,0.6); }
+  50%      { box-shadow: 0 0 80px rgba(248,113,113,1), 0 12px 40px rgba(0,0,0,0.7); }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   STEP 4 (v9): 전체화면 반응형 (#73)
+   ═══════════════════════════════════════════════════════════ */
+
+body.fs-mode {
+  width: 100vw !important;
+  height: 100vh !important;
+  overflow: hidden !important;
+}
+body.fs-mode .topbar { height: 56px !important; }
+body.fs-mode .dash-main {
+  height: calc(100vh - 56px) !important;
+}
+body.fs-mode #view-question .question-container {
+  height: calc(100vh - 56px - 1rem) !important;
+  max-width: 95vw !important;
+  margin: 0.5rem auto !important;
+}
+body.fs-mode .card-grid {
+  grid-template-columns: repeat(auto-fill, minmax(calc(100px * var(--card-zoom)), 1fr)) !important;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   STEP 3 (v10): #87 완료 빨강 그라데이션 가운데 + #97 정답 보기 라벨 + #94/#95 결과
+   ═══════════════════════════════════════════════════════════ */
+
+/* #87: 완료 박스 — 카드 정중앙 + 진한 붉은색 그라데이션 + 흰 글씨 */
+.quiz-card.solved::after {
+  content: "✓ 완료" !important;
+  position: absolute !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  background: linear-gradient(135deg, #dc2626, #7f1d1d) !important;
+  color: #ffffff !important;
+  font-weight: 900 !important;
+  font-size: 1.15rem !important;
+  padding: 0.5rem 1rem !important;
+  border-radius: 0.6rem !important;
+  border: 2px solid #fecaca !important;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.7), 0 0 30px rgba(220,38,38,0.6) !important;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.6) !important;
+  letter-spacing: 0.05em !important;
+}
+
+/* #97: [🔒 정답 보기] 버튼 라벨 + 가독성 */
+.reveal-btn {
+  width: auto !important;
+  height: 56px !important;
+  padding: 0 1.2rem !important;
+  border-radius: 0.7rem !important;
+  background: var(--warn) !important;
+  color: #422006 !important;
+  border: 2px solid var(--warn) !important;
+  font-size: 1.05rem !important;
+  font-weight: 800 !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.4rem !important;
+  box-shadow: 0 0 24px rgba(251,191,36,0.4) !important;
+  transition: all 0.08s ease !important;
+}
+.reveal-btn::after { content: " 정답 보기"; }
+.reveal-btn:hover {
+  background: #f59e0b !important;
+  transform: scale(1.05);
+  box-shadow: 0 0 32px rgba(251,191,36,0.6) !important;
+}
+
+/* #95: 결과 화면 큰 [🏠 메인으로] 버튼 */
+.big-home-btn {
+  font-size: 1.4rem !important;
+  padding: 1rem 2.5rem !important;
+  box-shadow: var(--glow-sky), 0 8px 24px rgba(0,0,0,0.4) !important;
+}
+
+/* #94: 결과 막대 그래프 */
+.results-bars {
+  max-width: 1000px; margin: 1.5rem auto;
+  display: flex; flex-direction: column; gap: 0.8rem;
+}
+.result-bar-row {
+  display: grid;
+  grid-template-columns: 60px 180px 1fr;
+  align-items: center;
+  gap: 1rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 0.8rem;
+  padding: 0.8rem 1.2rem;
+  transition: all 0.2s ease;
+}
+.result-bar-row.rank-1 {
+  background: linear-gradient(135deg, rgba(251,191,36,0.15), var(--surface));
+  border-color: var(--warn);
+  box-shadow: 0 0 30px rgba(251,191,36,0.2);
+  transform: scale(1.02);
+}
+.result-medal { font-size: 2.2rem; text-align: center; }
+.result-name { font-size: 1.4rem; font-weight: 800; color: var(--text); }
+.result-bar-track {
+  position: relative;
+  background: var(--surface-2);
+  border-radius: 99px;
+  height: 36px;
+  overflow: hidden;
+}
+.result-bar-fill {
+  height: 100%;
+  border-radius: 99px;
+  transition: width 0.6s ease;
+  box-shadow: 0 0 12px currentColor;
+}
+.result-bar-score {
+  position: absolute;
+  right: 1rem; top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.6rem;
+  font-weight: 900;
+  color: var(--text);
+  text-shadow: 0 2px 6px rgba(0,0,0,0.6);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   STEP 4 (v10): #85, #93 버튼 즉시 반응
+   ═══════════════════════════════════════════════════════════ */
+
+button, .quiz-card, .ingredient-btn, .topbar-toggle, .chip, .mode-btn,
+.reward-team-buttons button, .team-buzz button, .option-item, .card-zoom-btn,
+.notice-btn, .reveal-btn, .restart-btn {
+  transition: background 0.08s ease, color 0.08s ease, border-color 0.08s ease, transform 0.08s ease, box-shadow 0.08s ease !important;
+  touch-action: manipulation !important;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* hover transform 효과 단순화 (즉시 반응 우선) */
+button:active:not(:disabled) {
+  transform: scale(0.97) !important;
+}
+
+/* 개역개정 본문 힌트 (#92) */
+.hint-bible-text {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--text);
+  background: rgba(56,189,248,0.1);
+  border-left: 3px solid var(--primary);
+  padding: 0.8rem 1rem;
+  border-radius: 0.5rem;
+  margin: 0.6rem 0;
+  line-height: 1.6;
+  font-style: italic;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   #101: 우상단 통합 컨트롤 + #102: 대회 끝 멘트 최대 크게
+   ═══════════════════════════════════════════════════════════ */
+
+/* 우상단 flex 컨테이너 */
+.q-top-controls {
+  position: absolute;
+  top: 12px; right: 12px;
+  display: flex;
+  gap: 0.4rem;
+  align-items: center;
+  z-index: 50;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  max-width: 60%;
+}
+.q-top-controls .reveal-btn,
+.q-top-controls .restart-btn,
+.q-top-controls .card-zoom-btn {
+  position: static !important;  /* 절대 위치 해제 */
+  top: auto !important; right: auto !important;
+}
+
+/* 기존 절대 위치 해제 */
+.font-zoom-controls { position: static !important; display: contents !important; }
+.reveal-btn { position: static !important; }
+.restart-btn { position: static !important; }
+
+/* 대회 끝 멘트 최대 크게 (#102) */
+.modal:has(.end-screen),
+.modal-large.end-modal {
+  max-width: 95vw !important;
+  padding: 2rem 2.5rem !important;
+}
+.end-emoji { font-size: 10rem !important; line-height: 1 !important; }
+.end-title {
+  font-size: 6rem !important;
+  font-weight: 900 !important;
+  background: linear-gradient(135deg, var(--success), var(--primary));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin: 1.5rem 0 !important;
+  letter-spacing: -0.04em !important;
+  line-height: 1.1 !important;
+}
+.end-title-2 {
+  font-size: 5rem !important;
+  font-weight: 900 !important;
+  color: var(--accent) !important;
+  text-shadow: 0 0 40px rgba(167,139,250,0.6) !important;
+  margin: 1.2rem 0 !important;
+  letter-spacing: -0.03em !important;
+  line-height: 1.1 !important;
+}
+
+/* #104: 교리퀴즈대회 글자 클릭 → 메인 */
+.topbar-main-link {
+  cursor: pointer;
+  transition: color 0.1s ease;
+}
+.topbar-main-link:hover {
+  color: var(--primary) !important;
+  text-shadow: 0 0 12px rgba(56,189,248,0.5);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   #108: 헤더 글씨 최대 + #111: 힌트 글씨 최대 + #107: 정답박스 통합
+   ═══════════════════════════════════════════════════════════ */
+
+/* #108: 헤더 큰 글씨 */
+.qh-num   { font-size: calc(3rem * var(--q-zoom)) !important; font-weight: 900 !important; }
+.qh-topic { font-size: calc(3rem * var(--q-zoom)) !important; font-weight: 800 !important; }
+.qh-style { font-size: calc(2rem * var(--q-zoom)) !important; font-weight: 800 !important; padding: 0.5rem 1.2rem !important; }
+.qh-reward { font-size: calc(1.7rem * var(--q-zoom)) !important; font-weight: 800 !important; padding: 0.4rem 1rem !important; }
+.q-header-info { gap: 1.5rem !important; padding-left: 16rem !important; }
+
+/* #111: 힌트 박스 최대 크게 */
+.hint-box {
+  padding: 1.5rem 2rem !important;
+  margin: 1.2rem auto !important;
+  max-width: 95% !important;
+}
+.hint-label   { font-size: 1.2rem !important; margin-bottom: 0.8rem !important; }
+.hint-content { font-size: 2.2rem !important; line-height: 1.5 !important; }
+.hint-bible-text {
+  font-size: 2rem !important;
+  line-height: 1.6 !important;
+  padding: 1rem 1.4rem !important;
+}
+.hint-bible { font-size: 1.5rem !important; margin-top: 0.7rem !important; }
+
+/* #107: 정답 박스 통합 — q-explain-box 비활성, q-answer-box만 사용 */
+#q-explain-box.hide-strict { display: none !important; }
+#q-answer-box {
+  background: linear-gradient(135deg, rgba(251,191,36,0.18), rgba(251,191,36,0.08)) !important;
+  border: 3px solid var(--warn) !important;
+  padding: 1.4rem 1.8rem !important;
+  margin: 1.2rem auto !important;
+  max-width: 95% !important;
+}
+#q-answer-box .ab-label { font-size: 1rem !important; color: var(--warn) !important; }
+#q-answer-box .ab-answer { font-size: 2.4rem !important; font-weight: 900 !important; color: var(--text) !important; margin-top: 0.5rem !important; }
+#q-answer-box .ab-explain { font-size: 1.4rem !important; color: var(--text) !important; line-height: 1.5 !important; margin-top: 0.6rem !important; }
+#q-answer-box .ab-bible { font-size: 1.2rem !important; color: var(--secondary) !important; margin-top: 0.5rem !important; }
+
+/* ═══════════════════════════════════════════════════════════
+   #105: 완료 박스 카드 줌 반응형 + #109: 타이머 위치 위로
+   ═══════════════════════════════════════════════════════════ */
+
+/* #105: 완료 박스도 카드 줌 따라가게 */
+.quiz-card.solved::after {
+  font-size: calc(1.15rem * var(--card-zoom, 1)) !important;
+  padding: calc(0.5rem * var(--card-zoom, 1)) calc(1rem * var(--card-zoom, 1)) !important;
+  border-width: calc(2px * var(--card-zoom, 1)) !important;
+}
+
+/* #109: 5초 타이머 위치 위로 + 크기 조금 축소 */
+.timer-overlay {
+  top: 70px !important;       /* 90px → 70px (헤더 가까이) */
+  width: 220px !important;     /* 280 → 220 */
+  height: 220px !important;
+  border-width: 6px !important;
+}
+.timer-num { font-size: 9rem !important; }   /* 11rem → 9rem */
+
+/* ═══════════════════════════════════════════════════════════
+   #113 정답보기 phase-actions + #114 타이머 컨트롤
+   ═══════════════════════════════════════════════════════════ */
+
+/* 타이머 컨트롤 (timer-overlay 하단) */
+.timer-controls {
+  position: absolute;
+  bottom: 12px; left: 50%;
+  transform: translateX(-50%);
+  display: flex; gap: 0.4rem;
+  z-index: 96;
+}
+.timer-controls button {
+  background: rgba(15,23,42,0.85);
+  color: var(--primary);
+  border: 1px solid var(--primary);
+  width: 38px; height: 38px;
+  padding: 0;
+  font-size: 1.2rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: all 0.08s ease;
+}
+.timer-controls button:hover {
+  background: var(--primary); color: #082f49;
+  transform: scale(1.1);
+}
+
+/* 정답보기 phase-actions 인라인 (#113) */
+.reveal-btn-inline {
+  background: var(--warn) !important;
+  color: #422006 !important;
+  border-color: var(--warn) !important;
+  font-weight: 800 !important;
+  box-shadow: 0 0 16px rgba(251,191,36,0.4) !important;
+}
+.reveal-btn-inline:hover {
+  background: #f59e0b !important;
+  box-shadow: 0 0 24px rgba(251,191,36,0.6) !important;
+}
+
+/* #117: 메인 화면 [⛶ 전체화면] 버튼 */
+.hero-fs-btn {
+  background: var(--surface-2) !important;
+  color: var(--primary) !important;
+  border: 2px solid var(--primary) !important;
+  font-size: 1rem !important;
+  font-weight: 800 !important;
+  padding: 0.6rem 1.2rem !important;
+  margin-top: 0.6rem;
+  display: inline-flex !important;
+  align-items: center; gap: 0.4rem;
+}
+.hero-fs-btn:hover {
+  background: var(--primary) !important;
+  color: #082f49 !important;
+  box-shadow: var(--glow-sky);
+}
+
+/* #121: 타이머 컨트롤 작동 + 작게 + 원 아래 균형 배치 */
+.timer-overlay { pointer-events: auto !important; }
+.timer-overlay:not(.show) { pointer-events: none !important; }
+
+.timer-controls {
+  position: absolute !important;
+  bottom: -50px !important;       /* 원의 아래로 이동 */
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  display: flex !important; gap: 0.5rem !important;
+  pointer-events: auto !important;
+  z-index: 100 !important;
+}
+.timer-controls button {
+  width: 32px !important; height: 32px !important;
+  font-size: 0.95rem !important;
+  background: rgba(15,23,42,0.95) !important;
+  color: var(--primary) !important;
+  border: 1.5px solid var(--primary) !important;
+  border-radius: 50% !important;
+  padding: 0 !important;
+  cursor: pointer !important;
+  pointer-events: auto !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  transition: all 0.08s ease !important;
+}
+.timer-controls button:hover {
+  background: var(--primary) !important;
+  color: #082f49 !important;
+  transform: scale(1.15) !important;
+}
+
+/* ─── #122/#123: 보기 클릭 자동 판정 인디케이터 ─── */
+.auto-judge-indicator {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%) translateY(100px);
+  z-index: 9000;
+  padding: 18px 36px;
+  border-radius: 16px;
+  font-size: 1.6rem;
+  font-weight: 700;
+  background: rgba(15, 23, 42, 0.95);
+  border: 3px solid #38bdf8;
+  color: #f1f5f9;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.6);
+  opacity: 0;
+  transition: opacity 0.2s, transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+  pointer-events: none;
+  white-space: nowrap;
+}
+.auto-judge-indicator.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+.auto-judge-indicator.correct {
+  border-color: #22c55e;
+  background: rgba(20, 83, 45, 0.97);
+}
+.auto-judge-indicator.wrong {
+  border-color: #ef4444;
+  background: rgba(127, 29, 29, 0.97);
+}
+.auto-judge-indicator .aji-sub {
+  font-size: 0.9rem;
+  font-weight: 500;
+  opacity: 0.85;
+  margin-left: 12px;
+}
+
+/* ─── #125: 미션 완료 시 팀 선택 버튼 ─── */
+.mission-team-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 14px;
+  margin: 14px 0;
+}
+.mission-team-btn {
+  padding: 22px 18px;
+  border-radius: 16px;
+  border: 3px solid transparent;
+  font-size: 1.4rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  transition: transform 0.08s, box-shadow 0.15s;
+  color: #0f172a;
+}
+.mission-team-btn:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,0.4); }
+.mission-team-btn:active { transform: translateY(0); }
+.mission-team-btn.red    { background: linear-gradient(135deg, #fca5a5, #ef4444); }
+.mission-team-btn.blue   { background: linear-gradient(135deg, #93c5fd, #3b82f6); color: #fff; }
+.mission-team-btn.yellow { background: linear-gradient(135deg, #fde68a, #f59e0b); }
+.mission-team-btn.green  { background: linear-gradient(135deg, #86efac, #22c55e); }
+.mission-team-btn.individual { background: linear-gradient(135deg, #cbd5e1, #64748b); color: #fff; }
+.mtb-name { font-size: 1.5rem; }
+.mtb-score { font-size: 0.95rem; opacity: 0.85; font-weight: 500; }
+
+/* ─── #125 미션 팀 선택 모달 — 큰 글씨 + 점수 선택 ─── */
+.mtm-title {
+  text-align: center;
+  font-size: 2.6rem !important;
+  font-weight: 900;
+  margin: 0 0 18px;
+  color: #fbbf24;
+  text-shadow: 0 2px 12px rgba(251, 191, 36, 0.4);
+}
+.mtm-sub {
+  text-align: center;
+  font-size: 1.8rem !important;
+  font-weight: 700;
+  color: #f1f5f9;
+  margin: 14px 0 12px;
+}
+.mtm-sub2 {
+  text-align: center;
+  font-size: 1.6rem !important;
+  font-weight: 700;
+  color: #f1f5f9;
+  margin: 22px 0 12px;
+}
+.mtm-hint {
+  font-size: 1.1rem !important;
+  font-weight: 500;
+  color: #94a3b8;
+  margin-left: 6px;
+}
+.mission-points-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 14px;
+  margin: 8px 0 6px;
+}
+.mission-point-btn {
+  padding: 22px 0;
+  border-radius: 16px;
+  border: 4px solid #475569;
+  background: #1e293b;
+  color: #cbd5e1;
+  font-size: 2.4rem;
+  font-weight: 900;
+  cursor: pointer;
+  transition: transform 0.08s, border-color 0.15s, background 0.15s;
+  touch-action: manipulation;
+}
+.mission-point-btn:hover { transform: translateY(-2px); border-color: #64748b; }
+.mission-point-btn.selected {
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+  border-color: #fde68a;
+  color: #fff;
+  box-shadow: 0 0 24px rgba(245, 158, 11, 0.6);
+}
+
+/* 팀 버튼도 더 크게 (덮어쓰기) */
+.mission-team-btn {
+  padding: 32px 22px !important;
+  font-size: 1.8rem !important;
+  border-radius: 20px !important;
+  min-height: 130px;
+}
+.mission-team-btn .mtb-name {
+  font-size: 2.4rem !important;
+  font-weight: 900 !important;
+  letter-spacing: -0.02em;
+}
+.mission-team-btn .mtb-score {
+  font-size: 1.3rem !important;
+  margin-top: 10px;
+  opacity: 0.92;
+}
+
+.mtm-bottom-row {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  margin-top: 22px;
+  flex-wrap: wrap;
+}
+.mtm-bottom-btn {
+  font-size: 1.15rem !important;
+  padding: 12px 22px !important;
+}
+
+/* 모달 박스 자체도 더 크게 */
+#mc {
+  max-width: 1100px !important;
+  width: 92vw !important;
+  padding: 36px 42px !important;
+}
+
+/* ─── #128: 모든 인터랙티브 요소 hover 강화 (살짝 튀어나옴) + 즉시 반응 ─── */
+button, .quiz-card, .ingredient-btn, .option-item, .mission-team-btn,
+.mission-point-btn, .reward-team-buttons button, .team-buzz button,
+.mode-btn, .chip, .card-zoom-btn, .notice-btn, .reveal-btn, .restart-btn,
+.mtm-bottom-btn {
+  transition: transform 0.06s ease, box-shadow 0.06s ease, background 0.06s ease, border-color 0.06s ease, filter 0.06s ease !important;
+  touch-action: manipulation !important;
+  -webkit-tap-highlight-color: transparent;
+  will-change: transform;
+}
+
+/* 보기(option) 버튼 — 호버 시 위로 살짝 튀어나옴 */
+.option-item:not(:disabled):hover,
+.option-grid button:not(:disabled):hover {
+  transform: translateY(-3px) !important;
+  box-shadow: 0 8px 18px rgba(56,189,248,0.35), 0 0 0 2px var(--primary) !important;
+  filter: brightness(1.08);
+  z-index: 1;
+}
+
+/* 일반 버튼 — 호버 시 살짝 떠오름 */
+button:not(:disabled):not(.quiz-card):not(.option-item):hover {
+  transform: translateY(-2px) !important;
+  filter: brightness(1.06);
+}
+
+/* 미션 팀 버튼·점수 버튼 호버 — 더 강한 피드백 */
+.mission-team-btn:not(:disabled):hover,
+.mission-point-btn:not(:disabled):hover {
+  transform: translateY(-4px) scale(1.03) !important;
+  box-shadow: 0 12px 28px rgba(0,0,0,0.5) !important;
+  filter: brightness(1.1);
+}
+
+/* active(클릭 순간) — 살짝 눌림 */
+button:not(:disabled):active,
+.option-item:not(:disabled):active,
+.quiz-card:not(.solved):active {
+  transform: scale(0.96) !important;
+  transition-duration: 0.04s !important;
+}
+
+/* 카드도 호버 강화 */
+.quiz-card:not(.solved):hover {
+  transform: translateY(-4px) !important;
+  box-shadow: 0 10px 26px rgba(0,0,0,0.5), 0 0 0 2px var(--primary), 0 0 24px rgba(56,189,248,0.25) !important;
+  filter: brightness(1.08);
+}
+
+/* ─── #129: 마이너스 점수 버튼 + 구분선 ─── */
+.mission-point-btn.minus {
+  background: #1e293b;
+  border-color: #475569;
+  color: #fca5a5;
+}
+.mission-point-btn.minus.selected {
+  background: linear-gradient(135deg, #ef4444, #b91c1c);
+  border-color: #fecaca;
+  color: #fff;
+  box-shadow: 0 0 24px rgba(239, 68, 68, 0.6);
+}
+.mtm-divider {
+  text-align: center;
+  font-size: 1.1rem;
+  color: #64748b;
+  margin: 22px 0 6px;
+  font-weight: 700;
+  position: relative;
+}
+.mtm-divider::before, .mtm-divider::after {
+  content: '';
+  display: inline-block;
+  width: 30%;
+  height: 1px;
+  background: #475569;
+  vertical-align: middle;
+  margin: 0 12px;
+}
+
+/* ─── #134: 난이도+점수 칩 ─── */
+.qh-diff {
+  font-size: calc(1.05rem * var(--card-zoom, 1));
+  font-weight: 900;
+  padding: 0.4rem 0.95rem;
+  border-radius: 0.6rem;
+  letter-spacing: 0.02em;
+  border: 2px solid rgba(0,0,0,0.15);
+  text-shadow: 0 1px 0 rgba(255,255,255,0.4);
+  white-space: nowrap;
+}
+
+/* ─── #136: 모든 버튼 자식 요소 클릭 통과 (박스 어디든 클릭 가능) ─── */
+button > *,
+.quiz-card > *,
+.mission-team-btn > *,
+.mission-point-btn > *,
+.option-item > *,
+.team-card > * {
+  pointer-events: none;
+}
+button, .quiz-card, .mission-team-btn, .mission-point-btn, .option-item, .team-card {
+  pointer-events: auto;
+}
+
+/* ─── #137: 모든 버튼 즉시 반응 — 진행자 편의 최우선 ─── */
+button, .quiz-card, .ingredient-btn, .option-item, .mission-team-btn,
+.mission-point-btn, .reward-team-buttons button, .team-buzz button,
+.mode-btn, .chip, .card-zoom-btn, .notice-btn, .reveal-btn, .restart-btn,
+.mtm-bottom-btn, .topbar-toggle {
+  transition: background 0.05s, color 0.05s, border-color 0.05s, filter 0.05s !important;
+  touch-action: manipulation !important;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* hover transform 제거 — 클릭 위치가 안 움직여서 정확한 클릭 보장 */
+button:not(:disabled):not(.quiz-card):not(.option-item):hover,
+.option-item:not(:disabled):hover,
+.option-grid button:not(:disabled):hover,
+.mission-team-btn:not(:disabled):hover,
+.mission-point-btn:not(:disabled):hover,
+.quiz-card:not(.solved):hover {
+  transform: none !important;
+  filter: brightness(1.12) !important;
+  box-shadow: 0 0 0 3px var(--primary), 0 0 22px rgba(56,189,248,0.5) !important;
+}
+
+/* active 시에도 큰 변형 X — 즉시 반응 */
+button:not(:disabled):active,
+.option-item:not(:disabled):active,
+.quiz-card:not(.solved):active,
+.mission-team-btn:not(:disabled):active,
+.mission-point-btn:not(:disabled):active {
+  transform: none !important;
+  filter: brightness(0.92) !important;
+  transition-duration: 0.02s !important;
+}
+
+/* 옵션 흔들림 제거 — 클릭 정확도 100% */
+.option-grid button.option-item.wrong,
+.option-item.wrong {
+  animation: none !important;
+}
+
+/* ─── #138: 그림 문제에서 그림 크기 제한 + 힌트 박스 보장 ─── */
+.question-image {
+  max-height: 320px !important;  /* 너무 커지지 않도록 */
+  width: auto !important;
+  max-width: 95% !important;
+  margin: 0 auto;
+  display: block;
+  object-fit: contain;
+}
+#q-image-wrap {
+  text-align: center;
+  margin: 8px 0;
+}
+/* 힌트 박스 — 항상 보이도록 + 스크롤 가능 */
+#hint-box, .hint-box {
+  max-height: 50vh;
+  overflow-y: auto;
+  margin-top: 12px;
+}
+.hint-bible-text {
+  max-height: 30vh;
+  overflow-y: auto;
+}
+/* 그림이 있을 때도 phase 영역 충분히 보이게 */
+#view-question {
+  overflow-y: auto;
+  max-height: 100vh;
+}
+
+/* ─── #139: 그림 더 작게 + 모든 영역 보이게 강제 ─── */
+.question-image {
+  max-height: 180px !important;  /* 더 작게 — 보기·버튼 자리 확보 */
+  max-width: 70% !important;
+}
+#q-image-wrap {
+  margin: 4px 0 !important;
+}
+/* phase 영역 최소 공간 보장 */
+#q-phase {
+  min-height: 200px;
+  margin-top: 8px;
+}
+/* 보기 영역도 보장 */
+#q-options {
+  margin: 6px 0 !important;
+}
+/* view-question 전체 스크롤 */
+#view-question {
+  overflow-y: auto !important;
+  max-height: calc(100vh - 60px) !important;
+  padding-bottom: 80px;
+}
+
+/* ─── #140: 힌트 박스 컴팩트화 — 직관적으로 한눈에 보이게 ─── */
+#hint-box, .hint-box {
+  max-height: none !important;
+  padding: 12px 16px !important;
+  font-size: 1rem !important;
+  margin-top: 10px !important;
+  border-width: 2px !important;
+  border-style: dashed !important;
+  border-color: #fbbf24 !important;
+  background: rgba(251, 191, 36, 0.08) !important;
+  border-radius: 0.6rem !important;
+}
+#hint-box .hint-label, .hint-box .hint-label {
+  font-size: 1rem !important;
+  margin-bottom: 6px !important;
+  font-weight: 700;
+  color: #fbbf24;
+}
+#hint-box .hint-bible-text, .hint-box .hint-bible-text {
+  font-size: 1.05rem !important;
+  line-height: 1.4 !important;
+  padding: 8px 10px !important;
+  margin: 4px 0 !important;
+  max-height: none !important;
+  overflow: visible !important;
+}
+#hint-box .hint-content, .hint-box .hint-content {
+  font-size: 0.95rem !important;
+  line-height: 1.4 !important;
+  margin: 4px 0 !important;
+}
+#hint-box .hint-bible, .hint-box .hint-bible {
+  font-size: 0.85rem !important;
+  margin-top: 4px !important;
+  color: #38bdf8;
+}
+
+/* ─── #141: 정답보기 박스 — 작게 + 우상단 고정 (콘텐츠 안 가림) ─── */
+.answer-box {
+  position: fixed !important;     /* absolute → fixed: 화면 우상단 고정 */
+  top: 80px !important;
+  right: 16px !important;
+  max-width: 320px !important;
+  min-width: 240px !important;
+  font-size: 0.85rem !important;
+  padding: 0.6rem 0.8rem !important;
+  z-index: 100 !important;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.6) !important;
+}
+.answer-box .ab-label {
+  font-size: 0.75rem !important;
+  margin-bottom: 4px !important;
+}
+.answer-box .ab-answer {
+  font-size: 1.1rem !important;
+  font-weight: 900 !important;
+  margin: 4px 0 !important;
+}
+.answer-box .ab-explain {
+  font-size: 0.78rem !important;
+  line-height: 1.3 !important;
+  margin-top: 4px !important;
+}
+.answer-box .ab-bible {
+  font-size: 0.75rem !important;
+  margin-top: 4px !important;
+}
+
+/* ─── #142: 그림 문제 전체 컴팩트화 — 모든 화면에서 모든 버튼/보기 보이게 ─── */
+.question-image {
+  max-height: 140px !important;
+  max-width: 60% !important;
+}
+#q-image-wrap {
+  margin: 2px 0 !important;
+  padding: 0 !important;
+}
+/* 질문 텍스트도 컴팩트 */
+#q-text {
+  font-size: 1.4rem !important;
+  margin: 6px 0 !important;
+  line-height: 1.3 !important;
+}
+/* 보기 영역 컴팩트 */
+#q-options .option-grid {
+  gap: 0.4rem !important;
+  margin: 4px 0 !important;
+}
+.option-item {
+  padding: 0.5rem 0.7rem !important;
+  font-size: 1rem !important;
+  min-height: auto !important;
+}
+/* phase actions 항상 화면에 — 컴팩트하게 */
+#q-phase {
+  min-height: auto !important;
+  margin-top: 4px !important;
+}
+.phase-actions {
+  gap: 6px !important;
+  flex-wrap: wrap !important;
+  justify-content: center !important;
+}
+.phase-actions button {
+  padding: 0.5rem 0.85rem !important;
+  font-size: 0.9rem !important;
+}
+.phase-msg {
+  font-size: 0.95rem !important;
+  margin: 4px 0 !important;
+}
+.phase-msg-lg {
+  font-size: 1.1rem !important;
+}
+/* 그림 문제일 때 step indicator 더 작게 */
+.step-indicator {
+  margin: 4px 0 !important;
+}
+/* view-question 패딩 줄이기 */
+#view-question {
+  padding: 8px !important;
+}
+
+/* ─── #143: 그림 기본 크기 키우기 + 클릭 시 풀스크린 토글 ─── */
+.question-image {
+  max-height: 280px !important;  /* 140 → 280 */
+  max-width: 75% !important;       /* 60% → 75% */
+  cursor: zoom-in !important;
+  transition: all 0.3s ease !important;
+  border-radius: 0.6rem;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+}
+.question-image.zoomed {
+  position: fixed !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  max-height: 90vh !important;
+  max-width: 90vw !important;
+  z-index: 9999 !important;
+  cursor: zoom-out !important;
+  background: #0f172a;
+  box-shadow: 0 0 80px rgba(0,0,0,0.95);
+}
+/* 확대 시 어두운 배경 효과 */
+.question-image.zoomed::before {
+  content: '';
+  position: fixed;
+  top: 0; left: 0; width: 100vw; height: 100vh;
+  background: rgba(0,0,0,0.85);
+  z-index: 9998;
+}
+
+/* ─── #145: 글로벌 압축 모두 복원 — 그림 문제(body.image-quiz)에서만 압축 적용 ─── */
+
+/* 다른 모든 문제는 원래 큰 크기 복원 */
+body:not(.image-quiz) #q-text {
+  font-size: 2.2rem !important;
+  margin: 1rem 0 !important;
+  line-height: 1.4 !important;
+}
+body:not(.image-quiz) #q-options .option-grid {
+  gap: 1rem !important;
+  margin: 1rem 0 !important;
+}
+body:not(.image-quiz) .option-item {
+  padding: 1.1rem 1.4rem !important;
+  font-size: 1.4rem !important;
+  min-height: 60px !important;
+}
+body:not(.image-quiz) #q-phase {
+  min-height: auto !important;
+  margin-top: 1rem !important;
+}
+body:not(.image-quiz) .phase-actions {
+  gap: 12px !important;
+  flex-wrap: wrap !important;
+}
+body:not(.image-quiz) .phase-actions button {
+  padding: 0.85rem 1.4rem !important;
+  font-size: 1.1rem !important;
+}
+body:not(.image-quiz) .phase-msg {
+  font-size: 1.2rem !important;
+  margin: 0.7rem 0 !important;
+}
+body:not(.image-quiz) .phase-msg-lg {
+  font-size: 1.6rem !important;
+}
+body:not(.image-quiz) .step-indicator {
+  margin: 0.8rem 0 !important;
+}
+body:not(.image-quiz) #view-question {
+  padding: 16px !important;
+  overflow-y: auto !important;
+  max-height: none !important;
+}
+
+/* 그림 문제일 때만 살짝 컴팩트 (그림 + 보기 모두 화면에 보이게) */
+body.image-quiz #q-text {
+  font-size: 1.5rem !important;
+  margin: 8px 0 !important;
+}
+body.image-quiz .option-item {
+  padding: 0.7rem 1rem !important;
+  font-size: 1.1rem !important;
+}
+body.image-quiz .phase-actions button {
+  padding: 0.6rem 1rem !important;
+  font-size: 1rem !important;
+}
+
+/* ─── #146: 보기/OX 가운데 정렬 강제 ─── */
+#q-options {
+  text-align: center !important;
+  display: block !important;
+}
+.option-grid {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(280px, 1fr)) !important;
+  gap: 1rem !important;
+  max-width: 900px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  justify-content: center !important;
+  justify-items: stretch !important;
+}
+.option-grid.ox {
+  grid-template-columns: repeat(2, minmax(220px, 300px)) !important;
+  max-width: 640px !important;
+}
+.option-item {
+  text-align: center !important;
+}
+
+/* ─── #147: 보기/OX 박스 그룹을 화면 가운데로 정확히 정렬 (좌우 여백 동일) ─── */
+body:not(.image-quiz) #q-options .option-grid,
+body.image-quiz #q-options .option-grid {
+  margin-left: auto !important;
+  margin-right: auto !important;
+  width: 90% !important;
+  max-width: 900px !important;
+  justify-content: center !important;
+}
+body:not(.image-quiz) #q-options .option-grid.ox,
+body.image-quiz #q-options .option-grid.ox {
+  max-width: 640px !important;
+}
+/* 부모 #q-options도 가운데 정렬 보장 */
+#q-options {
+  display: flex !important;
+  justify-content: center !important;
+  width: 100% !important;
+}
+
+/* ─── #148: 질문 텍스트 더 크게 강제 (specificity 강화) ─── */
+html body:not(.image-quiz) #q-text {
+  font-size: 2.6rem !important;  /* 2.2 → 2.6 더 크게 */
+  margin: 1.2rem 0 !important;
+  line-height: 1.4 !important;
+  font-weight: 700 !important;
+  text-align: center !important;
+  padding: 0 1rem !important;
+}
+html body.image-quiz #q-text {
+  font-size: 1.7rem !important;
+  text-align: center !important;
+  font-weight: 700 !important;
+}
+/* 보기 텍스트도 크게 */
+html body:not(.image-quiz) .option-item {
+  font-size: 1.6rem !important;
+  padding: 1.3rem 1.5rem !important;
+  font-weight: 700 !important;
+}
+html body.image-quiz .option-item {
+  font-size: 1.2rem !important;
+}
+/* 진행 메시지도 크게 */
+html body:not(.image-quiz) .phase-msg {
+  font-size: 1.4rem !important;
+}
+html body:not(.image-quiz) .phase-msg-lg {
+  font-size: 1.8rem !important;
+}
+/* 진행 버튼 크게 */
+html body:not(.image-quiz) .phase-actions button {
+  font-size: 1.2rem !important;
+  padding: 1rem 1.5rem !important;
+}
