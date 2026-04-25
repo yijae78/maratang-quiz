@@ -1,0 +1,27 @@
+{
+  "name": "마라탕 퀴즈 — 드림아동부 교리퀴즈대회",
+  "short_name": "마라탕퀴즈",
+  "description": "드림아동부 교리퀴즈대회 시스템 (2026 봄) — 4팀/개인 모드 + 마라탕 재료 게임 + 그림퀴즈",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "landscape",
+  "background_color": "#0f172a",
+  "theme_color": "#dc2626",
+  "lang": "ko-KR",
+  "categories": ["education", "games"],
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

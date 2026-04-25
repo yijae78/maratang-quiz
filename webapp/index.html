@@ -3,8 +3,24 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>드림아동부 교리퀴즈대회 — 통합 대시보드</title>
+<title>마라탕 퀴즈 — 드림아동부 교리퀴즈대회</title>
 <link rel="stylesheet" href="style.css">
+<!-- PWA: 앱처럼 설치 가능 -->
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/png" href="icons/favicon.png">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<meta name="theme-color" content="#dc2626">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="마라탕퀴즈">
+<script>
+  // Service Worker 등록 — 앱처럼 동작
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('sw.js').catch(()=>{});
+    });
+  }
+</script>
 </head>
 <body class="dashboard-layout">
 
